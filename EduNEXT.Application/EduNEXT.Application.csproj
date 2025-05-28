@@ -6,4 +6,16 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="CSharpFunctionalExtensions" Version="3.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EduNEXT.Core\EduNEXT.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Dtos\" />
+    </ItemGroup>
+
 </Project>
