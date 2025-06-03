@@ -7,11 +7,9 @@ public class MainContext : DbContext
 {
     public MainContext(DbContextOptions<MainContext> options) : base(options) {}
     
-    public DbSet<Lesson> Lessons { get; set; }
+    public DbSet<StudentTimeSlots> Lessons { get; set; }
     
     public DbSet<Student> Students { get; set; }
-    
-    public DbSet<StudentLessons> StudentLessons { get; set; }
     
     public DbSet<TimeSlot> TimeSlots { get; set; }
 

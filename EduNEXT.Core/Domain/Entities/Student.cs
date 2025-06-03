@@ -1,4 +1,6 @@
-﻿namespace EduNEXT.Core.Domain.Entities;
+﻿using EduNEXT.Core.Domain.ValueObjects;
+
+namespace EduNEXT.Core.Domain.Entities;
 
 public class Student
 {
@@ -6,7 +8,7 @@ public class Student
     
     public string Name { get; set; }
     
-    public string Email { get; set; }
+    public EmailAddress Email { get; set; }
 
     public string? AlternativeEmail { get; set; }
     
@@ -14,5 +16,9 @@ public class Student
     
     public int PaidLessonsCount { get; set; }
     
-    public List<StudentLessons> StudentLessons { get; set; }
+    public int SubscribedLessonsCount { get; set; }
+    
+    public decimal PaidLessonsPrice { get; set; }
+    
+    public ICollection<StudentTimeSlots> LessonTimeSlots { get; set; }
 }

@@ -1,3 +1,4 @@
+using EduNEXT.Application;
 using EduNEXT.Infrastructure;
 
 namespace EduNEXT.API;
@@ -13,6 +14,7 @@ public class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddOpenApi();
         builder.Services.AddInfrastructureServices(builder.Configuration);
+        builder.Services.AddApplicationServices();
         
         var app = builder.Build();
         

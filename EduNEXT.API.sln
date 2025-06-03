@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNEXT.Core", "EduNEXT.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNEXT.Infrastructure", "EduNEXT.Infrastructure\EduNEXT.Infrastructure.csproj", "{C7874387-6A3F-4CA9-B060-6F99E97256C2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "utils", "utils", "{FE05E91D-3168-4501-9C6E-03CC42865F55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primitives", "Primitives\Primitives.csproj", "{DC0FF176-66D1-4AE5-9CBB-403272A934D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,12 @@ Global
 		{C7874387-6A3F-4CA9-B060-6F99E97256C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7874387-6A3F-4CA9-B060-6F99E97256C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7874387-6A3F-4CA9-B060-6F99E97256C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC0FF176-66D1-4AE5-9CBB-403272A934D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC0FF176-66D1-4AE5-9CBB-403272A934D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC0FF176-66D1-4AE5-9CBB-403272A934D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC0FF176-66D1-4AE5-9CBB-403272A934D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DC0FF176-66D1-4AE5-9CBB-403272A934D6} = {FE05E91D-3168-4501-9C6E-03CC42865F55}
 	EndGlobalSection
 EndGlobal
