@@ -12,7 +12,7 @@ public class StudentTimeSlots
     
     public TimeSpan Duration { get; set; }
     
-    public bool IsCompleted { get; set; }
+    public bool IsCompleted { get; set; } = true;
     
     public Guid StudentId { get; set; }
     

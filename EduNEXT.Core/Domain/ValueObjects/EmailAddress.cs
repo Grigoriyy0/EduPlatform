@@ -20,14 +20,14 @@ public class EmailAddress : ValueObject
     {
         if (string.IsNullOrWhiteSpace(emailAddress))
         {
-            return DomainErrors.User.EmailIsIncorrect;
+            return DomainErrors.Student.EmailIsIncorrect;
         }
         
         var normalizedEmail = emailAddress.Trim().ToLowerInvariant();
 
         if (!Regex.IsMatch(normalizedEmail))
         {
-            return DomainErrors.User.EmailIsIncorrect;
+            return DomainErrors.Student.EmailIsIncorrect;
         }
         
         return new EmailAddress(normalizedEmail);
