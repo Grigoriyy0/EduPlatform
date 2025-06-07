@@ -8,7 +8,7 @@ namespace EduNEXT.Core.Domain.Entities;
 public class Student : Entity<Guid>
 {
     private Student(string firstname, string lastname, EmailAddress email, string telegram, string password, int paidLessonsCount,
-        decimal price)
+        int subscribedLessonsCount, decimal price)
     {
         Id = Guid.NewGuid();
         Firstname = firstname;
@@ -17,6 +17,7 @@ public class Student : Entity<Guid>
         Telegram = telegram;
         PasswordHash = password;
         PaidLessonsCount = paidLessonsCount;
+        SubscribedLessonsCount = subscribedLessonsCount;
         LessonPrice = price;
         LessonTimeSlots = [];
     }
@@ -42,7 +43,7 @@ public class Student : Entity<Guid>
     public ICollection<StudentTimeSlots> LessonTimeSlots { get; set; }
 
     public static Result<Student, Error> Create(string firstname, string lastname, string emailAddress,
-        string telegram, int paidLessonsCount, decimal lessonPrice)
+        string telegram, int paidLessonsCount, int subscribedLessonsCount, decimal lessonPrice)
     {
         var email = EmailAddress.Create(emailAddress);
         
@@ -65,8 +66,13 @@ public class Student : Entity<Guid>
         {
             return DomainErrors.Student.PaidLessonsCountIsIncorrect;
         }
+
+        if (subscribedLessonsCount <= 0)
+        {
+            return DomainErrors.Student.SubscribedLessonsCountIsIncorrect;
+        }
         
-        return new Student(firstname, lastname, email.Value, telegram, "fsfef" ,paidLessonsCount, lessonPrice);
+        return new Student(firstname, lastname, email.Value, telegram, "fsfef", paidLessonsCount, subscribedLessonsCount, lessonPrice);
     }
 
     public static UnitResult<Error> AssignTimeSlots(Student student)

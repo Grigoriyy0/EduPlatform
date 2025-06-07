@@ -13,5 +13,7 @@ public static class DomainErrors
         public static Error LessonPriceIsIncorrect = GeneralErrors.ValueIsIncorrect(1, "user.lesson.price");
         
         public static Error PaidLessonsCountIsIncorrect = GeneralErrors.ValueIsIncorrect(1, "user.paid.count");
+        
+        public static Error SubscribedLessonsCountIsIncorrect = GeneralErrors.ValueIsIncorrect(1, "user.subscribed.count");
     }
 }

@@ -17,6 +17,7 @@ public class AddStudentCommandHandler(IMediator mediator) : IRequestHandler<AddS
             request.LastName, 
             request.Email, 
             request.Telegram ?? string.Empty, 
+            request.SubscribedLessonsCount,
             request.PaidLessonsCount,
             request.LessonPrice);
         
