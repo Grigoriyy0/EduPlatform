@@ -1,20 +1,20 @@
+using CSharpFunctionalExtensions;
 using EduNEXT.Core.Domain.Entities;
 using EduNEXT.Core.Domain.Utils;
 using MediatR;
+using Primitives;
 
 namespace EduNEXT.Application.Commands.AddStudentCommand;
 
-public class AddStudentCommand : IRequest<Student>
+public class AddStudentCommand : IRequest<Result<Student, Error>>
 {
     public string FirstName { get; set; }
     
     public string LastName { get; set; }
     
-    public StudentTimeSlot[] TimeSlots {get; set;}
-    
     public string Email { get; set; }
     
-    public string? AlternativeEmail { get; set; }
+    public string? Telegram { get; set; }
     
     public int PaidLessonsCount { get; set; }
     
