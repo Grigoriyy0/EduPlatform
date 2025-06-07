@@ -21,7 +21,15 @@ namespace EduNEXT.API.Controllers
         {
             var result = await _mediator.Send(command);
             
-            return Ok(result);
+            var value = result.TryGetValue(out var student);
+
+
+            if (value)
+            {
+                return Ok(student);
+            }
+            
+            return BadRequest(result.Error);
         }
     }
 }

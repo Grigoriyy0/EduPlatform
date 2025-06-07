@@ -10,6 +10,7 @@ public class Student : Entity<Guid>
     private Student(string firstname, string lastname, EmailAddress email, string telegram, string password, int paidLessonsCount,
         decimal price)
     {
+        Id = Guid.NewGuid();
         Firstname = firstname;
         Lastname = lastname;
         Email = email;
@@ -55,7 +56,7 @@ public class Student : Entity<Guid>
             return DomainErrors.Student.NameIsIncorrect;
         }
 
-        if (lessonPrice < 0)
+        if (lessonPrice <= 0)
         {
             return DomainErrors.Student.LessonPriceIsIncorrect;
         }
