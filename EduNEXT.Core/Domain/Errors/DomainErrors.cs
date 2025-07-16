@@ -1,4 +1,5 @@
-﻿using Primitives;
+﻿using System.Text.RegularExpressions;
+using Primitives;
 
 namespace EduNEXT.Core.Domain.Errors;
 
@@ -15,5 +16,13 @@ public static class DomainErrors
         public static Error PaidLessonsCountIsIncorrect = GeneralErrors.ValueIsIncorrect(1, "user.paid.count");
         
         public static Error SubscribedLessonsCountIsIncorrect = GeneralErrors.ValueIsIncorrect(1, "user.subscribed.count");
+    }
+
+    public static class TimeSlot
+    {
+        public static Error EndIsEarlier = GeneralErrors.ValueIsIncorrect(1, "timeslot.end");
+
+        public static Error DayIsIncorrect = GeneralErrors.ValueIsIncorrect(1, "day.number");
+        
     }
 }

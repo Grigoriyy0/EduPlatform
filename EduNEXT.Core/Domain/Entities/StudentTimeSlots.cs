@@ -1,24 +1,28 @@
-﻿namespace EduNEXT.Core.Domain.Entities;
+﻿using CSharpFunctionalExtensions;
+using EduNEXT.Core.Domain.Errors;
+using Primitives;
+
+namespace EduNEXT.Core.Domain.Entities;
 
 public class StudentTimeSlots
 {
     private StudentTimeSlots(
         Guid id, 
-        int[] days, 
+        int day, 
         TimeOnly start, 
         TimeOnly end, 
         TimeSpan duration, 
         Guid studentId)
     {
         Id = id;
-        Days = days;
+        Days = day;
         StartTime = start;
         EndTime = end;
     }
     
     public Guid Id { get; set; }
     
-    public int[] Days { get; set; }
+    public int Days { get; set; }
     
     public TimeOnly StartTime { get; set; }
     
@@ -26,10 +30,24 @@ public class StudentTimeSlots
     
     public TimeSpan Duration { get; set; }
     
-    public bool IsCompleted { get; set; } = true;
-    
     public Guid StudentId { get; set; }
     
-    public Student Student { get; set; }
-    
+    public Student? Student { get; set; }
+
+    public static Result<StudentTimeSlots, Error> Create(int day, TimeOnly startTime, TimeOnly endTime, Guid studentId)
+    {
+        if (startTime > endTime)
+        {
+            return Result.Failure<StudentTimeSlots, Error>(DomainErrors.TimeSlot.EndIsEarlier);
+        }
+
+        if (day < 0 || day > 7)
+        {
+            return Result.Failure<StudentTimeSlots, Error>(DomainErrors.TimeSlot.DayIsIncorrect);
+        }
+        
+        var duration = endTime - startTime;
+        
+        return new StudentTimeSlots(Guid.NewGuid(), day, startTime, endTime, duration, studentId);
+    }
 }

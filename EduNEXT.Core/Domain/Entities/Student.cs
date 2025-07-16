@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using EduNEXT.Core.Domain.Errors;
+using EduNEXT.Core.Domain.Utils;
 using EduNEXT.Core.Domain.ValueObjects;
 using Primitives;
 
@@ -75,8 +76,8 @@ public class Student : Entity<Guid>
         return new Student(firstname, lastname, email.Value, telegram, "fsfef", paidLessonsCount, subscribedLessonsCount, lessonPrice);
     }
 
-    public static UnitResult<Error> AssignTimeSlots(Student student)
+    public static UnitResult<Error> AssignTimeSlot(Guid studentId, TimeOnly startTime, TimeOnly endTime, int day)
     {
-        return default;
+        return StudentTimeSlots.Create(day, startTime, endTime, studentId);
     }
 }
