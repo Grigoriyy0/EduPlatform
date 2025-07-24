@@ -21,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\EduNEXT.Application\EduNEXT.Application.csproj" />
       <ProjectReference Include="..\EduNEXT.Core\EduNEXT.Core.csproj" />
     </ItemGroup>
 

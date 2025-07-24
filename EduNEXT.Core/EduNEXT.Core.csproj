@@ -14,4 +14,8 @@
       <ProjectReference Include="..\Primitives\Primitives.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Domain\Utils\" />
+    </ItemGroup>
+
 </Project>

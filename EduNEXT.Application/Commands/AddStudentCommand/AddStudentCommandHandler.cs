@@ -1,17 +1,21 @@
 using CSharpFunctionalExtensions;
+using EduNEXT.Application.Ports;
 using EduNEXT.Core.Domain.Entities;
-using EduNEXT.Core.Domain.ValueObjects;
 using MediatR;
 using Primitives;
 
 namespace EduNEXT.Application.Commands.AddStudentCommand;
 
-public class AddStudentCommandHandler(IMediator mediator) : IRequestHandler<AddStudentCommand, Result<Student, Error>>
+public class AddStudentCommandHandler(IMediator mediator, IHashProvider hashProvider, IPasswordGenerator passwordGenerator) : IRequestHandler<AddStudentCommand, Result<Student, Error>>
 {
-    private readonly IMediator mediator = mediator;
+    private readonly IMediator _mediator = mediator;
 
     public async Task<Result<Student, Error>> Handle(AddStudentCommand request, CancellationToken cancellationToken)
     {
+        var password = passwordGenerator.GeneratePassword();
+        
+        var passwordHash = hashProvider.ComputeHash(password);
+        
         var student = Student.Create(
             request.FirstName, 
             request.LastName, 
@@ -19,7 +23,8 @@ public class AddStudentCommandHandler(IMediator mediator) : IRequestHandler<AddS
             request.Telegram ?? string.Empty, 
             request.SubscribedLessonsCount,
             request.PaidLessonsCount,
-            request.LessonPrice);
+            request.LessonPrice,
+            passwordHash);
         
         return student;
     }

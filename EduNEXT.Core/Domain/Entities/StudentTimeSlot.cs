@@ -4,9 +4,9 @@ using Primitives;
 
 namespace EduNEXT.Core.Domain.Entities;
 
-public class StudentTimeSlots
+public class StudentTimeSlot
 {
-    private StudentTimeSlots(
+    private StudentTimeSlot(
         Guid id, 
         int day, 
         TimeOnly start, 
@@ -18,6 +18,8 @@ public class StudentTimeSlots
         Days = day;
         StartTime = start;
         EndTime = end;
+        StudentId = studentId;
+        Duration = duration;
     }
     
     public Guid Id { get; set; }
@@ -34,20 +36,20 @@ public class StudentTimeSlots
     
     public Student? Student { get; set; }
 
-    public static Result<StudentTimeSlots, Error> Create(int day, TimeOnly startTime, TimeOnly endTime, Guid studentId)
+    public static Result<StudentTimeSlot, Error> Create(int day, TimeOnly startTime, TimeOnly endTime, Guid studentId)
     {
         if (startTime > endTime)
         {
-            return Result.Failure<StudentTimeSlots, Error>(DomainErrors.TimeSlot.EndIsEarlier);
+            return Result.Failure<StudentTimeSlot, Error>(DomainErrors.TimeSlot.EndIsEarlier);
         }
 
         if (day < 0 || day > 7)
         {
-            return Result.Failure<StudentTimeSlots, Error>(DomainErrors.TimeSlot.DayIsIncorrect);
+            return Result.Failure<StudentTimeSlot, Error>(DomainErrors.TimeSlot.DayIsIncorrect);
         }
         
         var duration = endTime - startTime;
         
-        return new StudentTimeSlots(Guid.NewGuid(), day, startTime, endTime, duration, studentId);
-    }
+        return new StudentTimeSlot(Guid.NewGuid(), day, startTime, endTime, duration, studentId);
+    } 
 }

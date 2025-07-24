@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using EduNEXT.Core.Domain.Errors;
-using EduNEXT.Core.Domain.Utils;
 using EduNEXT.Core.Domain.ValueObjects;
 using Primitives;
 
@@ -41,10 +40,12 @@ public class Student : Entity<Guid>
     
     public decimal LessonPrice { get; set; }
     
-    public ICollection<StudentTimeSlots> LessonTimeSlots { get; set; }
+    public ICollection<StudentTimeSlot> LessonTimeSlots { get; set; }
+    
+    public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 
     public static Result<Student, Error> Create(string firstname, string lastname, string emailAddress,
-        string telegram, int paidLessonsCount, int subscribedLessonsCount, decimal lessonPrice)
+        string telegram, int paidLessonsCount, int subscribedLessonsCount, decimal lessonPrice, string password)
     {
         var email = EmailAddress.Create(emailAddress);
         
@@ -73,11 +74,11 @@ public class Student : Entity<Guid>
             return DomainErrors.Student.SubscribedLessonsCountIsIncorrect;
         }
         
-        return new Student(firstname, lastname, email.Value, telegram, "fsfef", paidLessonsCount, subscribedLessonsCount, lessonPrice);
+        return new Student(firstname, lastname, email.Value, telegram, password, paidLessonsCount, subscribedLessonsCount, lessonPrice);
     }
 
     public static UnitResult<Error> AssignTimeSlot(Guid studentId, TimeOnly startTime, TimeOnly endTime, int day)
     {
-        return StudentTimeSlots.Create(day, startTime, endTime, studentId);
+        return StudentTimeSlot.Create(day, startTime, endTime, studentId);
     }
 }

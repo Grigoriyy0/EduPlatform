@@ -1,4 +1,6 @@
-﻿using EduNEXT.Infrastructure.Persistence.Contexts;
+﻿using EduNEXT.Application.Ports;
+using EduNEXT.Infrastructure.Adapters;
+using EduNEXT.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -10,5 +12,7 @@ public static class DependencyInjection
     public static void AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<MainContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("Postgres")));
+        services.AddScoped<IHashProvider, DefaultHashProvider>();
+        services.AddScoped<IPasswordGenerator, DefaultPasswordGenerator>();
     }
 }
