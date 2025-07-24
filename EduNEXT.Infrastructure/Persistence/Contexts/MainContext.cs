@@ -7,11 +7,11 @@ public class MainContext : DbContext
 {
     public MainContext(DbContextOptions<MainContext> options) : base(options) {}
     
-    public DbSet<StudentTimeSlots> Lessons { get; set; }
+    public DbSet<StudentTimeSlot> LessonsTimeSlots { get; set; }
     
     public DbSet<Student> Students { get; set; }
     
-    public DbSet<TimeSlot> TimeSlots { get; set; }
+    public DbSet<Lesson> Lessons { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

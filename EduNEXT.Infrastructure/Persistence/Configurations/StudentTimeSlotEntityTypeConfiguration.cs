@@ -4,26 +4,24 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EduNEXT.Infrastructure.Persistence.Configurations;
 
-public class LessonEntityTypeConfiguration : IEntityTypeConfiguration<Lesson>
+public class StudentTimeSlotEntityTypeConfiguration : IEntityTypeConfiguration<StudentTimeSlot>
 {
-    public void Configure(EntityTypeBuilder<Lesson> builder)
+    public void Configure(EntityTypeBuilder<StudentTimeSlot> builder)
     {
         builder.HasKey(x => x.Id);
         
         builder.Property(x => x.StartTime)
-            .HasColumnType("date")
             .IsRequired();
         
         builder.Property(x => x.EndTime)
-            .HasColumnType("date")
             .IsRequired();
         
-        builder.Property(x => x.StudentId)
+        builder.Property(x => x.Day)
             .IsRequired();
-        
+
         builder.HasOne(x => x.Student)
-            .WithMany(s => s.Lessons)
+            .WithMany(s => s.LessonTimeSlots)
             .HasForeignKey(x => x.StudentId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.SetNull);;
     }
 }

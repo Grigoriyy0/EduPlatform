@@ -28,22 +28,21 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("interval");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("EndTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("StartTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Lessons");
                 });
@@ -54,16 +53,20 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("AlternativeEmail")
-                        .HasColumnType("text");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Firstname")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("LessonPrice")
+                        .HasColumnType("numeric");
 
                     b.Property<int>("PaidLessonsCount")
                         .HasColumnType("integer");
@@ -72,76 +75,72 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("SubscribedLessonsCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Telegram")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("EduNEXT.Core.Domain.Entities.StudentLessons", b =>
-                {
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("LessonId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("StudentId", "LessonId");
-
-                    b.HasIndex("LessonId");
-
-                    b.ToTable("StudentLessons");
-                });
-
-            modelBuilder.Entity("EduNEXT.Core.Domain.Entities.TimeSlot", b =>
+            modelBuilder.Entity("EduNEXT.Core.Domain.Entities.StudentTimeSlot", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("Day")
+                        .HasColumnType("integer");
 
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("boolean");
+                    b.Property<TimeSpan>("Duration")
+                        .HasColumnType("interval");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time without time zone");
 
-                    b.Property<Guid?>("StudentId")
+                    b.Property<TimeOnly>("StartTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<Guid>("StudentId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TimeSlots");
-                });
+                    b.HasIndex("StudentId");
 
-            modelBuilder.Entity("EduNEXT.Core.Domain.Entities.StudentLessons", b =>
-                {
-                    b.HasOne("EduNEXT.Core.Domain.Entities.Lesson", "Lesson")
-                        .WithMany("StudentLessons")
-                        .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.HasOne("EduNEXT.Core.Domain.Entities.Student", "Student")
-                        .WithMany("StudentLessons")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.Navigation("Lesson");
-
-                    b.Navigation("Student");
+                    b.ToTable("LessonsTimeSlots");
                 });
 
             modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Lesson", b =>
                 {
-                    b.Navigation("StudentLessons");
+                    b.HasOne("EduNEXT.Core.Domain.Entities.Student", "Student")
+                        .WithMany("Lessons")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("EduNEXT.Core.Domain.Entities.StudentTimeSlot", b =>
+                {
+                    b.HasOne("EduNEXT.Core.Domain.Entities.Student", "Student")
+                        .WithMany("LessonTimeSlots")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Student", b =>
                 {
-                    b.Navigation("StudentLessons");
+                    b.Navigation("LessonTimeSlots");
+
+                    b.Navigation("Lessons");
                 });
 #pragma warning restore 612, 618
         }

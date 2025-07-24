@@ -1,4 +1,5 @@
-﻿using EduNEXT.Core.Domain.Entities;
+using EduNEXT.Core.Domain.Entities;
+using EduNEXT.Core.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,10 +9,17 @@ public class StudentEntityTypeConfiguration : IEntityTypeConfiguration<Student>
 {
     public void Configure(EntityTypeBuilder<Student> builder)
     {
-        builder.HasKey(s => s.Id);
+        builder.HasKey(x => x.Id);
         
-        builder.Property(s => s.PasswordHash)
-            .ValueGeneratedNever()
+        builder.Property(x => x.Firstname)
+            .IsRequired();
+        
+        builder.Property(x => x.Lastname)
+            .IsRequired();
+        
+        builder.Property(x => x.Email)
+            .HasConversion(x => x.Value,
+                x => EmailAddress.Create(x).Value)
             .IsRequired();
     }
 }

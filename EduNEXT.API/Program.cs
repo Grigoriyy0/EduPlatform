@@ -16,6 +16,7 @@ public class Program
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddApplicationServices();
         
+        
         var app = builder.Build();
         
         if (app.Environment.IsDevelopment())
