@@ -7,6 +7,11 @@ namespace EduNEXT.Core.Domain.Entities;
 
 public class Student : Entity<Guid>
 {
+    public Student()
+    {
+        
+    }
+    
     private Student(string firstname, string lastname, EmailAddress email, string telegram, string password, int paidLessonsCount,
         int subscribedLessonsCount, decimal price)
     {

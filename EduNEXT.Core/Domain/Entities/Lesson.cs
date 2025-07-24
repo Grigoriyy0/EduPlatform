@@ -6,6 +6,11 @@ namespace EduNEXT.Core.Domain.Entities;
 
 public class Lesson
 {
+    public Lesson()
+    {
+        
+    }
+    
     private Lesson(DateTime date, DateTime startTime, DateTime endTime, Guid studentId)
     {
         Id = Guid.NewGuid();

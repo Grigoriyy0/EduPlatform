@@ -6,6 +6,11 @@ namespace EduNEXT.Core.Domain.Entities;
 
 public class StudentTimeSlot
 {
+    public StudentTimeSlot()
+    {
+        
+    }
+    
     private StudentTimeSlot(
         Guid id, 
         int day, 
@@ -15,7 +20,7 @@ public class StudentTimeSlot
         Guid studentId)
     {
         Id = id;
-        Days = day;
+        Day = day;
         StartTime = start;
         EndTime = end;
         StudentId = studentId;
@@ -24,7 +29,7 @@ public class StudentTimeSlot
     
     public Guid Id { get; set; }
     
-    public int Days { get; set; }
+    public int Day { get; set; }
     
     public TimeOnly StartTime { get; set; }
     
