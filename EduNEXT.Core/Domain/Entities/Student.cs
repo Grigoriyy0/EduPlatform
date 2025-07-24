@@ -69,7 +69,7 @@ public class Student : Entity<Guid>
             return DomainErrors.Student.PaidLessonsCountIsIncorrect;
         }
 
-        if (subscribedLessonsCount <= 0)
+        if (subscribedLessonsCount < 0)
         {
             return DomainErrors.Student.SubscribedLessonsCountIsIncorrect;
         }
