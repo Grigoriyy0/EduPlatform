@@ -1,4 +1,4 @@
-using EduNEXT.Application.Commands.AddStudentCommand;
+using EduNEXT.Application.Commands.Student.AddStudentCommand;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,13 +16,12 @@ namespace EduNEXT.API.Controllers
         }
 
         [HttpPost]
-        [Route("/add")]
+        [Route("add/")]
         public async Task<IActionResult> AddStudent([FromBody] AddStudentCommand command)
         {
             var result = await _mediator.Send(command);
             
             var value = result.TryGetValue(out var student);
-
 
             if (value)
             {

@@ -17,6 +17,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Commands\Student\" />
+      <Folder Include="Commands\TimeSlot\" />
       <Folder Include="Dtos\" />
       <Folder Include="Queries\" />
       <Folder Include="Services\" />

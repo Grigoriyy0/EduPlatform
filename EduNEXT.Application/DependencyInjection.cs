@@ -1,4 +1,4 @@
-﻿using EduNEXT.Application.Commands.AddStudentCommand;
+﻿using EduNEXT.Application.Commands.Student.AddStudentCommand;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EduNEXT.Application;
