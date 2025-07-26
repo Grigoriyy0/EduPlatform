@@ -47,5 +47,10 @@ public class TimeSlotsRepository(MainContext context) : ITimeSlotsRepository
 
         return false;
     }
+
+    public Task<List<StudentTimeSlot>> GetAllTimeSlotsAsync()
+    {
+        return context.LessonsTimeSlots.AsNoTracking().ToListAsync();
+    }
 }
     
