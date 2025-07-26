@@ -81,9 +81,4 @@ public class Student : Entity<Guid>
         
         return new Student(firstname, lastname, email.Value, telegram, password, paidLessonsCount, subscribedLessonsCount, lessonPrice);
     }
-
-    public static UnitResult<Error> AssignTimeSlot(Guid studentId, TimeOnly startTime, TimeOnly endTime, int day)
-    {
-        return StudentTimeSlot.Create(day, startTime, endTime, studentId);
-    }
 }

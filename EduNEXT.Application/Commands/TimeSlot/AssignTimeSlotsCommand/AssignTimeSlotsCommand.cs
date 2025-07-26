@@ -3,7 +3,7 @@ using EduNEXT.Core.Domain.Entities;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.Commands.AssignTimeSlotsCommand;
+namespace EduNEXT.Application.Commands.TimeSlot.AssignTimeSlotsCommand;
 
 public class AssignTimeSlotsCommand : IRequest<Result<StudentTimeSlot, Error>>
 {

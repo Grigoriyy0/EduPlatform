@@ -1,6 +1,7 @@
 ﻿using EduNEXT.Application.Ports;
 using EduNEXT.Infrastructure.Adapters;
 using EduNEXT.Infrastructure.Persistence.Contexts;
+using EduNEXT.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -14,5 +15,7 @@ public static class DependencyInjection
         services.AddDbContext<MainContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("Postgres")));
         services.AddScoped<IHashProvider, DefaultHashProvider>();
         services.AddScoped<IPasswordGenerator, DefaultPasswordGenerator>();
+        services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<ITimeSlotsRepository, TimeSlotsRepository>();
     }
 }

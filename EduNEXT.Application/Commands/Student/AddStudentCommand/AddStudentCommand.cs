@@ -1,11 +1,10 @@
 using CSharpFunctionalExtensions;
-using EduNEXT.Core.Domain.Entities;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.Commands.AddStudentCommand;
+namespace EduNEXT.Application.Commands.Student.AddStudentCommand;
 
-public class AddStudentCommand : IRequest<Result<Student, Error>>
+public class AddStudentCommand : IRequest<Result<Core.Domain.Entities.Student, Error>>
 {
     public string FirstName { get; set; }
     
