@@ -4,41 +4,36 @@ using Primitives;
 
 namespace EduNEXT.Core.Domain.Entities;
 
-public class Lesson
+public class Lesson : Entity<Guid>
 {
-    public Lesson()
-    {
-        
-    }
-    
-    private Lesson(DateTime date, DateTime startTime, DateTime endTime, Guid studentId)
+    public DateOnly Date { get; private set; }
+    public Guid StudentId { get; private set; }
+    public TimeSpan StartTime { get; private set; }
+    public TimeSpan EndTime { get; private set; }
+    public bool IsCompleted { get; private set; }
+    public Student? Student { get; private set; }
+
+    private Lesson(DateOnly date, TimeSpan startTime, TimeSpan endTime, Guid studentId)
     {
         Id = Guid.NewGuid();
         Date = date;
         StartTime = startTime;
         EndTime = endTime;
         StudentId = studentId;
+        IsCompleted = false;
     }
-    
-    public Guid Id { get; set; }
-    
-    public DateTime Date { get; set; }
-    
-    public Guid StudentId { get; set; }
-    
-    public DateTime StartTime { get; set; }
-    
-    public DateTime EndTime { get; set; }
-    
-    public Student? Student { get; set; }
 
-    public static Result<Lesson, Error> Create(DateTime date, DateTime startTime, DateTime endTime, Guid studentId)
+    public static Result<Lesson, Error> Create(DateOnly date, TimeSpan start, TimeSpan end, Guid studentId)
     {
-        if (startTime > endTime)
-        {
+        if (start >= end)
             return DomainErrors.Lesson.EndTimeIsEarlier;
-        }
-        
-        return new Lesson(date, startTime, endTime, studentId);
+
+        return new Lesson(date, start, end, studentId);
     }
+    
+    public TimeOnly GetStartTime() => TimeOnly.FromTimeSpan(StartTime);
+    public TimeOnly GetEndTime() => TimeOnly.FromTimeSpan(EndTime);
+
+    public DateTime GetStartDateTime() => Date.ToDateTime(GetStartTime());
+    public DateTime GetEndDateTime() => Date.ToDateTime(GetEndTime());
 }

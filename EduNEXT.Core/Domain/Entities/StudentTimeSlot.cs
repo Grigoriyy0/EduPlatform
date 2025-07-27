@@ -14,8 +14,8 @@ public class StudentTimeSlot
     private StudentTimeSlot(
         Guid id, 
         int day, 
-        TimeOnly start, 
-        TimeOnly end, 
+        TimeSpan start, 
+        TimeSpan end, 
         TimeSpan duration, 
         Guid studentId)
     {
@@ -31,9 +31,9 @@ public class StudentTimeSlot
     
     public int Day { get; set; }
     
-    public TimeOnly StartTime { get; set; }
+    public TimeSpan StartTime { get; set; }
     
-    public TimeOnly EndTime { get; set; }
+    public TimeSpan EndTime { get; set; }
     
     public TimeSpan Duration { get; set; }
     
@@ -41,7 +41,7 @@ public class StudentTimeSlot
     
     public Student? Student { get; set; }
 
-    public static Result<StudentTimeSlot, Error> Create(int day, TimeOnly startTime, TimeOnly endTime, Guid studentId)
+    public static Result<StudentTimeSlot, Error> Create(int day, TimeSpan startTime, TimeSpan endTime, Guid studentId)
     {
         if (startTime > endTime)
         {

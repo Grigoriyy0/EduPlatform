@@ -11,7 +11,7 @@ public class AssignTimeSlotsCommand : IRequest<Result<StudentTimeSlot, Error>>
     
     public int Day { get; set; }
     
-    public TimeOnly StartTime { get; set; }
+    public TimeSpan StartTime { get; set; }
     
-    public TimeOnly EndTime { get; set; }
+    public TimeSpan EndTime { get; set; }
 }

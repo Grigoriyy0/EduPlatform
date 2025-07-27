@@ -17,5 +17,6 @@ public static class DependencyInjection
         services.AddScoped<IPasswordGenerator, DefaultPasswordGenerator>();
         services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<ITimeSlotsRepository, TimeSlotsRepository>();
+        services.AddScoped<ILessonsRepository, LessonsRepository>();
     }
 }

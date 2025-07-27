@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduNEXT.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20250724040254_Initial")]
+    [Migration("20250727022812_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -31,14 +31,17 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("date");
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time without time zone");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uuid");
@@ -101,11 +104,11 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("interval");
 
-                    b.Property<TimeOnly>("EndTime")
-                        .HasColumnType("time without time zone");
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("interval");
 
-                    b.Property<TimeOnly>("StartTime")
-                        .HasColumnType("time without time zone");
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("interval");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uuid");

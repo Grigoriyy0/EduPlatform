@@ -12,7 +12,7 @@ public interface ITimeSlotsRepository
     
     Task<List<StudentTimeSlot>> GetAllByStudentIdAsync(Guid studentId);
     
-    Task<bool> CheckAvailabilityAsync(int day, TimeOnly startTime, TimeOnly endTime);
+    Task<bool> CheckAvailabilityAsync(int day, TimeSpan startTime, TimeSpan endTime);
     
     Task<List<StudentTimeSlot>> GetAllTimeSlotsAsync();
 }
