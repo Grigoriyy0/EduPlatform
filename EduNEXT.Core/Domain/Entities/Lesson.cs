@@ -30,6 +30,11 @@ public class Lesson : Entity<Guid>
 
         return new Lesson(date, start, end, studentId);
     }
+
+    public void Complete()
+    {
+        IsCompleted = true;
+    }
     
     public TimeOnly GetStartTime() => TimeOnly.FromTimeSpan(StartTime);
     public TimeOnly GetEndTime() => TimeOnly.FromTimeSpan(EndTime);

@@ -12,7 +12,7 @@ public class StudentRepository(MainContext context) : IStudentRepository
         await context.Students.AddAsync(student);
         await context.SaveChangesAsync();
     }
-
+    
     public Task<Student?> FindByIdAsync(Guid id)
     {
         return context.Students.
@@ -31,5 +31,10 @@ public class StudentRepository(MainContext context) : IStudentRepository
         context.Students.Update(student);
         
         return context.SaveChangesAsync();
+    }
+
+    public Task<Student?> GetStudentAsync(Guid id)
+    {
+        return context.Students.FirstOrDefaultAsync(x => x.Id == id);
     }
 }
