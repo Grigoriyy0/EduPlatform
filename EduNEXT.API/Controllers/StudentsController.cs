@@ -6,20 +6,13 @@ namespace EduNEXT.API.Controllers
 {
     [Route("api/students")]
     [ApiController]
-    public class StudentsController : ControllerBase
+    public class StudentsController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public StudentsController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
         [HttpPost]
         [Route("add/")]
         public async Task<IActionResult> AddStudent([FromBody] AddStudentCommand command)
         {
-            var result = await _mediator.Send(command);
+            var result = await mediator.Send(command);
             
             var value = result.TryGetValue(out var student);
 

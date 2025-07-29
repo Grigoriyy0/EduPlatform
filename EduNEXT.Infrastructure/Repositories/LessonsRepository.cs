@@ -47,4 +47,31 @@ public class LessonsRepository(MainContext context) : ILessonsRepository
         
         return false;
     }
+
+    public Task<List<Lesson>> GetLessonsAsync(string timePeriod)
+    {
+        var todayDate = DateOnly.FromDateTime(DateTime.Now);
+        
+        var query = context.Lessons.AsQueryable();
+
+        switch (timePeriod.ToLower())
+        {
+            case "day":
+                var dayStart = todayDate;
+                query = query.Where(l => l.Date >= dayStart);
+                break;
+            case "week":
+                var weekStart = todayDate.AddDays(-(int)todayDate.DayOfWeek);
+                query = query.Where(l => l.Date >= weekStart && l.Date <= todayDate);
+                break;
+            case "month":
+                var monthStart = new DateOnly(todayDate.Year, todayDate.Month, 1);
+                query = query.Where(l => l.Date >= monthStart && l.Date <= todayDate);
+                break;
+            default:
+                break;
+        }
+        
+        return query.OrderByDescending(x => x.Date).ToListAsync();
+    }
 }

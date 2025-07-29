@@ -1,5 +1,4 @@
 using EduNEXT.Application.Commands.TimeSlot.AssignTimeSlotsCommand;
-using EduNEXT.Application.Queries.TimeSlots;
 using EduNEXT.Application.Queries.TimeSlots.GetAllTimeSlots;
 using EduNEXT.Application.Queries.TimeSlots.GetTImeSlotsByStudentId;
 using MediatR;
@@ -9,20 +8,13 @@ namespace EduNEXT.API.Controllers
 {
     [Route("api/time-slots")]
     [ApiController]
-    public class TimeSlotsController : ControllerBase
+    public class TimeSlotsController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public TimeSlotsController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
         [HttpPost]
         [Route("add/")]
         public async Task<IActionResult> AddTimeSlotAsync([FromBody] AssignTimeSlotsCommand command)
         {
-            var result =  await _mediator.Send(command);
+            var result =  await mediator.Send(command);
 
             var val = result.TryGetValue(out var slot);
 
@@ -38,14 +30,14 @@ namespace EduNEXT.API.Controllers
         [Route("all/")]
         public async Task<IActionResult> GetAllTimeSlots()
         {
-            return Ok(await _mediator.Send(new GetAllTimeSlotsQuery()));
+            return Ok(await mediator.Send(new GetAllTimeSlotsQuery()));
         }
 
         [HttpGet]
         [Route("{id:guid}/")]
         public async Task<IActionResult> GetTimeSlotById(Guid id)
         {
-            return Ok(await _mediator.Send(new GetTimeSlotsByStudentIdQuery
+            return Ok(await mediator.Send(new GetTimeSlotsByStudentIdQuery
             {
                 StudentId = id
             }));

@@ -13,4 +13,6 @@ public interface ILessonsRepository
     Task<Lesson?> GetLessonAsync(Guid id);
     
     Task<bool> CheckAvailableLessonAsync(DateOnly date, TimeSpan start, TimeSpan end);
+    
+    Task<List<Lesson>> GetLessonsAsync(string timePeriod);
 }
