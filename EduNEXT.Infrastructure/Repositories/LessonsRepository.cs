@@ -68,8 +68,6 @@ public class LessonsRepository(MainContext context) : ILessonsRepository
                 var monthStart = new DateOnly(todayDate.Year, todayDate.Month, 1);
                 query = query.Where(l => l.Date >= monthStart && l.Date <= todayDate);
                 break;
-            default:
-                break;
         }
         
         return query.OrderByDescending(x => x.Date).ToListAsync();

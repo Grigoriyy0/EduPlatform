@@ -48,7 +48,7 @@ public class StudentTimeSlot
             return Result.Failure<StudentTimeSlot, Error>(DomainErrors.TimeSlot.EndIsEarlier);
         }
 
-        if (day < 0 || day > 7)
+        if (day < 1 || day > 7)
         {
             return Result.Failure<StudentTimeSlot, Error>(DomainErrors.TimeSlot.DayIsIncorrect);
         }

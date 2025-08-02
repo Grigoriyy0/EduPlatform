@@ -15,4 +15,9 @@ public static class ApplicationErrors
         
         public static readonly Error LessonTimeIsBooked = GeneralErrors.ValueIsIncorrect(2, "lesson.times.booked");
     }
+
+    public static class Student
+    {
+        public static readonly Error StudentIsNotExists = GeneralErrors.ValueIsIncorrect(2, "student.notExists");
+    }
 }
