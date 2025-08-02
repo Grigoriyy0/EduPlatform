@@ -1,7 +1,7 @@
 using EduNEXT.Application;
 using EduNEXT.Infrastructure;
-using EduNEXT.Infrastructure.Persistence.Contexts;
-using Microsoft.EntityFrameworkCore;
+using Hangfire;
+using Hangfire.PostgreSql;
 
 namespace EduNEXT.API;
 
@@ -17,7 +17,17 @@ public class Program
         builder.Services.AddOpenApi();
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddApplicationServices();
-        
+
+        builder.Services.AddHangfire(x =>
+        {
+            x.UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings();
+            
+            x.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("Hangfire"), new PostgreSqlStorageOptions
+            {
+                PrepareSchemaIfNecessary = true
+            });
+        });
         
         var app = builder.Build();
         
@@ -31,6 +41,8 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
+        
+        app.UseHangfireDashboard();
         
         app.MapControllers();
 
