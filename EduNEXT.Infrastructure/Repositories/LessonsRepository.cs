@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduNEXT.Infrastructure.Repositories;
 
-public class LessonsRepository(MainContext context) : ILessonsRepository
+public sealed class LessonsRepository(MainContext context) : ILessonsRepository
 {
     public async Task CreateLessonAsync(Lesson lesson)
     {

@@ -1,5 +1,7 @@
 using EduNEXT.Application;
 using EduNEXT.Infrastructure;
+using EduNEXT.Infrastructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduNEXT.API;
 
@@ -25,7 +27,7 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        
         app.UseHttpsRedirection();
 
         app.UseAuthorization();

@@ -18,7 +18,6 @@
 
     <ItemGroup>
       <Folder Include="Commands\TimeSlot\" />
-      <Folder Include="Dtos\" />
       <Folder Include="Services\" />
       <Folder Include="Utils\" />
     </ItemGroup>

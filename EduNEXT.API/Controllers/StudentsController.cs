@@ -1,5 +1,6 @@
 using EduNEXT.Application.Commands.Student.AddStudentCommand;
 using EduNEXT.Application.Commands.Student.DeleteStudentCommand;
+using EduNEXT.Application.Queries.Students.GetAllStudents;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,6 +41,13 @@ namespace EduNEXT.API.Controllers
             }
             
             return BadRequest(result.Error);
+        }
+
+        [HttpGet]
+        [Route("all/")]
+        public async Task<IActionResult> GetAllStudents()
+        {
+            return Ok(await mediator.Send(new GetAllStudentsQuery()));
         }
     }
 }

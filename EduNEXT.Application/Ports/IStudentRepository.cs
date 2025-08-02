@@ -1,3 +1,4 @@
+using EduNEXT.Application.Dtos;
 using EduNEXT.Core.Domain.Entities;
 
 namespace EduNEXT.Application.Ports;
@@ -13,4 +14,6 @@ public interface IStudentRepository
     Task UpdateAsync(Student student);
     
     Task<Student?> GetStudentAsync(Guid id);
+    
+    Task<List<StudentDto>> GetAllStudentsAsync();
 }

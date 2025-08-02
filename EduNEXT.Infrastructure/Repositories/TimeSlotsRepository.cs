@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduNEXT.Infrastructure.Repositories;
 
-public class TimeSlotsRepository(MainContext context) : ITimeSlotsRepository
+public sealed class TimeSlotsRepository(MainContext context) : ITimeSlotsRepository
 {
     public async Task AddTimeSlotAsync(StudentTimeSlot timeSlot)
     {
