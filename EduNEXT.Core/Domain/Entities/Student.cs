@@ -81,4 +81,19 @@ public class Student : Entity<Guid>
         
         return new Student(firstname, lastname, email.Value, telegram, password, paidLessonsCount, subscribedLessonsCount, lessonPrice);
     }
+
+    public static Result<Student, Error> DecreasePaidLessonsCount(Student student, int amount)
+    {
+        if (student.PaidLessonsCount < amount)
+        {
+            student.PaidLessonsCount = 0;
+            
+            return student;
+        }
+
+        student.PaidLessonsCount -= amount;
+        
+        return student;
+    }
+    
 }

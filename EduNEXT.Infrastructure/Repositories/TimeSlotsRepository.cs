@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduNEXT.Infrastructure.Repositories;
 
-public class TimeSlotsRepository(MainContext context) : ITimeSlotsRepository
+public sealed class TimeSlotsRepository(MainContext context) : ITimeSlotsRepository
 {
     public async Task AddTimeSlotAsync(StudentTimeSlot timeSlot)
     {
@@ -32,7 +32,7 @@ public class TimeSlotsRepository(MainContext context) : ITimeSlotsRepository
             .ToListAsync();
     }
 
-    public async Task<bool> CheckAvailabilityAsync(int day, TimeOnly startTime, TimeOnly endTime)
+    public async Task<bool> CheckAvailabilityAsync(int day, TimeSpan startTime, TimeSpan endTime)
     {
         var timeSlotDay = await context.LessonsTimeSlots.Where(x => x.Day == day)
             .ToListAsync();

@@ -35,10 +35,11 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
                     StudentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "date", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "date", nullable: false)
+                    StartTime = table.Column<TimeSpan>(type: "time without time zone", nullable: false),
+                    EndTime = table.Column<TimeSpan>(type: "time without time zone", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,8 +58,8 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Day = table.Column<int>(type: "integer", nullable: false),
-                    StartTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
-                    EndTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    StartTime = table.Column<TimeSpan>(type: "interval", nullable: false),
+                    EndTime = table.Column<TimeSpan>(type: "interval", nullable: false),
                     Duration = table.Column<TimeSpan>(type: "interval", nullable: false),
                     StudentId = table.Column<Guid>(type: "uuid", nullable: false)
                 },

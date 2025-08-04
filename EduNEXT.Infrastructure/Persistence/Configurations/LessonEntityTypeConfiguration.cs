@@ -25,5 +25,13 @@ public class LessonEntityTypeConfiguration : IEntityTypeConfiguration<Lesson>
             .WithMany(s => s.Lessons)
             .HasForeignKey(x => x.StudentId)
             .OnDelete(DeleteBehavior.SetNull);
+        
+        builder.Property(x => x.StartTime)
+            .HasColumnType("time without time zone") 
+            .IsRequired();
+
+        builder.Property(x => x.EndTime)
+            .HasColumnType("time without time zone")
+            .IsRequired();
     }
 }

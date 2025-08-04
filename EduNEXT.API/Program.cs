@@ -1,5 +1,8 @@
 using EduNEXT.Application;
 using EduNEXT.Infrastructure;
+using EduNEXT.Infrastructure.Adapters;
+using Hangfire;
+using Hangfire.PostgreSql;
 
 namespace EduNEXT.API;
 
@@ -15,7 +18,17 @@ public class Program
         builder.Services.AddOpenApi();
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddApplicationServices();
-        
+
+        builder.Services.AddHangfire(x =>
+        {
+            x.UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings();
+            
+            x.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("Hangfire"), new PostgreSqlStorageOptions
+            {
+                PrepareSchemaIfNecessary = true
+            });
+        });
         
         var app = builder.Build();
         
@@ -25,10 +38,24 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
+        
+        app.UseHangfireDashboard();
+        
+        using (var scope = app.Services.CreateScope())
+        {
+            var recurringJobs = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+            var scheduler = scope.ServiceProvider.GetRequiredService<LessonScheduler>();
+
+            recurringJobs.AddOrUpdate(
+                "monthly-lesson-scheduler",
+                () => scheduler.PlanLessonsForNextMonthAsync(CancellationToken.None),
+                "0 0 1 * *" // каждый месяц 1 числа в 00:00
+            );
+        }
         
         app.MapControllers();
 

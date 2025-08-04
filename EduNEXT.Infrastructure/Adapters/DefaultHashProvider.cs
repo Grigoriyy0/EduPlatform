@@ -6,23 +6,23 @@ namespace EduNEXT.Infrastructure.Adapters;
 
 public class DefaultHashProvider : IHashProvider
 {
-    private const int _keySize = 64;
+    private const int KeySize = 64;
     
-    private const int _iterations = 1000;
+    private const int Iterations = 1000;
     
-    private static readonly HashAlgorithmName _hashAlgorithm = HashAlgorithmName.SHA256;
+    private static readonly HashAlgorithmName HashAlgorithm = HashAlgorithmName.SHA256;
     
     public string ComputeHash(string password)
     {
-        var salt = RandomNumberGenerator.GetBytes(_keySize); 
+        var salt = RandomNumberGenerator.GetBytes(KeySize); 
         
         var hash = Rfc2898DeriveBytes
             .Pbkdf2(
                 Encoding.UTF8.GetBytes(password),
                 salt,
-                _iterations,
-                _hashAlgorithm,
-                _keySize
+                Iterations,
+                HashAlgorithm,
+                KeySize
                 );
         
         return $"{Convert.ToBase64String(salt)}:{Convert.ToBase64String(hash)}";
@@ -42,9 +42,9 @@ public class DefaultHashProvider : IHashProvider
         var computedHash = Rfc2898DeriveBytes.Pbkdf2(
             Encoding.UTF8.GetBytes(password),
             salt,
-            _iterations,
-            _hashAlgorithm,
-            _keySize);
+            Iterations,
+            HashAlgorithm,
+            KeySize);
 
         return CryptographicOperations.FixedTimeEquals(computedHash, storedHash);
     }
