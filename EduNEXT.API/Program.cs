@@ -1,5 +1,6 @@
 using EduNEXT.Application;
 using EduNEXT.Infrastructure;
+using EduNEXT.Infrastructure.Adapters;
 using Hangfire;
 using Hangfire.PostgreSql;
 
@@ -43,6 +44,18 @@ public class Program
         app.UseAuthorization();
         
         app.UseHangfireDashboard();
+        
+        using (var scope = app.Services.CreateScope())
+        {
+            var recurringJobs = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+            var scheduler = scope.ServiceProvider.GetRequiredService<LessonScheduler>();
+
+            recurringJobs.AddOrUpdate(
+                "monthly-lesson-scheduler",
+                () => scheduler.PlanLessonsForNextMonthAsync(CancellationToken.None),
+                "0 0 1 * *" // каждый месяц 1 числа в 00:00
+            );
+        }
         
         app.MapControllers();
 

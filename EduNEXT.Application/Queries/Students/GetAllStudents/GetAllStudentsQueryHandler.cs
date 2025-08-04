@@ -1,6 +1,5 @@
 ﻿using EduNEXT.Application.Dtos;
-using EduNEXT.Application.Ports;
-using EduNEXT.Core.Domain.Entities;
+using EduNEXT.Application.Ports; 
 using MediatR;
 
 namespace EduNEXT.Application.Queries.Students.GetAllStudents;
