@@ -11,11 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Primitives\Primitives.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Domain\Utils\" />
+      <ProjectReference Include="..\utils\Primitives\Primitives.csproj" />
     </ItemGroup>
 
 </Project>

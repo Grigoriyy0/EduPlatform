@@ -1,3 +1,4 @@
+using EduNEXT.API.Controllers;
 using EduNEXT.Application;
 using EduNEXT.Infrastructure;
 using EduNEXT.Infrastructure.Adapters;
@@ -56,6 +57,8 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
+        
+        app.AddSalaryEndpoints();
         
         app.UseCors("DefaultCors");
         
