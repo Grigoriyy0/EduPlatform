@@ -1,3 +1,4 @@
+using EduNEXT.API.Controllers;
 using EduNEXT.Application;
 using EduNEXT.Infrastructure;
 using EduNEXT.Infrastructure.Adapters;
@@ -30,6 +31,20 @@ public class Program
             });
         });
         
+        builder.Services.AddCors(opt =>
+            opt.AddPolicy("DefaultCors", config =>
+            {
+                config.AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials().SetIsOriginAllowed(origin =>
+                    {
+                        if (origin.ToLower().StartsWith("http://localhost")) return true;
+                        if (origin.ToLower().StartsWith("https://knigolub.dev")) return true;
+                        return false;
+                    });
+            })
+        );
+
         var app = builder.Build();
         
         if (app.Environment.IsDevelopment())
@@ -42,6 +57,10 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
+        
+        app.AddSalaryEndpoints();
+        
+        app.UseCors("DefaultCors");
         
         app.UseHangfireDashboard();
         
