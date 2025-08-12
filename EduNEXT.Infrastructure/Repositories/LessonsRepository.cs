@@ -65,8 +65,8 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
                 query = query.Where(l => l.Date >= weekStart && l.Date <= todayDate);
                 break;
             case "month":
-                var monthStart = new DateOnly(todayDate.Year, todayDate.Month, 1);
-                query = query.Where(l => l.Date >= monthStart && l.Date <= todayDate);
+                
+                query = query.Where(l => l.Date.Month == todayDate.Month && l.Date.Year == todayDate.Year);
                 break;
         }
         

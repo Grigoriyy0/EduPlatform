@@ -16,11 +16,7 @@ public static class SalaryEndpoints
                 .Include(l => l.Student)
                 .ToListAsync();
             
-            return lessonsThisMonth.Sum(t =>
-            {
-                if (t.Student != null) return t.Student.LessonPrice;
-                return 0;
-            });
+            return lessonsThisMonth.Sum(t => t.Student != null ? t.Student.LessonPrice : 0);
         });
     }
 }
