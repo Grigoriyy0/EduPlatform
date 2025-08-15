@@ -2,6 +2,8 @@
 using EduNEXT.Infrastructure.Adapters;
 using EduNEXT.Infrastructure.Persistence.Contexts;
 using EduNEXT.Infrastructure.Repositories;
+using MassTransit;
+using MassTransit.RabbitMqTransport.Topology;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -19,5 +21,28 @@ public static class DependencyInjection
         services.AddScoped<ITimeSlotsRepository, TimeSlotsRepository>();
         services.AddScoped<ILessonsRepository, LessonsRepository>();
         services.AddScoped<LessonScheduler>();
+
+        services.AddMassTransit(x =>
+        {
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.UseRawJsonSerializer();
+                
+                cfg.Host(configuration.GetConnectionString("RabbitMq"), h =>
+                {
+                    h.Username(configuration["RabbitMQ:Username"]!);
+                    h.Password(configuration["RabbitMQ:Password"]!);
+                });
+                
+                
+                cfg.Publish<Notification>(p =>
+                {
+                    p.Durable = true;
+                    p.BindQueue("telegram-notification-exchange",  "telegram-notification-queue");
+                });
+            });
+        });
+        
+        services.AddScoped<IPublisher, Publisher>();
     }
 }

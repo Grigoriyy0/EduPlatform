@@ -25,11 +25,11 @@ public class Program
             x.UseSimpleAssemblyNameTypeSerializer()
                 .UseRecommendedSerializerSettings();
             
-            x.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("Hangfire"), new PostgreSqlStorageOptions
-            {
-                PrepareSchemaIfNecessary = true
-            });
+            x.UsePostgreSqlStorage(opt => 
+                opt.UseNpgsqlConnection(builder.Configuration.GetConnectionString("Hangfire")));
         });
+        
+        builder.Services.AddHangfireServer();
         
         builder.Services.AddCors(opt =>
             opt.AddPolicy("DefaultCors", config =>
@@ -64,7 +64,14 @@ public class Program
         
         app.UseHangfireDashboard();
         
-        using (var scope = app.Services.CreateScope())
+        
+        RecurringJob.AddOrUpdate<LessonScheduler>(
+            "test", 
+            x => x.PlanLessonsForNextMonthAsync(default), 
+            "0 0 1 * *"
+            );
+        
+        /*using (var scope = app.Services.CreateScope())
         {
             var recurringJobs = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
             var scheduler = scope.ServiceProvider.GetRequiredService<LessonScheduler>();
@@ -74,7 +81,7 @@ public class Program
                 () => scheduler.PlanLessonsForNextMonthAsync(CancellationToken.None),
                 "0 0 1 * *" // каждый месяц 1 числа в 00:00
             );
-        }
+        } */
         
         app.MapControllers();
 

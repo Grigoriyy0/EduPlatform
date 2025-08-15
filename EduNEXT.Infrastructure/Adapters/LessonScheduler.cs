@@ -1,22 +1,32 @@
 ﻿using EduNEXT.Application.Ports;
 using EduNEXT.Core.Domain.Entities;
+using Hangfire;
+using Microsoft.Extensions.Logging;
 
 namespace EduNEXT.Infrastructure.Adapters;
 
 public class LessonScheduler
 {
     private readonly IStudentRepository _studentRepository;
-    
+    private readonly IPublisher _publisher;
     private readonly ILessonsRepository _lessonsRepository;
-
-    public LessonScheduler(IStudentRepository studentRepository, ILessonsRepository lessonsRepository)
+    private readonly ILogger<LessonScheduler> _logger;
+    
+    public LessonScheduler(
+        IStudentRepository studentRepository, 
+        ILessonsRepository lessonsRepository, 
+        IPublisher publisher, 
+        ILogger<LessonScheduler> logger)
     {
         _studentRepository = studentRepository;
         _lessonsRepository = lessonsRepository;
+        _publisher = publisher;
+        _logger = logger;
     }
 
     public async Task PlanLessonsForNextMonthAsync(CancellationToken cancellationToken = default)
     {
+        _logger.LogInformation("Planing lessons for next month");
         var students = await _studentRepository.GetAllStudentsAsync();
 
         var firstDay = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(1);
@@ -35,10 +45,19 @@ public class LessonScheduler
                     var lessonDate = DateOnly.FromDateTime(date);
                     
                     var lessonResult = Lesson.Create(lessonDate, slot.StartTime, slot.EndTime, student.StudentId);
-
+                    
+                    
                     if (lessonResult.IsSuccess)
                     {
                         await _lessonsRepository.CreateLessonAsync(lessonResult.Value);
+                        BackgroundJob.Schedule(() =>
+                                _publisher.SendToQueueAsync(
+                                    $"У вас был урок с {student.FirstName} {student.LastName}"
+                                ),
+                            new DateTimeOffset(date.Year, date.Month, date.Day,
+                                slot.EndTime.Hours, slot.EndTime.Minutes, 0,
+                                TimeSpan.Zero));
+
                     }
                 }
             }
