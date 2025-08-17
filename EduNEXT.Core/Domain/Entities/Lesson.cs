@@ -36,11 +36,13 @@ public class Lesson : Entity<Guid>
         IsCompleted = true;
     }
 
-    public void UpdateLessonsTime(Lesson lesson, DateOnly day, TimeSpan start, TimeSpan end)
+    public Lesson UpdateLessonsTime(Lesson lesson, DateOnly day, TimeSpan start, TimeSpan end)
     {
         lesson.Date = day;
         lesson.StartTime = start;
         lesson.EndTime = end;
+        
+        return lesson;
     }
     
     public TimeOnly GetStartTime() => TimeOnly.FromTimeSpan(StartTime);
