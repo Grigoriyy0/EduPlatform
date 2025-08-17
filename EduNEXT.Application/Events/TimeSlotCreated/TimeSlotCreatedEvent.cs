@@ -6,6 +6,8 @@ public class TimeSlotCreatedEvent : INotification
 {
     public Guid StudentId { get; set; }
     
+    public string StudentName { get; set; }
+    
     public int Day { get; set; }
     
     public TimeSpan StartTime { get; set; }

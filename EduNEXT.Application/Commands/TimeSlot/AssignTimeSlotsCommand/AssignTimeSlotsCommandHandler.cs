@@ -8,7 +8,10 @@ using Primitives;
 
 namespace EduNEXT.Application.Commands.TimeSlot.AssignTimeSlotsCommand;
 
-public class AssignTimeSlotsCommandHandler(ITimeSlotsRepository repository, IMediator mediator)
+public class AssignTimeSlotsCommandHandler(
+    ITimeSlotsRepository repository, 
+    IMediator mediator,
+    IStudentRepository studentRepository)
     : IRequestHandler<AssignTimeSlotsCommand, Result<StudentTimeSlot, Error>>
 {
     public async Task<Result<StudentTimeSlot, Error>> Handle(AssignTimeSlotsCommand request, CancellationToken cancellationToken)
@@ -32,12 +35,15 @@ public class AssignTimeSlotsCommandHandler(ITimeSlotsRepository repository, IMed
         {
             await repository.AddTimeSlotAsync(timeSlot.Value);
 
+            var student = await studentRepository.FindByIdAsync(request.StudentId);
+            
             await mediator.Publish(new TimeSlotCreatedEvent
                 {
-                    Day = request.Day,
+                    Day = request.Day != 7 ? request.Day : 0,
                     StartTime = request.StartTime,
                     EndTime = request.EndTime,
-                    StudentId = request.StudentId
+                    StudentId = request.StudentId,
+                    StudentName = student!.Firstname + student.Lastname,
                 },
                 cancellationToken);
         }

@@ -52,12 +52,11 @@ public class LessonScheduler
                         await _lessonsRepository.CreateLessonAsync(lessonResult.Value);
                         BackgroundJob.Schedule(() =>
                                 _publisher.SendToQueueAsync(
-                                    $"У вас был урок с {student.FirstName} {student.LastName}"
+                                    $"У вас был урок с {student.FirstName} {student.LastName} {lessonDate} в {slot.StartTime}?"
                                 ),
                             new DateTimeOffset(date.Year, date.Month, date.Day,
                                 slot.EndTime.Hours, slot.EndTime.Minutes, 0,
                                 TimeSpan.Zero));
-
                     }
                 }
             }
