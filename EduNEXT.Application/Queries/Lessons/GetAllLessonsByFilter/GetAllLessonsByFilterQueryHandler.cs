@@ -1,13 +1,13 @@
+using EduNEXT.Application.Dtos;
 using EduNEXT.Application.Ports;
-using EduNEXT.Core.Domain.Entities;
 using MediatR;
 
 namespace EduNEXT.Application.Queries.Lessons.GetAllLessonsByFilter;
 
 public class GetAllLessonsByFilterQueryHandler(ILessonsRepository repository)
-    : IRequestHandler<GetAllLessonsByFilterQuery, IList<Lesson>>
+    : IRequestHandler<GetAllLessonsByFilterQuery, IList<LessonDto>>
 {
-    public async Task<IList<Lesson>> Handle(GetAllLessonsByFilterQuery request, CancellationToken cancellationToken)
+    public async Task<IList<LessonDto>> Handle(GetAllLessonsByFilterQuery request, CancellationToken cancellationToken)
     {
         return await repository.GetLessonsAsync(request.CriteriaName);
     }
