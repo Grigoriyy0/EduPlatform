@@ -16,11 +16,9 @@ namespace EduNEXT.API.Controllers
         {
             var result =  await mediator.Send(command);
 
-            var val = result.TryGetValue(out var slot);
-
-            if (val)
+            if (result.IsSuccess)
             {
-                return Ok(slot);
+                return Ok(result.Value);
             }
             
             return BadRequest(result.Error);

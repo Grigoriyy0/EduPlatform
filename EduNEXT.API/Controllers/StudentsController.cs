@@ -3,27 +3,22 @@ using EduNEXT.Application.Commands.Student.DeleteStudentCommand;
 using EduNEXT.Application.Queries.Students.GetAllStudents;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using IPublisher = EduNEXT.Application.Ports.IPublisher;
 
 namespace EduNEXT.API.Controllers
 {
     [Route("api/students")]
     [ApiController]
-    public class StudentsController(IMediator mediator, IPublisher publisher) : ControllerBase
+    public class StudentsController(IMediator mediator) : ControllerBase
     {
-        private readonly Application.Ports.IPublisher _publisher = publisher;
-        
         [HttpPost]
         [Route("add/")]
         public async Task<IActionResult> AddStudent([FromBody] AddStudentCommand command)
         {
             var result = await mediator.Send(command);
-            
-            var value = result.TryGetValue(out var student);
 
-            if (value)
+            if (result.IsSuccess)
             {
-                return Ok(student);
+                return Ok(result.Value);
             }
             
             return BadRequest(result.Error);
@@ -51,14 +46,6 @@ namespace EduNEXT.API.Controllers
         public async Task<IActionResult> GetAllStudents()
         {
             return Ok(await mediator.Send(new GetAllStudentsQuery()));
-        }
-
-        [HttpPost]
-        [Route("test/")]
-        public async Task<IActionResult> Test(string message)
-        {
-            await _publisher.SendToQueueAsync(message);
-            return Ok();
         }
     }
 }
