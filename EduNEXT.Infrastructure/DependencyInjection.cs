@@ -1,9 +1,9 @@
 ﻿using EduNEXT.Application.Ports;
 using EduNEXT.Infrastructure.Adapters;
+using EduNEXT.Infrastructure.Messaging;
 using EduNEXT.Infrastructure.Persistence.Contexts;
 using EduNEXT.Infrastructure.Repositories;
 using MassTransit;
-using MassTransit.RabbitMqTransport.Topology;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;

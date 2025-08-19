@@ -24,7 +24,7 @@ public class ChangeLessonCommandHandler(ILessonsRepository repository)
         
         var lesson = await repository.GetLessonAsync(request.LessonId);
         
-        lesson!.UpdateLessonsTime(lesson, request.Date, request.StartTime, request.EndTime);
+        lesson = lesson!.UpdateLessonsTime(lesson, request.Date, request.StartTime, request.EndTime);
         
         await repository.UpdateLessonAsync(lesson);
         

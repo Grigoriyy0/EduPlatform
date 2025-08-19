@@ -66,22 +66,10 @@ public class Program
         
         
         RecurringJob.AddOrUpdate<LessonScheduler>(
-            "test", 
-            x => x.PlanLessonsForNextMonthAsync(default), 
+            "monthly-lesson-scheduler", 
+            x => x.PlanLessonsForNextMonthAsync(CancellationToken.None), 
             "0 0 1 * *"
             );
-        
-        /*using (var scope = app.Services.CreateScope())
-        {
-            var recurringJobs = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
-            var scheduler = scope.ServiceProvider.GetRequiredService<LessonScheduler>();
-
-            recurringJobs.AddOrUpdate(
-                "monthly-lesson-scheduler",
-                () => scheduler.PlanLessonsForNextMonthAsync(CancellationToken.None),
-                "0 0 1 * *" // каждый месяц 1 числа в 00:00
-            );
-        } */
         
         app.MapControllers();
 

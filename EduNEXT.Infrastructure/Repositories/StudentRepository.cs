@@ -40,23 +40,26 @@ public sealed class StudentRepository(MainContext context) : IStudentRepository
 
     public async Task<List<StudentDto>> GetAllStudentsAsync()
     {
-        var students = await context.Students.AsNoTracking().Include(s => s.LessonTimeSlots).ToListAsync();
-        
-        return students.Select(x => new StudentDto
-        {
-            Email = x.Email.Value,
-            FirstName = x.Firstname,
-            LastName = x.Lastname,
-            LessonPrice = x.LessonPrice,
-            PaidLessonsCount = x.PaidLessonsCount,
-            SubscribedLessonsCount = x.SubscribedLessonsCount,
-            StudentId = x.Id,
-            TimeSlots = x.LessonTimeSlots.Select(y => new TimeSlotDto
+        return await context.Students
+            .AsNoTracking()
+            .Select(x => new StudentDto
             {
-                Day = y.Day,
-                StartTime = y.StartTime,
-                EndTime = y.EndTime,
-            }).ToList()
-        }).ToList();
+                StudentId = x.Id,
+                FirstName = x.Firstname,
+                LastName = x.Lastname,
+                Email = x.Email.Value,
+                LessonPrice = x.LessonPrice,
+                PaidLessonsCount = x.PaidLessonsCount,
+                SubscribedLessonsCount = x.SubscribedLessonsCount,
+                TimeSlots = x.LessonTimeSlots
+                    .Select(y => new TimeSlotDto
+                    {
+                        Day = y.Day,
+                        StartTime = y.StartTime,
+                        EndTime = y.EndTime
+                    })
+                    .ToList()
+            })
+            .ToListAsync();
     }
 }

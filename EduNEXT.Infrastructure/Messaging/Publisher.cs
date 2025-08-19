@@ -1,7 +1,7 @@
 ﻿using EduNEXT.Application.Ports;
 using MassTransit;
 
-namespace EduNEXT.Infrastructure.Adapters;
+namespace EduNEXT.Infrastructure.Messaging;
 
 public class Publisher : IPublisher
 {

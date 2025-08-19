@@ -1,3 +1,4 @@
+using EduNEXT.Application.Dtos;
 using EduNEXT.Core.Domain.Entities;
 
 namespace EduNEXT.Application.Ports;
@@ -14,5 +15,5 @@ public interface ILessonsRepository
     
     Task<bool> CheckAvailableLessonAsync(DateOnly date, TimeSpan start, TimeSpan end);
     
-    Task<List<Lesson>> GetLessonsAsync(string timePeriod);
+    Task<List<LessonDto>> GetLessonsAsync(string timePeriod);
 }

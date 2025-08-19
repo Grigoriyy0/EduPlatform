@@ -1,3 +1,4 @@
+using EduNEXT.Application.Dtos;
 using EduNEXT.Application.Ports;
 using EduNEXT.Core.Domain.Entities;
 using EduNEXT.Infrastructure.Persistence.Contexts;
@@ -48,28 +49,47 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
         return false;
     }
 
-    public Task<List<Lesson>> GetLessonsAsync(string timePeriod)
+    public Task<List<LessonDto>> GetLessonsAsync(string timePeriod)
     {
-        var todayDate = DateOnly.FromDateTime(DateTime.Now);
-        
-        var query = context.Lessons.AsQueryable();
+        var today = DateOnly.FromDateTime(DateTime.Now);
+
+        DateOnly startDate, endDate;
 
         switch (timePeriod.ToLower())
         {
             case "day":
-                var dayStart = todayDate;
-                query = query.Where(l => l.Date >= dayStart);
+                startDate = today;
+                endDate = today;
                 break;
             case "week":
-                var weekStart = todayDate.AddDays(-(int)todayDate.DayOfWeek);
-                query = query.Where(l => l.Date >= weekStart && l.Date <= todayDate);
+                startDate = today.AddDays(-(int)today.DayOfWeek);
+                endDate = today;
                 break;
             case "month":
-                
-                query = query.Where(l => l.Date.Month == todayDate.Month && l.Date.Year == todayDate.Year);
+                startDate = new DateOnly(today.Year, today.Month, 1);
+                endDate = startDate.AddMonths(1).AddDays(-1);
+                break;
+            default:
+                startDate = DateOnly.MinValue;
+                endDate = today;
                 break;
         }
-        
-        return query.OrderByDescending(x => x.Date).ToListAsync();
+
+        return context.Lessons
+            .AsNoTracking()
+            .Where(l => l.Date >= startDate && l.Date <= endDate)
+            .OrderByDescending(l => l.Date)
+            .Select(l => new LessonDto
+            {
+                LessonId = l.Id,
+                Date = l.Date,
+                StartTime = l.StartTime,
+                EndTime = l.EndTime,
+                IsCompleted = l.IsCompleted,
+                StudentName = l.Student!.Firstname + " " + l.Student.Lastname
+            })
+            .ToListAsync();
     }
+
+
 }

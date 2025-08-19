@@ -1,6 +1,5 @@
 using CSharpFunctionalExtensions;
 using EduNEXT.Application.Ports;
-using EduNEXT.Core.Domain.Entities;
 using EduNEXT.Core.Domain.Errors;
 using MediatR;
 using Primitives;
@@ -8,9 +7,9 @@ using Primitives;
 namespace EduNEXT.Application.Commands.Lessons.ChangeLessonsStatus;
 
 public class ChangeLessonStatusCommandHandler(ILessonsRepository repository, IStudentRepository studentRepository)
-    : IRequestHandler<ChangeLessonStatusCommand, Result<Lesson, Error>>
+    : IRequestHandler<ChangeLessonStatusCommand, Result<Unit, Error>>
 {
-    public async Task<Result<Lesson, Error>> Handle(ChangeLessonStatusCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Unit, Error>> Handle(ChangeLessonStatusCommand request, CancellationToken cancellationToken)
     {
         var lesson = await repository.GetLessonAsync(request.LessonId);
 
@@ -37,6 +36,6 @@ public class ChangeLessonStatusCommandHandler(ILessonsRepository repository, ISt
         await studentRepository.UpdateAsync(student!);
         await repository.UpdateLessonAsync(lesson);
         
-        return lesson;
+        return Unit.Value;
     }
 }

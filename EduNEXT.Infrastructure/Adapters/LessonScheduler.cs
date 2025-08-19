@@ -56,7 +56,7 @@ public class LessonScheduler
                                 ),
                             new DateTimeOffset(date.Year, date.Month, date.Day,
                                 slot.EndTime.Hours, slot.EndTime.Minutes, 0,
-                                TimeSpan.Zero));
+                                TimeSpan.FromHours(4)));
                     }
                 }
             }
