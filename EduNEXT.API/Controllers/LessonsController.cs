@@ -1,7 +1,7 @@
-using EduNEXT.Application.Commands.Lessons.CancelLessonCommand;
-using EduNEXT.Application.Commands.Lessons.ChangeLesson;
-using EduNEXT.Application.Commands.Lessons.ChangeLessonsStatus;
-using EduNEXT.Application.Queries.Lessons.GetAllLessonsByFilter;
+using EduNEXT.Application.UseCases.Commands.Lessons.CancelLessonCommand;
+using EduNEXT.Application.UseCases.Commands.Lessons.ChangeLesson;
+using EduNEXT.Application.UseCases.Commands.Lessons.ChangeLessonsStatus;
+using EduNEXT.Application.UseCases.Queries.Lessons.GetAllLessonsByFilter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

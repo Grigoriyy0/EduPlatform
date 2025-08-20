@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Commands\TimeSlot\" />
+      <Folder Include="UseCases\" />
     </ItemGroup>
 
 </Project>

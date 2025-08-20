@@ -1,8 +1,8 @@
 ﻿using EduNEXT.Application.Ports;
 using EduNEXT.Infrastructure.Adapters;
+using EduNEXT.Infrastructure.Adapters.Repositories;
 using EduNEXT.Infrastructure.Messaging;
 using EduNEXT.Infrastructure.Persistence.Contexts;
-using EduNEXT.Infrastructure.Repositories;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +20,7 @@ public static class DependencyInjection
         services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<ITimeSlotsRepository, TimeSlotsRepository>();
         services.AddScoped<ILessonsRepository, LessonsRepository>();
+        services.AddScoped<ISalaryRepository, SalaryRepository>();
         services.AddScoped<LessonScheduler>();
 
         services.AddMassTransit(x =>
