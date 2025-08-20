@@ -2,7 +2,7 @@ using CSharpFunctionalExtensions;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.Commands.Student.DeleteStudentCommand;
+namespace EduNEXT.Application.UseCases.Commands.Student.DeleteStudentCommand;
 
 public class DeleteStudentCommand : IRequest<UnitResult<Error>>
 {

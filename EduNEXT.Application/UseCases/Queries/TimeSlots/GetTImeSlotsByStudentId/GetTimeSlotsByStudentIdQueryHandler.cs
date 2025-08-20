@@ -2,7 +2,7 @@ using EduNEXT.Application.Ports;
 using EduNEXT.Core.Domain.Entities;
 using MediatR;
 
-namespace EduNEXT.Application.Queries.TimeSlots.GetTImeSlotsByStudentId;
+namespace EduNEXT.Application.UseCases.Queries.TimeSlots.GetTImeSlotsByStudentId;
 
 public class GetTimeSlotsByStudentIdQueryHandler(ITimeSlotsRepository repository)
     : IRequestHandler<GetTimeSlotsByStudentIdQuery, List<StudentTimeSlot>>

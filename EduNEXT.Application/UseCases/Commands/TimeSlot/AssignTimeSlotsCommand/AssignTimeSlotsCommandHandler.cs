@@ -1,12 +1,12 @@
 using CSharpFunctionalExtensions;
-using EduNEXT.Application.Events.TimeSlotCreated;
 using EduNEXT.Application.Ports;
+using EduNEXT.Application.UseCases.Events.TimeSlotCreated;
 using EduNEXT.Core.Domain.Entities;
 using EduNEXT.Core.Domain.Errors;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.Commands.TimeSlot.AssignTimeSlotsCommand;
+namespace EduNEXT.Application.UseCases.Commands.TimeSlot.AssignTimeSlotsCommand;
 
 public class AssignTimeSlotsCommandHandler(
     ITimeSlotsRepository repository, 

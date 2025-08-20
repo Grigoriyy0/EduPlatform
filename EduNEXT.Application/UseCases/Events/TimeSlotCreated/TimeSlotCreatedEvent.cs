@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace EduNEXT.Application.Events.TimeSlotCreated;
+namespace EduNEXT.Application.UseCases.Events.TimeSlotCreated;
 
 public class TimeSlotCreatedEvent : INotification
 {

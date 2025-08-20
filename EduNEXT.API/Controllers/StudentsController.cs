@@ -1,6 +1,6 @@
-using EduNEXT.Application.Commands.Student.AddStudentCommand;
-using EduNEXT.Application.Commands.Student.DeleteStudentCommand;
-using EduNEXT.Application.Queries.Students.GetAllStudents;
+using EduNEXT.Application.UseCases.Commands.Student.AddStudentCommand;
+using EduNEXT.Application.UseCases.Commands.Student.DeleteStudentCommand;
+using EduNEXT.Application.UseCases.Queries.Students.GetAllStudents;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

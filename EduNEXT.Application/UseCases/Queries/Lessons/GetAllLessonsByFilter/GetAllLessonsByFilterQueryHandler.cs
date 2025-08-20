@@ -2,7 +2,7 @@ using EduNEXT.Application.Dtos;
 using EduNEXT.Application.Ports;
 using MediatR;
 
-namespace EduNEXT.Application.Queries.Lessons.GetAllLessonsByFilter;
+namespace EduNEXT.Application.UseCases.Queries.Lessons.GetAllLessonsByFilter;
 
 public class GetAllLessonsByFilterQueryHandler(ILessonsRepository repository)
     : IRequestHandler<GetAllLessonsByFilterQuery, IList<LessonDto>>

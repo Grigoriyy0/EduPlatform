@@ -1,6 +1,6 @@
-using EduNEXT.Application.Commands.TimeSlot.AssignTimeSlotsCommand;
-using EduNEXT.Application.Queries.TimeSlots.GetAllTimeSlots;
-using EduNEXT.Application.Queries.TimeSlots.GetTImeSlotsByStudentId;
+using EduNEXT.Application.UseCases.Commands.TimeSlot.AssignTimeSlotsCommand;
+using EduNEXT.Application.UseCases.Queries.TimeSlots.GetAllTimeSlots;
+using EduNEXT.Application.UseCases.Queries.TimeSlots.GetTImeSlotsByStudentId;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

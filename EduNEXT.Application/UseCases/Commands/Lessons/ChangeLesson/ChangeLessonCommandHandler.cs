@@ -5,7 +5,7 @@ using EduNEXT.Core.Domain.Errors;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.Commands.Lessons.ChangeLesson;
+namespace EduNEXT.Application.UseCases.Commands.Lessons.ChangeLesson;
 
 public class ChangeLessonCommandHandler(ILessonsRepository repository)
     : IRequestHandler<ChangeLessonCommand, Result<Lesson, Error>>

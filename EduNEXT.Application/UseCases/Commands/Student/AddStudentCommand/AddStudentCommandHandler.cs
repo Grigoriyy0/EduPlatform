@@ -3,7 +3,7 @@ using EduNEXT.Application.Ports;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.Commands.Student.AddStudentCommand;
+namespace EduNEXT.Application.UseCases.Commands.Student.AddStudentCommand;
 
 public class AddStudentCommandHandler(IMediator mediator, 
     IHashProvider hashProvider, 

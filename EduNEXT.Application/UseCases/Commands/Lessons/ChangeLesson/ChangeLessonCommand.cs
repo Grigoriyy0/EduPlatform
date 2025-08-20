@@ -3,7 +3,7 @@ using EduNEXT.Core.Domain.Entities;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.Commands.Lessons.ChangeLesson;
+namespace EduNEXT.Application.UseCases.Commands.Lessons.ChangeLesson;
 
 public class ChangeLessonCommand : IRequest<Result<Lesson, Error>>
 {

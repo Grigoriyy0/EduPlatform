@@ -4,7 +4,7 @@ using Hangfire;
 using MediatR;
 using IPublisher = EduNEXT.Application.Ports.IPublisher;
 
-namespace EduNEXT.Application.Events.TimeSlotCreated;
+namespace EduNEXT.Application.UseCases.Events.TimeSlotCreated;
 
 public class TimeSlotCreatedEventHandler(
     ILessonsRepository lessonsRepository, 
@@ -43,7 +43,7 @@ public class TimeSlotCreatedEventHandler(
                             ),
                         new DateTimeOffset(date.Year, date.Month, date.Day,
                             end.Hours, end.Minutes, 0,
-                            TimeSpan.Zero));
+                            TimeSpan.FromHours(4)));
                 }
             }
             

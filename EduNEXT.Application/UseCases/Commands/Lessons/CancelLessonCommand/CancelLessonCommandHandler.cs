@@ -4,7 +4,7 @@ using EduNEXT.Core.Domain.Errors;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.Commands.Lessons.CancelLessonCommand;
+namespace EduNEXT.Application.UseCases.Commands.Lessons.CancelLessonCommand;
 
 public class CancelLessonCommandHandler(ILessonsRepository repository)
     : IRequestHandler<CancelLessonCommand, UnitResult<Error>>

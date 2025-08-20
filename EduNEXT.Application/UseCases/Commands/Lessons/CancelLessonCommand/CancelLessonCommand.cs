@@ -2,7 +2,7 @@ using CSharpFunctionalExtensions;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.Commands.Lessons.CancelLessonCommand;
+namespace EduNEXT.Application.UseCases.Commands.Lessons.CancelLessonCommand;
 
 public class CancelLessonCommand : IRequest<UnitResult<Error>>
 {

@@ -2,7 +2,7 @@ using CSharpFunctionalExtensions;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.Commands.Student.AddStudentCommand;
+namespace EduNEXT.Application.UseCases.Commands.Student.AddStudentCommand;
 
 public class AddStudentCommand : IRequest<Result<Core.Domain.Entities.Student, Error>>
 {

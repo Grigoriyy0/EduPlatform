@@ -1,7 +1,7 @@
 using EduNEXT.Core.Domain.Entities;
 using MediatR;
 
-namespace EduNEXT.Application.Queries.TimeSlots.GetAllTimeSlots;
+namespace EduNEXT.Application.UseCases.Queries.TimeSlots.GetAllTimeSlots;
 
 public class GetAllTimeSlotsQuery : IRequest<List<StudentTimeSlot>>
 {
