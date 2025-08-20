@@ -20,6 +20,7 @@ public static class DependencyInjection
         services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<ITimeSlotsRepository, TimeSlotsRepository>();
         services.AddScoped<ILessonsRepository, LessonsRepository>();
+        services.AddScoped<ISalaryRepository, SalaryRepository>();
         services.AddScoped<LessonScheduler>();
 
         services.AddMassTransit(x =>
