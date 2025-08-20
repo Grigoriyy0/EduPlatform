@@ -1,4 +1,3 @@
-using EduNEXT.API.Controllers;
 using EduNEXT.Application;
 using EduNEXT.Infrastructure;
 using EduNEXT.Infrastructure.Adapters;
@@ -58,12 +57,9 @@ public class Program
 
         app.UseAuthorization();
         
-        app.AddSalaryEndpoints();
-        
         app.UseCors("DefaultCors");
         
         app.UseHangfireDashboard();
-        
         
         RecurringJob.AddOrUpdate<LessonScheduler>(
             "monthly-lesson-scheduler", 
