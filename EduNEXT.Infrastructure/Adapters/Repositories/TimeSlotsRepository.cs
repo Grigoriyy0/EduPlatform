@@ -3,7 +3,7 @@ using EduNEXT.Core.Domain.Entities;
 using EduNEXT.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace EduNEXT.Infrastructure.Repositories;
+namespace EduNEXT.Infrastructure.Adapters.Repositories;
 
 public sealed class TimeSlotsRepository(MainContext context) : ITimeSlotsRepository
 {

@@ -1,8 +1,8 @@
 ﻿using EduNEXT.Application.Ports;
 using EduNEXT.Infrastructure.Adapters;
+using EduNEXT.Infrastructure.Adapters.Repositories;
 using EduNEXT.Infrastructure.Messaging;
 using EduNEXT.Infrastructure.Persistence.Contexts;
-using EduNEXT.Infrastructure.Repositories;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
