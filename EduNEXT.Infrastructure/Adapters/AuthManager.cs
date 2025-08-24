@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using EduNEXT.Application.Ports;
 using EduNEXT.Core.Domain.Entities;
+using EduNEXT.Core.Domain.ValueObjects;
 using EduNEXT.Infrastructure.Options;
 using EduNEXT.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -27,8 +28,10 @@ public class AuthManager : IAuthManager
         {
             return null;
         }
+
+        var normalizedEmail = EmailAddress.Create(email);
         
-        var admin = await _context.Admins.FirstOrDefaultAsync(adm => adm.Email.Value ==  email);
+        var admin = await _context.Admins.FirstOrDefaultAsync(adm => adm.Email.Value == normalizedEmail.Value.Value);
 
         if (!_hashProvider.VerifyHash(password, admin!.PasswordHash))
         {

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduNEXT.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20250824203145_AddTable_Admin")]
-    partial class AddTable_Admin
+    [Migration("20250824212015_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,10 +30,6 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -141,6 +137,30 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("LessonsTimeSlots");
+                });
+
+            modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Admin", b =>
+                {
+                    b.OwnsOne("EduNEXT.Core.Domain.ValueObjects.EmailAddress", "Email", b1 =>
+                        {
+                            b1.Property<Guid>("AdminId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Email");
+
+                            b1.HasKey("AdminId");
+
+                            b1.ToTable("Admins");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AdminId");
+                        });
+
+                    b.Navigation("Email")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Lesson", b =>

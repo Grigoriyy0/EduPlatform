@@ -10,6 +10,11 @@ public static class DbInitializer
 {
     public static void Initialize(this MainContext context, IConfiguration config, IHashProvider hashProvider)
     {
+        if (context.Admins.Any())
+        {
+            return;
+        }
+        
         var adminName = config["Admin:Name"];
         var adminPassword = config["Admin:Password"];
         

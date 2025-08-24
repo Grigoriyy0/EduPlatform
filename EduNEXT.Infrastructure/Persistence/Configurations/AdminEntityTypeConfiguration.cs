@@ -10,13 +10,16 @@ public class AdminEntityTypeConfiguration : IEntityTypeConfiguration<Admin>
     public void Configure(EntityTypeBuilder<Admin> builder)
     {
         builder.HasKey(x => x.Id);
-
-        builder.Property(x => x.Email).HasConversion(
-            e => e.Value, 
-            e => EmailAddress.Create(e).Value)
-            .IsRequired();
         
-        builder.Property(x => x.PasswordHash)
-            .IsRequired();
+        builder.OwnsOne(x => x.Email, opt =>
+        {
+            opt.Property(x => x.Value)
+                .HasColumnName("Email")
+                .IsRequired();
+
+            opt.WithOwner();
+        });
+        
+        builder.Property(x => x.PasswordHash).IsRequired();
     }
 }
