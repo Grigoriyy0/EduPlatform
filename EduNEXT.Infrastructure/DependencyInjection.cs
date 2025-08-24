@@ -2,6 +2,7 @@
 using EduNEXT.Infrastructure.Adapters;
 using EduNEXT.Infrastructure.Adapters.Repositories;
 using EduNEXT.Infrastructure.Messaging;
+using EduNEXT.Infrastructure.Options;
 using EduNEXT.Infrastructure.Persistence.Contexts;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,11 @@ public static class DependencyInjection
         services.AddScoped<ILessonsRepository, LessonsRepository>();
         services.AddScoped<ISalaryRepository, SalaryRepository>();
         services.AddScoped<LessonScheduler>();
-
+        services.Configure<AuthManagerOptions>(configuration.GetSection("AuthOptions"));
+        services.Configure<TokenOptions>(configuration.GetSection("TokenOptions"));
+        services.AddScoped<IAuthManager, AuthManager>();
+        services.AddScoped<ITokenProducer, TokenProducer>();
+        
         services.AddMassTransit(x =>
         {
             x.UsingRabbitMq((context, cfg) =>

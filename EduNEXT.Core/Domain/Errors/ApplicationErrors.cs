@@ -20,4 +20,9 @@ public static class ApplicationErrors
     {
         public static readonly Error StudentIsNotExists = GeneralErrors.ValueIsIncorrect(2, "student.notExists");
     }
+
+    public static class Auth
+    {
+        public static readonly Error UserIsNotAdmin  = GeneralErrors.ValueIsIncorrect(2, "auth.notAdmin");
+    }
 }

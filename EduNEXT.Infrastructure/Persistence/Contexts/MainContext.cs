@@ -12,6 +12,8 @@ public class MainContext : DbContext
     public DbSet<Student> Students { get; set; }
     
     public DbSet<Lesson> Lessons { get; set; }
+    
+    public DbSet<Admin> Admins { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
