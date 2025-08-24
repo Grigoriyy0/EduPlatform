@@ -21,11 +21,16 @@
       </PackageReference>
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.5" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\EduNEXT.Application\EduNEXT.Application.csproj" />
       <ProjectReference Include="..\EduNEXT.Core\EduNEXT.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Persistence\Migrations\" />
     </ItemGroup>
 
 </Project>

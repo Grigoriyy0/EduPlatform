@@ -1,6 +1,9 @@
 using EduNEXT.Application;
+using EduNEXT.Application.Ports;
 using EduNEXT.Infrastructure;
 using EduNEXT.Infrastructure.Adapters;
+using EduNEXT.Infrastructure.Persistence.Contexts;
+using EduNEXT.Infrastructure.Persistence.Utils;
 using Hangfire;
 using Hangfire.PostgreSql;
 
@@ -51,6 +54,14 @@ public class Program
             app.MapOpenApi();
             app.UseSwagger();
             app.UseSwaggerUI();
+        }
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<MainContext>();
+            var hashProvider = scope.ServiceProvider.GetRequiredService<IHashProvider>();
+            
+            context.Initialize(builder.Configuration, hashProvider);
         }
         
         app.UseHttpsRedirection();

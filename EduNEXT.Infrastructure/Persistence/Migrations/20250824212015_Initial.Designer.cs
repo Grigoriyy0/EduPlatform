@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduNEXT.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20250727022812_Initial")]
+    [Migration("20250824212015_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,25 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Admin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Admins");
+                });
 
             modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Lesson", b =>
                 {
@@ -118,6 +137,30 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("LessonsTimeSlots");
+                });
+
+            modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Admin", b =>
+                {
+                    b.OwnsOne("EduNEXT.Core.Domain.ValueObjects.EmailAddress", "Email", b1 =>
+                        {
+                            b1.Property<Guid>("AdminId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Email");
+
+                            b1.HasKey("AdminId");
+
+                            b1.ToTable("Admins");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AdminId");
+                        });
+
+                    b.Navigation("Email")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Lesson", b =>

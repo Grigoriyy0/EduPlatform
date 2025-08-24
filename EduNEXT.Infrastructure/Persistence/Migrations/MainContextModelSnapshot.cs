@@ -22,6 +22,25 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Admin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Admins");
+                });
+
             modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Lesson", b =>
                 {
                     b.Property<Guid>("Id")
@@ -115,6 +134,30 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("LessonsTimeSlots");
+                });
+
+            modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Admin", b =>
+                {
+                    b.OwnsOne("EduNEXT.Core.Domain.ValueObjects.EmailAddress", "Email", b1 =>
+                        {
+                            b1.Property<Guid>("AdminId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Email");
+
+                            b1.HasKey("AdminId");
+
+                            b1.ToTable("Admins");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AdminId");
+                        });
+
+                    b.Navigation("Email")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EduNEXT.Core.Domain.Entities.Lesson", b =>
