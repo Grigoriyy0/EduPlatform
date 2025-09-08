@@ -29,9 +29,9 @@ public class TokenProducer : ITokenProducer
 
     private static IEnumerable<Claim> GetClaims(Admin admin)
     {
-        yield return new Claim(ClaimTypes.Name, admin.Name);
-        yield return new Claim(ClaimTypes.Email, admin.Email.ToString());
-        yield return new Claim(ClaimTypes.NameIdentifier, admin.Id.ToString());
+        yield return new Claim("name", admin.Name);
+        yield return new Claim("email", admin.Email.ToString());
+        yield return new Claim("id", admin.Id.ToString());
     }
 
     private string InternalProduce(IEnumerable<Claim> claims)
