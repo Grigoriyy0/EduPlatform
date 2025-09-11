@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduNEXT.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController(IMediator mediator) : ControllerBase
     {
         [HttpPost]
-        [Route("/api/auth/login")]
+        [Route("signin/")]
         public async Task<IActionResult> Auth([FromBody] SignInCommand request)
         {
             var res = await mediator.Send(request);
