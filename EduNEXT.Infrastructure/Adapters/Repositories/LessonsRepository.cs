@@ -88,4 +88,25 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
             })
             .ToListAsync();
     }
+
+    public async Task<List<LessonDto>> GetPendingLessonsAsync()
+    {
+        var today =  DateOnly.FromDateTime(DateTime.Now);
+        
+        return await context.Lessons
+            .AsNoTracking()
+            .Where(l => l.Date <= today && !l.IsCompleted)
+            .OrderBy(l => l.Date)
+            .Select(l => new LessonDto
+            {
+                LessonId = l.Id,
+                Date = l.Date,
+                StartTime = l.StartTime,
+                EndTime = l.EndTime,
+                IsCompleted = l.IsCompleted,
+                StudentName = l.Student!.Firstname + " " + l.Student.Lastname,
+                LessonPrice = l.Student!.LessonPrice
+            })
+            .ToListAsync();
+    }
 }

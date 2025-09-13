@@ -1,3 +1,4 @@
+using EduNEXT.Application.UseCases.Queries.Lessons.GetAnalyticsData;
 using EduNEXT.Application.UseCases.Queries.Salary.GetAnalyticsData;
 using EduNEXT.Application.UseCases.Queries.Students.GetAnalyticsData;
 using MediatR;
@@ -27,7 +28,7 @@ public class AnalyticsController(IMediator mediator) : ControllerBase
     [Route("lessons/")]
     public async Task<IActionResult> GetLessonAnalytics()
     {
-        throw new NotImplementedException();
+        return Ok(await mediator.Send(new GetLessonsAnalyticsQuery()));
     }
     
     
