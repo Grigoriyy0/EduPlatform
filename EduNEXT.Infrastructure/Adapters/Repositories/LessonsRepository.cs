@@ -10,21 +10,21 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
 {
     public async Task CreateLessonAsync(Lesson lesson)
     {
-        await  context.Lessons.AddAsync(lesson);
+        await context.Lessons.AddAsync(lesson);
         await context.SaveChangesAsync();
     }
 
     public async Task DeleteLessonAsync(Lesson lesson)
     {
         context.Lessons.Remove(lesson);
-        
+
         await context.SaveChangesAsync();
     }
 
     public Task UpdateLessonAsync(Lesson lesson)
     {
         context.Lessons.Update(lesson);
-        
+
         return context.SaveChangesAsync();
     }
 
@@ -39,13 +39,9 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
             .ToListAsync();
 
         foreach (var dayLesson in daysLessons)
-        {
             if (start < dayLesson.EndTime && dayLesson.StartTime < end)
-            {
                 return true;
-            }
-        }
-        
+
         return false;
     }
 
@@ -62,8 +58,9 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
                 endDate = today;
                 break;
             case "week":
-                startDate = today.AddDays(-(int)today.DayOfWeek);
-                endDate = today;
+                var diff = (7 + (DateTime.Today.DayOfWeek - DayOfWeek.Monday)) % 7;
+                startDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-1 * diff).Date);
+                endDate = startDate.AddDays(6);
                 break;
             case "month":
                 startDate = new DateOnly(today.Year, today.Month, 1);
@@ -78,7 +75,7 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
         return context.Lessons
             .AsNoTracking()
             .Where(l => l.Date >= startDate && l.Date <= endDate)
-            .OrderByDescending(l => l.Date)
+            .OrderBy(l => l.Date)
             .Select(l => new LessonDto
             {
                 LessonId = l.Id,
@@ -86,10 +83,30 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
                 StartTime = l.StartTime,
                 EndTime = l.EndTime,
                 IsCompleted = l.IsCompleted,
-                StudentName = l.Student!.Firstname + " " + l.Student.Lastname
+                StudentName = l.Student!.Firstname + " " + l.Student.Lastname,
+                LessonPrice = l.Student!.LessonPrice
             })
             .ToListAsync();
     }
 
-
+    public async Task<List<LessonDto>> GetPendingLessonsAsync()
+    {
+        var today =  DateOnly.FromDateTime(DateTime.Now);
+        
+        return await context.Lessons
+            .AsNoTracking()
+            .Where(l => l.Date <= today && !l.IsCompleted)
+            .OrderBy(l => l.Date)
+            .Select(l => new LessonDto
+            {
+                LessonId = l.Id,
+                Date = l.Date,
+                StartTime = l.StartTime,
+                EndTime = l.EndTime,
+                IsCompleted = l.IsCompleted,
+                StudentName = l.Student!.Firstname + " " + l.Student.Lastname,
+                LessonPrice = l.Student!.LessonPrice
+            })
+            .ToListAsync();
+    }
 }

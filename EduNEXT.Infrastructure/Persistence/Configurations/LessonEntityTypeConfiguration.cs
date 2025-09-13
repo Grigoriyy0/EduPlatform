@@ -17,15 +17,7 @@ public class LessonEntityTypeConfiguration : IEntityTypeConfiguration<Lesson>
         builder.Property(x => x.EndTime)
             .HasColumnType("date")
             .IsRequired();
-        
-        builder.Property(x => x.StudentId)
-            .IsRequired();
-        
-        builder.HasOne(x => x.Student)
-            .WithMany(s => s.Lessons)
-            .HasForeignKey(x => x.StudentId)
-            .OnDelete(DeleteBehavior.SetNull);
-        
+
         builder.Property(x => x.StartTime)
             .HasColumnType("time without time zone") 
             .IsRequired();

@@ -165,7 +165,7 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                     b.HasOne("EduNEXT.Core.Domain.Entities.Student", "Student")
                         .WithMany("Lessons")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Student");
@@ -176,7 +176,7 @@ namespace EduNEXT.Infrastructure.Persistence.Migrations
                     b.HasOne("EduNEXT.Core.Domain.Entities.Student", "Student")
                         .WithMany("LessonTimeSlots")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Student");

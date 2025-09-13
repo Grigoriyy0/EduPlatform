@@ -21,5 +21,10 @@ public class StudentEntityTypeConfiguration : IEntityTypeConfiguration<Student>
             .HasConversion(x => x.Value,
                 x => EmailAddress.Create(x).Value)
             .IsRequired();
+        
+        builder.HasMany(s => s.Lessons)
+            .WithOne(s => s.Student)
+            .HasForeignKey(s => s.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
