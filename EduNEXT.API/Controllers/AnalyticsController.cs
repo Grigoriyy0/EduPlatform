@@ -1,0 +1,39 @@
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
+namespace EduNEXT.API.Controllers;
+
+[Route("api/analytics")]
+[ApiController]
+public class AnalyticsController(IMediator mediator) : ControllerBase
+{
+    [HttpGet]
+    [Route("salary/")]
+    public async Task<IActionResult> GetExpectedSalary()
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpGet]
+    [Route("salary/week")]
+    public async Task<IActionResult> GetWeekSalary()
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpGet]
+    [Route("students/")]
+    public async Task<IActionResult> GetStudentsCount()
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpGet]
+    [Route("lessons/")]
+    public async Task<IActionResult> GetLessonWeekCount()
+    {
+        throw new NotImplementedException();
+    }
+    
+    
+}

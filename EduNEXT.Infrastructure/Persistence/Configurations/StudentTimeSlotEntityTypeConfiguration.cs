@@ -22,6 +22,6 @@ public class StudentTimeSlotEntityTypeConfiguration : IEntityTypeConfiguration<S
         builder.HasOne(x => x.Student)
             .WithMany(s => s.LessonTimeSlots)
             .HasForeignKey(x => x.StudentId)
-            .OnDelete(DeleteBehavior.SetNull);;
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
