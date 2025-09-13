@@ -13,14 +13,7 @@ public class AnalyticsController(IMediator mediator) : ControllerBase
     {
         throw new NotImplementedException();
     }
-
-    [HttpGet]
-    [Route("salary/week")]
-    public async Task<IActionResult> GetWeekSalary()
-    {
-        throw new NotImplementedException();
-    }
-
+    
     [HttpGet]
     [Route("students/")]
     public async Task<IActionResult> GetStudentsCount()
