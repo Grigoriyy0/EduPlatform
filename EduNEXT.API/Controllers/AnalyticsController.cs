@@ -1,3 +1,4 @@
+using EduNEXT.Application.UseCases.Queries.Salary.GetDataForAnalytics;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,9 @@ public class AnalyticsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
     [Route("salary/")]
-    public async Task<IActionResult> GetExpectedSalary()
+    public async Task<IActionResult> GetSalaryAnalytics()
     {
-        throw new NotImplementedException();
+        return Ok(await mediator.Send(new GetSalaryAnalyticsQuery()));
     }
     
     [HttpGet]

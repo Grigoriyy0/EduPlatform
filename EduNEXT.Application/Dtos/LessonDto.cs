@@ -13,4 +13,6 @@ public class LessonDto
     public bool IsCompleted { get; set; }
     
     public string StudentName { get; set; }
+    
+    public decimal LessonPrice { get; set; }
 }
