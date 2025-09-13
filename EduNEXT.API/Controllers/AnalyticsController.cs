@@ -1,4 +1,5 @@
-using EduNEXT.Application.UseCases.Queries.Salary.GetDataForAnalytics;
+using EduNEXT.Application.UseCases.Queries.Salary.GetAnalyticsData;
+using EduNEXT.Application.UseCases.Queries.Students.GetAnalyticsData;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,14 +18,14 @@ public class AnalyticsController(IMediator mediator) : ControllerBase
     
     [HttpGet]
     [Route("students/")]
-    public async Task<IActionResult> GetStudentsCount()
+    public async Task<IActionResult> GetStudentsAnalytics()
     {
-        throw new NotImplementedException();
+        return Ok(await mediator.Send(new GetStudentAnalyticsQuery()));
     }
 
     [HttpGet]
     [Route("lessons/")]
-    public async Task<IActionResult> GetLessonWeekCount()
+    public async Task<IActionResult> GetLessonAnalytics()
     {
         throw new NotImplementedException();
     }

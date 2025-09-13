@@ -62,4 +62,9 @@ public sealed class StudentRepository(MainContext context) : IStudentRepository
             })
             .ToListAsync();
     }
+
+    public Task<int> GetStudentsCountAsync()
+    {
+        return context.Students.CountAsync();
+    }
 }

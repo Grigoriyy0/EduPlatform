@@ -3,7 +3,7 @@ using EduNEXT.Application.Dtos.Analytics;
 using EduNEXT.Application.Ports;
 using MediatR;
 
-namespace EduNEXT.Application.UseCases.Queries.Salary.GetDataForAnalytics;
+namespace EduNEXT.Application.UseCases.Queries.Salary.GetAnalyticsData;
 
 public class GetSalaryAnalyticsHandler(ISalaryRepository salaryRepository, ILessonsRepository lessonsRepository) : IRequestHandler<GetSalaryAnalyticsQuery, SalaryAnalyticsDto>
 {

@@ -16,4 +16,6 @@ public interface IStudentRepository
     Task<Student?> GetStudentAsync(Guid id);
     
     Task<List<StudentDto>> GetAllStudentsAsync();
+
+    Task<int> GetStudentsCountAsync();
 }
