@@ -10,6 +10,8 @@ public class StudentDto
     
     public string Email { get; set; }
     
+    public string Telegram { get; set; }
+    
     public int PaidLessonsCount { get; set; }
     
     public int SubscribedLessonsCount { get; set; }

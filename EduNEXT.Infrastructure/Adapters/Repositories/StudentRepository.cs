@@ -48,6 +48,7 @@ public sealed class StudentRepository(MainContext context) : IStudentRepository
                 FirstName = x.Firstname,
                 LastName = x.Lastname,
                 Email = x.Email.Value,
+                Telegram = x.Telegram ?? string.Empty,
                 LessonPrice = x.LessonPrice,
                 PaidLessonsCount = x.PaidLessonsCount,
                 SubscribedLessonsCount = x.SubscribedLessonsCount,
