@@ -53,12 +53,11 @@ namespace EduNEXT.API.Controllers
 
         [HttpPost]
         [Route("add-payment/")]
-        public async Task<IActionResult> AddStudentPayment(Guid studentId, int count)
+        public async Task<IActionResult> AddStudentPayment(AddPaymentDto dto)
         {
             var cmd = new AddStudentPaymentCommand
             {
-                StudentId = studentId,
-                PaidLessonsCount = count
+                dto = dto
             };
             
             var result = await mediator.Send(cmd);

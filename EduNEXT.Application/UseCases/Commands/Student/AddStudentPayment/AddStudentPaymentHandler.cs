@@ -10,14 +10,14 @@ public class AddStudentPaymentHandler(IStudentRepository studentRepository) : IR
 {
     public async Task<UnitResult<Error>> Handle(AddStudentPaymentCommand request, CancellationToken cancellationToken)
     {
-        var student = await studentRepository.GetStudentAsync(request.StudentId);
+        var student = await studentRepository.GetStudentAsync(request.dto.StudentId);
 
         if (student == null)
         {
             return ApplicationErrors.Student.StudentIsNotExists;
         }
         
-        student.PaidLessonsCount +=  request.PaidLessonsCount;
+        student.PaidLessonsCount +=  request.dto.Amount;
         
         await studentRepository.UpdateAsync(student);
 
