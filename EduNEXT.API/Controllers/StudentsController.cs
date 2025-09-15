@@ -2,6 +2,7 @@ using EduNEXT.Application.Dtos;
 using EduNEXT.Application.UseCases.Commands.Student.AddStudentCommand;
 using EduNEXT.Application.UseCases.Commands.Student.AddStudentPayment;
 using EduNEXT.Application.UseCases.Commands.Student.DeleteStudentCommand;
+using EduNEXT.Application.UseCases.Commands.Student.UpdateStudentCommand;
 using EduNEXT.Application.UseCases.Queries.Students.GetAllStudents;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -74,6 +75,18 @@ namespace EduNEXT.API.Controllers
         [Route("update/")]
         public async Task<IActionResult> UpdateStudent(UpdateStudentDto dto)
         {
+            var cmd = new UpdateStudentCommand
+            {
+                dto = dto
+            };
+            
+            var result = await mediator.Send(cmd);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
             return Ok();
         }
     }
