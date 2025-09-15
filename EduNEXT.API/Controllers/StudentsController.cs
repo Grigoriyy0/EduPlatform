@@ -1,4 +1,6 @@
+using EduNEXT.Application.Dtos;
 using EduNEXT.Application.UseCases.Commands.Student.AddStudentCommand;
+using EduNEXT.Application.UseCases.Commands.Student.AddStudentPayment;
 using EduNEXT.Application.UseCases.Commands.Student.DeleteStudentCommand;
 using EduNEXT.Application.UseCases.Queries.Students.GetAllStudents;
 using MediatR;
@@ -46,6 +48,33 @@ namespace EduNEXT.API.Controllers
         public async Task<IActionResult> GetAllStudents()
         {
             return Ok(await mediator.Send(new GetAllStudentsQuery()));
+        }
+
+        [HttpPost]
+        [Route("add-payment/")]
+        public async Task<IActionResult> AddStudentPayment(Guid studentId, int count)
+        {
+            var cmd = new AddStudentPaymentCommand
+            {
+                StudentId = studentId,
+                PaidLessonsCount = count
+            };
+            
+            var result = await mediator.Send(cmd);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+            
+            return Created();
+        }
+
+        [HttpPut]
+        [Route("update/")]
+        public async Task<IActionResult> UpdateStudent(UpdateStudentDto dto)
+        {
+            return Ok();
         }
     }
 }
