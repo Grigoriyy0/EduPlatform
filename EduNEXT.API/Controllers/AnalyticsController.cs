@@ -2,10 +2,12 @@ using EduNEXT.Application.UseCases.Queries.Lessons.GetAnalyticsData;
 using EduNEXT.Application.UseCases.Queries.Salary.GetAnalyticsData;
 using EduNEXT.Application.UseCases.Queries.Students.GetAnalyticsData;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduNEXT.API.Controllers;
 
+[Authorize]
 [Route("api/analytics")]
 [ApiController]
 public class AnalyticsController(IMediator mediator) : ControllerBase

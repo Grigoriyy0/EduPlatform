@@ -1,3 +1,4 @@
+using System.Text;
 using EduNEXT.Application;
 using EduNEXT.Application.Ports;
 using EduNEXT.Infrastructure;
@@ -6,6 +7,8 @@ using EduNEXT.Infrastructure.Persistence.Contexts;
 using EduNEXT.Infrastructure.Persistence.Utils;
 using Hangfire;
 using Hangfire.PostgreSql;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EduNEXT.API;
 
@@ -46,6 +49,25 @@ public class Program
                     });
             })
         );
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(opt =>
+            {
+                var signinKeyBytes = Encoding.UTF8.GetBytes(builder.Configuration["TokenOptions:Secret"]!);
+
+                opt.TokenValidationParameters = new()
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["TokenOptions:Issuer"],
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["TokenOptions:Audience"],
+                    ValidateLifetime = true,
+                    ValidateIssuer = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(signinKeyBytes)
+                };
+            });
+        
+        builder.Services.AddAuthorization();
 
         var app = builder.Build();
         

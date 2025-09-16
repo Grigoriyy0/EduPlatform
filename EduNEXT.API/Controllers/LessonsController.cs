@@ -3,64 +3,65 @@ using EduNEXT.Application.UseCases.Commands.Lessons.ChangeLesson;
 using EduNEXT.Application.UseCases.Commands.Lessons.ChangeLessonsStatus;
 using EduNEXT.Application.UseCases.Queries.Lessons.GetAllLessonsByFilter;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EduNEXT.API.Controllers
+namespace EduNEXT.API.Controllers;
+
+[Authorize]
+[Route("api/lessons")]
+[ApiController]
+public class LessonsController(IMediator mediator) : ControllerBase
 {
-    [Route("api/lessons")]
-    [ApiController]
-    public class LessonsController(IMediator mediator) : ControllerBase
+    [HttpPost]
+    [Route("change-status/")]
+    public async Task<IActionResult> ChangeLessonStatus([FromBody] ChangeLessonStatusCommand command)
     {
-        [HttpPost]
-        [Route("change-status/")]
-        public async Task<IActionResult> ChangeLessonStatus([FromBody] ChangeLessonStatusCommand command)
-        {
-            var result = await mediator.Send(command);
+        var result = await mediator.Send(command);
 
-            if (result.IsSuccess)
-            {
-                return Ok(result.Value);
-            }
+        if (result.IsSuccess)
+        {
+            return Ok(result.Value);
+        }
             
-            return BadRequest(result.Error);
-        }
+        return BadRequest(result.Error);
+    }
 
-        [HttpPost]
-        [Route("reschedule/")]
-        public async Task<IActionResult> RescheduleLessonTime([FromBody] ChangeLessonCommand command)
+    [HttpPost]
+    [Route("reschedule/")]
+    public async Task<IActionResult> RescheduleLessonTime([FromBody] ChangeLessonCommand command)
+    {
+        var result = await mediator.Send(command);
+
+        if (result.IsSuccess)
         {
-            var result = await mediator.Send(command);
-
-            if (result.IsSuccess)
-            {
-                return Ok(result.Value);
-            }
+            return Ok(result.Value);
+        }
             
-            return BadRequest(result.Error);
-        }
+        return BadRequest(result.Error);
+    }
 
-        [HttpDelete]
-        [Route("cancel/")]
-        public async Task<IActionResult> CancelLesson([FromBody] CancelLessonCommand command)
+    [HttpDelete]
+    [Route("cancel/")]
+    public async Task<IActionResult> CancelLesson([FromBody] CancelLessonCommand command)
+    {
+        var result = await mediator.Send(command);
+
+        if (result.IsSuccess)
         {
-            var result = await mediator.Send(command);
-
-            if (result.IsSuccess)
-            {
-                return NoContent();
-            }
+            return NoContent();
+        }
             
-            return BadRequest(result.Error);
-        }
+        return BadRequest(result.Error);
+    }
 
-        [HttpGet]
-        [Route("all/")]
-        public async Task<IActionResult> GetAllLessons(string criteriaName)
+    [HttpGet]
+    [Route("all/")]
+    public async Task<IActionResult> GetAllLessons(string criteriaName)
+    {
+        return Ok(await mediator.Send(new GetAllLessonsByFilterQuery()
         {
-            return Ok(await mediator.Send(new GetAllLessonsByFilterQuery()
-            {
-                CriteriaName = criteriaName
-            }));
-        }
+            CriteriaName = criteriaName
+        }));
     }
 }
