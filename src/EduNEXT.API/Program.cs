@@ -9,6 +9,7 @@ using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduNEXT.API;
 
@@ -83,6 +84,9 @@ public class Program
             var context = scope.ServiceProvider.GetRequiredService<MainContext>();
             var hashProvider = scope.ServiceProvider.GetRequiredService<IHashProvider>();
             
+            // Apply pending migrations automatically on startup
+            context.Database.Migrate();
+
             context.Initialize(builder.Configuration, hashProvider);
         }
         
