@@ -7,8 +7,10 @@ using EduNEXT.Infrastructure.Persistence.Contexts;
 using EduNEXT.Infrastructure.Persistence.Utils;
 using Hangfire;
 using Hangfire.PostgreSql;
+using Hangfire.Dashboard;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduNEXT.API;
 
@@ -83,16 +85,30 @@ public class Program
             var context = scope.ServiceProvider.GetRequiredService<MainContext>();
             var hashProvider = scope.ServiceProvider.GetRequiredService<IHashProvider>();
             
+            // Apply pending migrations automatically on startup
+            context.Database.Migrate();
+
             context.Initialize(builder.Configuration, hashProvider);
         }
         
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
         
         app.UseCors("DefaultCors");
         
-        app.UseHangfireDashboard();
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseHangfireDashboard("/api/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new AllowAllDashboardAuthorizationFilter() }
+            });
+        }
+        else
+        {
+            app.UseHangfireDashboard("/api/hangfire");
+        }
         
         RecurringJob.AddOrUpdate<LessonScheduler>(
             "monthly-lesson-scheduler", 
@@ -104,4 +120,10 @@ public class Program
 
         app.Run();
     }
+}
+
+// Allow Hangfire Dashboard for all in Development environment
+public sealed class AllowAllDashboardAuthorizationFilter : IDashboardAuthorizationFilter
+{
+    public bool Authorize(DashboardContext context) => true;
 }

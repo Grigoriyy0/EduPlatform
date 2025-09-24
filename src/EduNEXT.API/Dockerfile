@@ -1,20 +1,20 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
-EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["EduNEXT.API/EduNEXT.API.csproj", "EduNEXT.API/"]
-COPY ["EduNEXT.Application/EduNEXT.Application.csproj", "EduNEXT.Application/"]
-COPY ["EduNEXT.Core/EduNEXT.Core.csproj", "EduNEXT.Core/"]
-COPY ["utils/Primitives/Primitives.csproj", "utils/Primitives/"]
-COPY ["EduNEXT.Infrastructure/EduNEXT.Infrastructure.csproj", "EduNEXT.Infrastructure/"]
-RUN dotnet restore "EduNEXT.API/EduNEXT.API.csproj"
-COPY . .
-WORKDIR "/src/EduNEXT.API"
+# copy project files for restore
+COPY src/EduNEXT.API/EduNEXT.API.csproj src/EduNEXT.API/
+COPY src/EduNEXT.Application/EduNEXT.Application.csproj src/EduNEXT.Application/
+COPY src/EduNEXT.Core/EduNEXT.Core.csproj src/EduNEXT.Core/
+COPY src/EduNEXT.Infrastructure/EduNEXT.Infrastructure.csproj src/EduNEXT.Infrastructure/
+COPY src/utils/Primitives/Primitives.csproj src/utils/Primitives/
+RUN dotnet restore "src/EduNEXT.API/EduNEXT.API.csproj"
+# copy full source
+COPY src/ ./src/
+WORKDIR "/src/src/EduNEXT.API"
 RUN dotnet build "./EduNEXT.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
