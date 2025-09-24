@@ -25,9 +25,10 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - /Users/grigoriikokotkin/Desktop/EduPlatform/deploy/initdb:/docker-entrypoint-initdb.d:ro
+      - ./initdb:/docker-entrypoint-initdb.d:ro
     networks:
       - backend
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: edunext-rabbitmq
@@ -51,6 +52,7 @@ services:
 
   api:
     build:
+      context: ..
       dockerfile: ./src/EduNEXT.API/Dockerfile
     container_name: edunext-api
     restart: unless-stopped
@@ -66,3 +68,32 @@ services:
       - "8080:8080"
     networks:
       - backend
+
+  client:
+    build:
+      context: ../eduplatfrom.client
+      dockerfile: Dockerfile
+    container_name: edunext-client
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      api:
+        condition: service_started
+    networks:
+      - backend
+  
+  bot:
+    build:
+      context: ../eduplatform.notification
+      dockerfile: Dockerfile
+    container_name: edunext-bot
+    restart: unless-stopped
+    env_file:
+      - ../eduplatform.notification/.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - backend
+        
