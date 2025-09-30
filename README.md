@@ -6,7 +6,7 @@ A modern learning management platform: student and lesson tracking, scheduling, 
 - **Backend**: `src/EduNEXT.API` — ASP.NET Core API
 - **Core/Application/Infrastructure**: `src/EduNEXT.Core`, `src/EduNEXT.Application`, `src/EduNEXT.Infrastructure`
 - **Docker/Infra**: `deploy/` (compose, DB init)
-- **(Optional) Web client**: `eduplatfrom.client` — React SPA
+- **(Optional) Web client**: `eduplatfrom.client` — React SPA (https://github.com/Grigoriyy0/eduplatfrom.client)
 - **(Optional) Notification Bot**: `eduplatform.notification` — Telegram bot
 
 ---
