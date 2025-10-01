@@ -7,6 +7,7 @@ public static class ApplicationErrors
     public static class TimeSlot
     {
         public static readonly Error TimeSlotIsBooked = GeneralErrors.ValueIsIncorrect(2, "timeslot.availability");
+        public static readonly Error TimeSlotNotFound = GeneralErrors.ValueIsIncorrect(2, "timeslot.not.found");
     }
 
     public static class Lesson
