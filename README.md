@@ -7,7 +7,7 @@ A modern learning management platform: student and lesson tracking, scheduling, 
 - **Core/Application/Infrastructure**: `src/EduNEXT.Core`, `src/EduNEXT.Application`, `src/EduNEXT.Infrastructure`
 - **Docker/Infra**: `deploy/` (compose, DB init)
 - **(Optional) Web client**: `eduplatfrom.client` — React SPA (https://github.com/Grigoriyy0/eduplatfrom.client)
-- **(Optional) Notification Bot**: `eduplatform.notification` — Telegram bot
+- **(Optional) Notification Bot**: `eduplatform.notification` — Telegram bot (https://github.com/Grigoriyy0/eduplatform.notification)
 
 ---
 
