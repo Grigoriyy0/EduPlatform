@@ -43,10 +43,7 @@ The project includes a **React** SPA (Vite, React Router, TailwindCSS, etc.). To
 
 Example:
 
-```bash
-# from the repository root
-git clone <CLIENT_REPO_URL> eduplatfrom.client
-```
+https://github.com/Grigoriyy0/eduplatfrom.client
 
 After this, the client will start alongside other services via Docker Compose.
 
@@ -56,12 +53,7 @@ After this, the client will start alongside other services via Docker Compose.
 
 The Telegram bot consumes messages from **RabbitMQ** and sends notifications. Its sources live in a separate repository. To run it correctly, place it in the project root under the directory `eduplatform.notification`.
 
-Example:
-
-```bash
-# from the repository root
-git clone <BOT_REPO_URL> eduplatform.notification
-```
+https://github.com/Grigoriyy0/eduplatform.notification
 
 The bot connects to the message broker, listens to a queue, and sends messages via Telegram Bot API.
 
