@@ -1,5 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-using EduNEXT.Application.Ports;
+﻿using EduNEXT.Application.Ports;
 using EduNEXT.Core.Domain.Entities;
 using EduNEXT.Core.Domain.ValueObjects;
 using EduNEXT.Infrastructure.Options;

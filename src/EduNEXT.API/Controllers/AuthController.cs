@@ -1,6 +1,5 @@
 using EduNEXT.Application.UseCases.Commands.Auth;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduNEXT.API.Controllers;
