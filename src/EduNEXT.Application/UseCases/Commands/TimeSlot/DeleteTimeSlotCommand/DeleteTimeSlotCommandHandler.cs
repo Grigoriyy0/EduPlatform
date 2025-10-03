@@ -19,8 +19,6 @@ public class DeleteTimeSlotCommandHandler(ITimeSlotsRepository repository, IMedi
             return ApplicationErrors.TimeSlot.TimeSlotNotFound;
         }
         
-        await repository.DeleteTimeSlotAsync(timeSlot);
-
         var notification = new TimeSlotDeletedEvent
         {
             StudentId = timeSlot.StudentId,
@@ -28,6 +26,8 @@ public class DeleteTimeSlotCommandHandler(ITimeSlotsRepository repository, IMedi
             EndTime = timeSlot.EndTime,
             Day = timeSlot.Day,
         };
+
+        await repository.DeleteTimeSlotAsync(timeSlot);
         
         await mediator.Publish(notification, cancellationToken);
         
