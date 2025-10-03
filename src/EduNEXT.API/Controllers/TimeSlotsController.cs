@@ -1,4 +1,5 @@
 using EduNEXT.Application.UseCases.Commands.TimeSlot.AssignTimeSlotsCommand;
+using EduNEXT.Application.UseCases.Commands.TimeSlot.DeleteTimeSlotCommand;
 using EduNEXT.Application.UseCases.Queries.TimeSlots.GetAllTimeSlots;
 using EduNEXT.Application.UseCases.Queries.TimeSlots.GetTImeSlotsByStudentId;
 using MediatR;
@@ -41,5 +42,22 @@ public class TimeSlotsController(IMediator mediator) : ControllerBase
         {
             StudentId = id
         }));
+    }
+
+    [HttpDelete]
+    [Route("delete/{id:guid}/")]
+    public async Task<IActionResult> DeleteTimeSlotById(Guid id)
+    {
+        var result = await mediator.Send(new DeleteTimeSlotCommand
+        {
+            TimeSlotId = id
+        });
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Error);
+        }
+        
+        return NoContent();
     }
 }

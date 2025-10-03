@@ -18,4 +18,8 @@ public interface ILessonsRepository
     Task<List<LessonDto>> GetLessonsAsync(string timePeriod);
 
     Task<List<LessonDto>> GetPendingLessonsAsync();
+
+    Task<List<Lesson>> GetStudentLessonRangeAsync(DateOnly from, DateOnly to, Guid studentId);
+
+    Task DeleteLessonsRangeAsync(List<Lesson> lessons);
 }

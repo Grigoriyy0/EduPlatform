@@ -52,5 +52,11 @@ public sealed class TimeSlotsRepository(MainContext context) : ITimeSlotsReposit
     {
         return context.LessonsTimeSlots.AsNoTracking().ToListAsync();
     }
+
+    public Task<StudentTimeSlot?> GetTimeSlotAsync(Guid timeSlotId)
+    {
+        return context.LessonsTimeSlots.FirstOrDefaultAsync(x => x.Id == timeSlotId);
+    }
+    
 }
     

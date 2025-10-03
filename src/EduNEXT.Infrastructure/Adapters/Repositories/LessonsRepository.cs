@@ -109,4 +109,17 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
             })
             .ToListAsync();
     }
-}
+
+    public async Task<List<Lesson>> GetStudentLessonRangeAsync(DateOnly from, DateOnly to, Guid studentId)
+    {
+        return await context.Lessons
+            .Where(l => l.Date >= from && l.Date <= to &&  l.StudentId == studentId)
+            .ToListAsync();
+    }
+
+    public Task DeleteLessonsRangeAsync(List<Lesson> lessons)
+    {
+        context.Lessons.RemoveRange(lessons);
+        return context.SaveChangesAsync();
+    }
+} 
