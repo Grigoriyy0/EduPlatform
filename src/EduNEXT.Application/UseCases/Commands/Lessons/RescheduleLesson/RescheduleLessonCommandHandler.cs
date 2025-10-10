@@ -5,12 +5,12 @@ using EduNEXT.Core.Domain.Errors;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.UseCases.Commands.Lessons.ChangeLesson;
+namespace EduNEXT.Application.UseCases.Commands.Lessons.RescheduleLesson;
 
-public class ChangeLessonCommandHandler(ILessonsRepository repository)
-    : IRequestHandler<ChangeLessonCommand, Result<Lesson, Error>>
+public class RescheduleLessonCommandHandler(ILessonsRepository repository)
+    : IRequestHandler<RescheduleLessonCommand, Result<Lesson, Error>>
 {
-    public async Task<Result<Lesson, Error>> Handle(ChangeLessonCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Lesson, Error>> Handle(RescheduleLessonCommand request, CancellationToken cancellationToken)
     {
         var interferedLessonGuids = await repository.GetInterferedLessonsAsync(
                request.Date,

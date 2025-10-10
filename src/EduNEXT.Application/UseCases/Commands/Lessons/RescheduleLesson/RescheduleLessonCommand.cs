@@ -3,9 +3,9 @@ using EduNEXT.Core.Domain.Entities;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.UseCases.Commands.Lessons.ChangeLesson;
+namespace EduNEXT.Application.UseCases.Commands.Lessons.RescheduleLesson;
 
-public class ChangeLessonCommand : IRequest<Result<Lesson, Error>>
+public class RescheduleLessonCommand : IRequest<Result<Lesson, Error>>
 {
     public Guid LessonId { get; set; }
     
