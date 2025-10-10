@@ -12,16 +12,16 @@ public class ChangeLessonCommandHandler(ILessonsRepository repository)
 {
     public async Task<Result<Lesson, Error>> Handle(ChangeLessonCommand request, CancellationToken cancellationToken)
     {
-        var availabilityFlag = await repository.CheckAvailableLessonAsync(
-            request.Date,
-            request.StartTime,
-            request.EndTime);
+        var interferedLessonGuids = await repository.GetInterferedLessonsAsync(
+               request.Date,
+               request.StartTime,
+               request.EndTime);
 
-        if (availabilityFlag)
-        {
+        if (interferedLessonGuids.Count > 1 || interferedLessonGuids[0] != request.LessonId)
+        { 
             return ApplicationErrors.Lesson.LessonTimeIsBooked;
         }
-        
+           
         var lesson = await repository.GetLessonAsync(request.LessonId);
         
         lesson = lesson!.UpdateLessonsTime(lesson, request.Date, request.StartTime, request.EndTime);
