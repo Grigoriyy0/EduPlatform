@@ -45,6 +45,24 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
         return false;
     }
 
+    public async Task<List<Guid>> GetInterferedLessonsAsync(DateOnly date, TimeSpan start, TimeSpan end)
+    {
+        var lessonGuids = new List<Guid>();
+        
+        var daysLessons = await context.Lessons.Where(x => x.Date == date)
+            .ToListAsync();
+
+        foreach (var dayLesson in daysLessons)
+        {
+            if (start < dayLesson.EndTime && dayLesson.StartTime < end)
+            {
+                lessonGuids.Add(dayLesson.Id);
+            }
+        }
+        
+        return lessonGuids;
+    }
+
     public Task<List<LessonDto>> GetLessonsAsync(string timePeriod)
     {
         var today = DateOnly.FromDateTime(DateTime.Now);

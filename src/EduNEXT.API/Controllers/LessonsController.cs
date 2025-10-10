@@ -1,6 +1,6 @@
 using EduNEXT.Application.UseCases.Commands.Lessons.CancelLessonCommand;
-using EduNEXT.Application.UseCases.Commands.Lessons.ChangeLesson;
 using EduNEXT.Application.UseCases.Commands.Lessons.ChangeLessonsStatus;
+using EduNEXT.Application.UseCases.Commands.Lessons.RescheduleLesson;
 using EduNEXT.Application.UseCases.Queries.Lessons.GetAllLessonsByFilter;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +29,7 @@ public class LessonsController(IMediator mediator) : ControllerBase
 
     [HttpPost]
     [Route("reschedule/")]
-    public async Task<IActionResult> RescheduleLessonTime([FromBody] ChangeLessonCommand command)
+    public async Task<IActionResult> RescheduleLessonTime([FromBody] RescheduleLessonCommand command)
     {
         var result = await mediator.Send(command);
 

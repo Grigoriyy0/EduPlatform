@@ -22,4 +22,6 @@ public interface ILessonsRepository
     Task<List<Lesson>> GetStudentLessonRangeAsync(DateOnly from, DateOnly to, Guid studentId);
 
     Task DeleteLessonsRangeAsync(List<Lesson> lessons);
+
+    Task<List<Guid>> GetInterferedLessonsAsync(DateOnly date, TimeSpan start, TimeSpan end);
 }
