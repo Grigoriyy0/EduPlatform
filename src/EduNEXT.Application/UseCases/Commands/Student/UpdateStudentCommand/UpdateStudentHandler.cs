@@ -20,19 +20,14 @@ public class UpdateStudentHandler(IStudentRepository studentRepository)
             return ApplicationErrors.Student.StudentIsNotExists;
         }
         
-        student.Firstname = request.dto.FirstName;
-        student.Lastname = request.dto.LastName;
-        
-        var newEmail = EmailAddress.Create(request.dto.Email);
-
-        if (newEmail.IsSuccess)
-        {
-            student.Email = newEmail.Value;
-        }
+        student.Name = request.dto.Name;
         
         student.PaidLessonsCount = request.dto.PaidLessonsCount;
         student.SubscribedLessonsCount = request.dto.SubscribedLessonsCount;
 
+        student.Telegram = request.dto.Telegram;
+        student.TimeZone = request.dto.TimeZone;
+        
         if (request.dto.LessonPrice <= 0)
         {
             return ApplicationErrors.Student.StudentLessonPriceIsIncorrect;
