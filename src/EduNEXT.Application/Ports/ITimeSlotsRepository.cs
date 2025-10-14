@@ -1,3 +1,4 @@
+using EduNEXT.Application.Dtos;
 using EduNEXT.Core.Domain.Entities;
 
 namespace EduNEXT.Application.Ports;
@@ -14,7 +15,7 @@ public interface ITimeSlotsRepository
     
     Task<bool> CheckAvailabilityAsync(int day, TimeSpan startTime, TimeSpan endTime);
     
-    Task<List<StudentTimeSlot>> GetAllTimeSlotsAsync();
+    Task<List<TimeSlotDto>> GetAllTimeSlotsAsync();
     
     Task<StudentTimeSlot?> GetTimeSlotAsync(Guid timeSlotId);
     

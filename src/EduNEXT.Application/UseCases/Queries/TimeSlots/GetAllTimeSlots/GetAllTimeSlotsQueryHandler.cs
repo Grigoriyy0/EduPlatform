@@ -1,3 +1,4 @@
+using EduNEXT.Application.Dtos;
 using EduNEXT.Application.Ports;
 using EduNEXT.Core.Domain.Entities;
 using MediatR;
@@ -5,9 +6,9 @@ using MediatR;
 namespace EduNEXT.Application.UseCases.Queries.TimeSlots.GetAllTimeSlots;
 
 public class GetAllTimeSlotsQueryHandler(ITimeSlotsRepository repository)
-    : IRequestHandler<GetAllTimeSlotsQuery, List<StudentTimeSlot>>
+    : IRequestHandler<GetAllTimeSlotsQuery, List<TimeSlotDto>>
 {
-    public async Task<List<StudentTimeSlot>> Handle(GetAllTimeSlotsQuery request, CancellationToken cancellationToken)
+    public async Task<List<TimeSlotDto>> Handle(GetAllTimeSlotsQuery request, CancellationToken cancellationToken)
     {
         return await repository.GetAllTimeSlotsAsync();
     }   
