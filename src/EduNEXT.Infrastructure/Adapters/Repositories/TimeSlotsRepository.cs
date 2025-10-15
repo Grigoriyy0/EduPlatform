@@ -1,3 +1,4 @@
+using EduNEXT.Application.Dtos;
 using EduNEXT.Application.Ports;
 using EduNEXT.Core.Domain.Entities;
 using EduNEXT.Infrastructure.Persistence.Contexts;
@@ -48,9 +49,18 @@ public sealed class TimeSlotsRepository(MainContext context) : ITimeSlotsReposit
         return false;
     }
 
-    public Task<List<StudentTimeSlot>> GetAllTimeSlotsAsync()
+    public async Task<List<TimeSlotDto>> GetAllTimeSlotsAsync()
     {
-        return context.LessonsTimeSlots.AsNoTracking().ToListAsync();
+        return await context.LessonsTimeSlots
+            .Include(x => x.Student)
+            .Select(ts => new TimeSlotDto
+            {
+                TimeSlotId = ts.Id,
+                Day = ts.Day,
+                StartTime = ts.StartTime,
+                EndTime = ts.EndTime,
+                StudentName = ts.Student.Name,
+            }).ToListAsync();
     }
 
     public Task<StudentTimeSlot?> GetTimeSlotAsync(Guid timeSlotId)

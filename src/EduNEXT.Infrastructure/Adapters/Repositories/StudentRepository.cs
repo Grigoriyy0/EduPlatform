@@ -45,9 +45,8 @@ public sealed class StudentRepository(MainContext context) : IStudentRepository
             .Select(x => new StudentDto
             {
                 StudentId = x.Id,
-                FirstName = x.Firstname,
-                LastName = x.Lastname,
-                Email = x.Email.Value,
+                Name = x.Name,
+                TimeZone = x.TimeZone,
                 Telegram = x.Telegram ?? string.Empty,
                 LessonPrice = x.LessonPrice,
                 PaidLessonsCount = x.PaidLessonsCount,

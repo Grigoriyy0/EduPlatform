@@ -101,7 +101,7 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
                 StartTime = l.StartTime,
                 EndTime = l.EndTime,
                 IsCompleted = l.IsCompleted,
-                StudentName = l.Student!.Firstname + " " + l.Student.Lastname,
+                StudentName = l.Student!.Name,
                 LessonPrice = l.Student!.LessonPrice
             })
             .ToListAsync();
@@ -122,7 +122,7 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
                 StartTime = l.StartTime,
                 EndTime = l.EndTime,
                 IsCompleted = l.IsCompleted,
-                StudentName = l.Student!.Firstname + " " + l.Student.Lastname,
+                StudentName = l.Student!.Name,
                 LessonPrice = l.Student!.LessonPrice
             })
             .ToListAsync();

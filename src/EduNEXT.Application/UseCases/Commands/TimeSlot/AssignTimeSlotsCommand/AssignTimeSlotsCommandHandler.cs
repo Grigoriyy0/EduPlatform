@@ -43,7 +43,7 @@ public class AssignTimeSlotsCommandHandler(
                     StartTime = request.StartTime,
                     EndTime = request.EndTime,
                     StudentId = request.StudentId,
-                    StudentName = student!.Firstname + student.Lastname,
+                    StudentName = student!.Name
                 },
                 cancellationToken);
         }

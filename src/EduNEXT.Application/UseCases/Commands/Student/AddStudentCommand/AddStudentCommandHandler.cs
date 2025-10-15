@@ -17,20 +17,17 @@ public class AddStudentCommandHandler(IMediator mediator,
         var passwordHash = hashProvider.ComputeHash(password);
         
         var studentResult = Core.Domain.Entities.Student.Create(
-            request.FirstName, 
-            request.LastName, 
-            request.Email, 
+            request.Name, 
+            request.TimeZone,
             request.Telegram ?? string.Empty, 
             request.PaidLessonsCount,
             request.SubscribedLessonsCount,
             request.LessonPrice,
             passwordHash);
-        
-        _ = studentResult.TryGetValue(out var student);
 
         if (studentResult.IsSuccess)
         {
-            await studentRepository.AddStudentAsync(student);
+            await studentRepository.AddStudentAsync(studentResult.Value);
         }
         
         return studentResult;

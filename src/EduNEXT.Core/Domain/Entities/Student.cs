@@ -12,14 +12,12 @@ public class Student : Entity<Guid>
         
     }
     
-    private Student(string firstname, string lastname, EmailAddress email, string telegram, string password, int paidLessonsCount,
-        int subscribedLessonsCount, decimal price)
+    private Student(string name, string telegram, string password, int paidLessonsCount,
+        int subscribedLessonsCount, decimal price, string? timezone = "HKT")
     {
-        Id = Guid.NewGuid();
-        Firstname = firstname;
-        Lastname = lastname;
-        Email = email;
+        Name = name;
         Telegram = telegram;
+        TimeZone = timezone;
         PasswordHash = password;
         PaidLessonsCount = paidLessonsCount;
         SubscribedLessonsCount = subscribedLessonsCount;
@@ -27,13 +25,11 @@ public class Student : Entity<Guid>
         LessonTimeSlots = [];
     }
     
-    public string Firstname { get; set; }
+    public string Name { get; set; }
     
-    public string Lastname { get; set; }
-    
-    public EmailAddress Email { get; set; }
-
     public string? Telegram { get; set; }
+    
+    public string? TimeZone { get; set; }
     
     public string PasswordHash { get; set; }
     
@@ -47,17 +43,10 @@ public class Student : Entity<Guid>
     
     public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 
-    public static Result<Student, Error> Create(string firstname, string lastname, string emailAddress,
+    public static Result<Student, Error> Create(string name, string? timezone,
         string telegram, int paidLessonsCount, int subscribedLessonsCount, decimal lessonPrice, string password)
     {
-        var email = EmailAddress.Create(emailAddress);
-        
-        if (email.IsFailure)
-        {
-            return Result.Failure<Student, Error>(email.Error);
-        }
-        
-        if (string.IsNullOrWhiteSpace(firstname) || string.IsNullOrWhiteSpace(lastname))
+        if (string.IsNullOrWhiteSpace(name))
         {
             return DomainErrors.Student.NameIsIncorrect;
         }
@@ -77,7 +66,7 @@ public class Student : Entity<Guid>
             return DomainErrors.Student.SubscribedLessonsCountIsIncorrect;
         }
         
-        return new Student(firstname, lastname, email.Value, telegram, password, paidLessonsCount, subscribedLessonsCount, lessonPrice);
+        return new Student(name, telegram, password, paidLessonsCount, subscribedLessonsCount, lessonPrice, timezone);
     }
 
     public static Result<Student, Error> DecreasePaidLessonsCount(Student student, int amount)
