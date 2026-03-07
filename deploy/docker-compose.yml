@@ -35,8 +35,8 @@ services:
     hostname: rabbitmq
     restart: unless-stopped
     ports:
-      - "5672:5672"      # AMQP
-      - "15672:15672"    # Management UI (dev only; remove in prod or bind to localhost)
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: rmuser
       RABBITMQ_DEFAULT_PASS: 123123
