@@ -11,14 +11,14 @@ public class CancelLessonCommandHandler(ILessonsRepository repository)
 {
     public async Task<UnitResult<Error>> Handle(CancelLessonCommand request, CancellationToken cancellationToken)
     {
-        var lesson = await repository.GetLessonAsync(request.LessonId);
+        var lesson = await repository.GetByIdAsync(request.LessonId);
 
         if (lesson == null)
         {
             return ApplicationErrors.Lesson.LessonIsNotExists;
         }
         
-        await repository.DeleteLessonAsync(lesson);
+        await repository.DeleteAsync(lesson);
 
         return UnitResult.Success<Error>();
     }

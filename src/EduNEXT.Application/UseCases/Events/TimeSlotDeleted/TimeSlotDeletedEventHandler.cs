@@ -19,7 +19,7 @@ public class TimeSlotDeletedEventHandler(ILessonsRepository repository) : INotif
                 lesson.StartTime == notification.StartTime
                 && lesson.EndTime == notification.EndTime)
             {
-                await repository.DeleteLessonAsync(lesson);
+                await repository.DeleteAsync(lesson);
             }
         }
     }

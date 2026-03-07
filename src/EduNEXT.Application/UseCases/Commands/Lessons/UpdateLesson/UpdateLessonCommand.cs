@@ -1,11 +1,10 @@
 using CSharpFunctionalExtensions;
-using EduNEXT.Core.Domain.Entities;
 using MediatR;
 using Primitives;
 
-namespace EduNEXT.Application.UseCases.Commands.Lessons.RescheduleLesson;
+namespace EduNEXT.Application.UseCases.Commands.Lessons.UpdateLesson;
 
-public class RescheduleLessonCommand : IRequest<Result<Lesson, Error>>
+public class UpdateLessonCommand : IRequest<UnitResult<Error>>
 {
     public Guid LessonId { get; set; }
     
@@ -14,4 +13,6 @@ public class RescheduleLessonCommand : IRequest<Result<Lesson, Error>>
     public TimeSpan StartTime { get; set; }
     
     public TimeSpan EndTime { get; set; }
+    
+    public bool IsCompleted { get; set; }
 }

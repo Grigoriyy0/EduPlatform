@@ -9,6 +9,6 @@ public class GetAllLessonsByFilterQueryHandler(ILessonsRepository repository)
 {
     public async Task<IList<LessonDto>> Handle(GetAllLessonsByFilterQuery request, CancellationToken cancellationToken)
     {
-        return await repository.GetLessonsAsync(request.CriteriaName);
+        return await repository.GetByPeriodAsync(request.CriteriaName);
     }
 }

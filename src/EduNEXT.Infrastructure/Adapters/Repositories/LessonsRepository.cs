@@ -8,27 +8,27 @@ namespace EduNEXT.Infrastructure.Adapters.Repositories;
 
 public sealed class LessonsRepository(MainContext context) : ILessonsRepository
 {
-    public async Task CreateLessonAsync(Lesson lesson)
+    public async Task AddAsync(Lesson lesson)
     {
         await context.Lessons.AddAsync(lesson);
         await context.SaveChangesAsync();
     }
 
-    public async Task DeleteLessonAsync(Lesson lesson)
+    public async Task DeleteAsync(Lesson lesson)
     {
         context.Lessons.Remove(lesson);
 
         await context.SaveChangesAsync();
     }
 
-    public Task UpdateLessonAsync(Lesson lesson)
+    public Task UpdateAsync(Lesson lesson)
     {
         context.Lessons.Update(lesson);
 
         return context.SaveChangesAsync();
     }
 
-    public Task<Lesson?> GetLessonAsync(Guid id)
+    public Task<Lesson?> GetByIdAsync(Guid id)
     {
         return context.Lessons.FirstOrDefaultAsync(x => x.Id == id);
     }
@@ -63,7 +63,7 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
         return lessonGuids;
     }
 
-    public Task<List<LessonDto>> GetLessonsAsync(string timePeriod)
+    public Task<List<LessonDto>> GetByPeriodAsync(string timePeriod)
     {
         var today = DateOnly.FromDateTime(DateTime.Now);
 
@@ -107,7 +107,7 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
             .ToListAsync();
     }
 
-    public async Task<List<LessonDto>> GetPendingLessonsAsync()
+    public async Task<List<LessonDto>> GetPendingAsync()
     {
         var today =  DateOnly.FromDateTime(DateTime.Now);
         

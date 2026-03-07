@@ -44,10 +44,22 @@ public class Lesson : Entity<Guid>
         
         return lesson;
     }
+
+    public UnitResult<Error> Update(DateOnly date, TimeSpan startTime, TimeSpan endTime, bool isCompleted)
+    {
+        if (startTime < endTime)
+        {
+            return DomainErrors.Lesson.EndTimeIsEarlier;
+        }
+        
+        Date = date;
+        StartTime = startTime;
+        EndTime = endTime;
+        IsCompleted = isCompleted;
+
+        return UnitResult.Success<Error>();
+    }
     
     public TimeOnly GetStartTime() => TimeOnly.FromTimeSpan(StartTime);
     public TimeOnly GetEndTime() => TimeOnly.FromTimeSpan(EndTime);
-
-    public DateTime GetStartDateTime() => Date.ToDateTime(GetStartTime());
-    public DateTime GetEndDateTime() => Date.ToDateTime(GetEndTime());
 }

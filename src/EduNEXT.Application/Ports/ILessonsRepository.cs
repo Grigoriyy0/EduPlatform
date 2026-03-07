@@ -5,23 +5,19 @@ namespace EduNEXT.Application.Ports;
 
 public interface ILessonsRepository
 {
-    Task CreateLessonAsync(Lesson lesson);
+    Task AddAsync(Lesson lesson);
     
-    Task DeleteLessonAsync(Lesson lesson);
+    Task DeleteAsync(Lesson lesson);
     
-    Task UpdateLessonAsync(Lesson lesson);
+    Task UpdateAsync(Lesson lesson);
     
-    Task<Lesson?> GetLessonAsync(Guid id);
+    Task<Lesson?> GetByIdAsync(Guid id);
     
-    Task<bool> CheckAvailableLessonAsync(DateOnly date, TimeSpan start, TimeSpan end);
-    
-    Task<List<LessonDto>> GetLessonsAsync(string timePeriod);
+    Task<List<LessonDto>> GetByPeriodAsync(string timePeriod);
 
-    Task<List<LessonDto>> GetPendingLessonsAsync();
+    Task<List<LessonDto>> GetPendingAsync();
 
     Task<List<Lesson>> GetStudentLessonRangeAsync(DateOnly from, DateOnly to, Guid studentId);
-
-    Task DeleteLessonsRangeAsync(List<Lesson> lessons);
-
+    
     Task<List<Guid>> GetInterferedLessonsAsync(DateOnly date, TimeSpan start, TimeSpan end);
 }

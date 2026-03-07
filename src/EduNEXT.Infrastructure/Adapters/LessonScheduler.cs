@@ -49,7 +49,7 @@ public class LessonScheduler
                     
                     if (lessonResult.IsSuccess)
                     {
-                        await _lessonsRepository.CreateLessonAsync(lessonResult.Value);
+                        await _lessonsRepository.AddAsync(lessonResult.Value);
                         BackgroundJob.Schedule(() =>
                                 _publisher.SendToQueueAsync(
                                     $"У вас был урок с {student.Name} {lessonDate} в {slot.StartTime}?"

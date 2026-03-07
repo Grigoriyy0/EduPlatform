@@ -13,7 +13,7 @@ public class GetSalaryAnalyticsHandler(ISalaryRepository salaryRepository, ILess
         
         var expectedSalary = await salaryRepository.GetExpectedSalary();
 
-        var lessonsWeek = await lessonsRepository.GetLessonsAsync("week");
+        var lessonsWeek = await lessonsRepository.GetByPeriodAsync("week");
         
         var diff = (7 + (DateTime.Today.DayOfWeek - DayOfWeek.Monday)) % 7;
         
