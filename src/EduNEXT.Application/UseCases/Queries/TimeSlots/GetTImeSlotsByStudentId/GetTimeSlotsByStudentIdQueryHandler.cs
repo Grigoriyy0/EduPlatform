@@ -7,8 +7,8 @@ namespace EduNEXT.Application.UseCases.Queries.TimeSlots.GetTImeSlotsByStudentId
 public class GetTimeSlotsByStudentIdQueryHandler(ITimeSlotsRepository repository)
     : IRequestHandler<GetTimeSlotsByStudentIdQuery, List<StudentTimeSlot>>
 {
-    public async Task<List<StudentTimeSlot>> Handle(GetTimeSlotsByStudentIdQuery request, CancellationToken cancellationToken)
+    public async Task<List<StudentTimeSlot>> Handle(GetTimeSlotsByStudentIdQuery request, CancellationToken ct)
     {
-        return await repository.GetAllByStudentIdAsync(request.StudentId);
+        return await repository.GetByStudentIdAsync(request.StudentId, ct);
     }
 }

@@ -10,9 +10,9 @@ namespace EduNEXT.Application.UseCases.Commands.TimeSlot.DeleteTimeSlotCommand;
 public class DeleteTimeSlotCommandHandler(ITimeSlotsRepository repository, IMediator mediator)
     : IRequestHandler<DeleteTimeSlotCommand, UnitResult<Error>>
 {
-    public async Task<UnitResult<Error>> Handle(DeleteTimeSlotCommand request, CancellationToken cancellationToken)
+    public async Task<UnitResult<Error>> Handle(DeleteTimeSlotCommand request, CancellationToken ct)
     {
-        var timeSlot = await repository.GetTimeSlotAsync(request.TimeSlotId);
+        var timeSlot = await repository.GetAsync(request.TimeSlotId, ct);
 
         if (timeSlot == null)
         {
@@ -27,9 +27,9 @@ public class DeleteTimeSlotCommandHandler(ITimeSlotsRepository repository, IMedi
             Day = timeSlot.Day,
         };
 
-        await repository.DeleteTimeSlotAsync(timeSlot);
+        await repository.DeleteAsync(timeSlot, ct);
         
-        await mediator.Publish(notification, cancellationToken);
+        await mediator.Publish(notification, ct);
         
         return UnitResult.Success<Error>();
     }

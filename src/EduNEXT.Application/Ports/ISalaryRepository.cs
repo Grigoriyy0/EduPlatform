@@ -2,9 +2,7 @@
 
 public interface ISalaryRepository
 {
-    public Task<decimal> GetExpectedSalary();
+    public Task<decimal> GetExpectedAsync(CancellationToken ct);
     
-    public Task<decimal> GetActualSalary();
-
-    public Task<decimal> GetSalaryToday();
+    public Task<decimal> GetActualAsync(CancellationToken ct);
 }

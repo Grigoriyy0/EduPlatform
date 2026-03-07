@@ -5,18 +5,18 @@ namespace EduNEXT.Application.Ports;
 
 public interface ITimeSlotsRepository
 {
-    Task AddTimeSlotAsync(StudentTimeSlot timeSlot);
+    Task AddAsync(StudentTimeSlot timeSlot, CancellationToken ct);
     
-    Task UpdateTimeSlotAsync(StudentTimeSlot timeSlot);
+    Task UpdateAsync(StudentTimeSlot timeSlot, CancellationToken ct);
     
-    Task DeleteTimeSlotAsync(StudentTimeSlot timeSlot);
+    Task DeleteAsync(StudentTimeSlot timeSlot, CancellationToken ct);
     
-    Task<List<StudentTimeSlot>> GetAllByStudentIdAsync(Guid studentId);
+    Task<List<StudentTimeSlot>> GetByStudentIdAsync(Guid studentId, CancellationToken ct);
     
-    Task<bool> CheckAvailabilityAsync(int day, TimeSpan startTime, TimeSpan endTime);
+    Task<bool> CheckAvailabilityAsync(int day, TimeSpan startTime, TimeSpan endTime, CancellationToken ct);
     
-    Task<List<TimeSlotDto>> GetAllTimeSlotsAsync();
+    Task<List<TimeSlotDto>> GetDtoAsync(CancellationToken ct);
     
-    Task<StudentTimeSlot?> GetTimeSlotAsync(Guid timeSlotId);
+    Task<StudentTimeSlot?> GetAsync(Guid timeSlotId, CancellationToken ct);
     
 }

@@ -8,35 +8,36 @@ namespace EduNEXT.Infrastructure.Adapters.Repositories;
 
 public sealed class TimeSlotsRepository(MainContext context) : ITimeSlotsRepository
 {
-    public async Task AddTimeSlotAsync(StudentTimeSlot timeSlot)
+    public Task AddAsync(StudentTimeSlot timeSlot, CancellationToken ct)
     {
-        await context.LessonsTimeSlots.AddAsync(timeSlot);
-        await context.SaveChangesAsync();
+        context.LessonsTimeSlots.AddAsync(timeSlot, ct)
+            .AsTask();
+        return context.SaveChangesAsync(ct);
     }
 
-    public Task UpdateTimeSlotAsync(StudentTimeSlot timeSlot)
+    public Task UpdateAsync(StudentTimeSlot timeSlot, CancellationToken ct)
     {
         context.LessonsTimeSlots.Update(timeSlot);
-        return context.SaveChangesAsync();
+        return context.SaveChangesAsync(ct);
     }
 
-    public Task DeleteTimeSlotAsync(StudentTimeSlot timeSlot)
+    public Task DeleteAsync(StudentTimeSlot timeSlot, CancellationToken ct)
     {
         context.LessonsTimeSlots.Remove(timeSlot);
-        return context.SaveChangesAsync();
+        return context.SaveChangesAsync(ct);
     }
 
-    public async Task<List<StudentTimeSlot>> GetAllByStudentIdAsync(Guid studentId)
+    public Task<List<StudentTimeSlot>> GetByStudentIdAsync(Guid studentId, CancellationToken ct)
     {
-        return await context.LessonsTimeSlots.Where(x => x.StudentId == studentId)
+        return context.LessonsTimeSlots.Where(x => x.StudentId == studentId)
             .AsNoTracking()
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public async Task<bool> CheckAvailabilityAsync(int day, TimeSpan startTime, TimeSpan endTime)
+    public async Task<bool> CheckAvailabilityAsync(int day, TimeSpan startTime, TimeSpan endTime, CancellationToken ct)
     {
         var timeSlotDay = await context.LessonsTimeSlots.Where(x => x.Day == day)
-            .ToListAsync();
+            .ToListAsync(ct);
 
         foreach (var timeSlot in timeSlotDay)
         {
@@ -49,9 +50,9 @@ public sealed class TimeSlotsRepository(MainContext context) : ITimeSlotsReposit
         return false;
     }
 
-    public async Task<List<TimeSlotDto>> GetAllTimeSlotsAsync()
+    public Task<List<TimeSlotDto>> GetDtoAsync(CancellationToken ct)
     {
-        return await context.LessonsTimeSlots
+        return context.LessonsTimeSlots
             .Include(x => x.Student)
             .Select(ts => new TimeSlotDto
             {
@@ -60,12 +61,12 @@ public sealed class TimeSlotsRepository(MainContext context) : ITimeSlotsReposit
                 StartTime = ts.StartTime,
                 EndTime = ts.EndTime,
                 StudentName = ts.Student.Name,
-            }).ToListAsync();
+            }).ToListAsync(ct);
     }
 
-    public Task<StudentTimeSlot?> GetTimeSlotAsync(Guid timeSlotId)
+    public Task<StudentTimeSlot?> GetAsync(Guid timeSlotId, CancellationToken ct)
     {
-        return context.LessonsTimeSlots.FirstOrDefaultAsync(x => x.Id == timeSlotId);
+        return context.LessonsTimeSlots.FirstOrDefaultAsync(x => x.Id == timeSlotId, ct);
     }
     
 }
