@@ -9,9 +9,9 @@ public class GetSalaryAnalyticsHandler(ISalaryRepository salaryRepository, ILess
 {
     public async Task<SalaryAnalyticsDto> Handle(GetSalaryAnalyticsQuery request, CancellationToken ct)
     {
-        var actualSalary = await salaryRepository.GetActualSalary();
+        var actualSalary = await salaryRepository.GetActualSalary(ct);
         
-        var expectedSalary = await salaryRepository.GetExpectedSalary();
+        var expectedSalary = await salaryRepository.GetExpectedSalary(ct);
 
         var lessonsWeek = await lessonsRepository.GetByPeriodAsync("week", ct);
         

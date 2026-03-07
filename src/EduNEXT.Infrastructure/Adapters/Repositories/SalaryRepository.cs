@@ -6,33 +6,33 @@ namespace EduNEXT.Infrastructure.Adapters.Repositories;
 
 public class SalaryRepository(MainContext context) : ISalaryRepository
 {
-    public async Task<decimal> GetExpectedSalary()
+    public async Task<decimal> GetExpectedSalary(CancellationToken ct)
     {
         var currentMonth = DateTime.Now.Month;
 
         return await context.Lessons.AsNoTracking()
             .Where(x => x.Date.Month == currentMonth)
             .Include(l => l.Student)
-            .SumAsync(l => l.Student != null ? l.Student.LessonPrice : 0);
+            .SumAsync(l => l.Student != null ? l.Student.LessonPrice : 0, ct);
     }
 
-    public async Task<decimal> GetActualSalary()
+    public async Task<decimal> GetActualSalary(CancellationToken ct)
     {
         var currentMonth = DateTime.Now.Month;
             
         return await context.Lessons.AsNoTracking()
-            .Where(x => x.Date.Month == currentMonth && x.IsCompleted == true)
+            .Where(x => x.Date.Month == currentMonth && x.IsCompleted)
             .Include(l => l.Student)
-            .SumAsync(l => l.Student != null ? l.Student.LessonPrice : 0);
+            .SumAsync(l => l.Student != null ? l.Student.LessonPrice : 0, ct);
     }
 
-    public async Task<decimal> GetSalaryToday()
+    public async Task<decimal> GetSalaryToday(CancellationToken ct)
     {
         var today = DateOnly.FromDateTime(DateTime.Now);
         
         return await context.Lessons.AsNoTracking()
             .Where(x => x.Date == today)
             .Include(l => l.Student)
-            .SumAsync(t => t.Student != null ? t.Student.LessonPrice : 0);
+            .SumAsync(t => t.Student != null ? t.Student.LessonPrice : 0, ct);
     }
 }

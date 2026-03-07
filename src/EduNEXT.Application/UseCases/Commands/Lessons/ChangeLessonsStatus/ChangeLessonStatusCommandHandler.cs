@@ -22,7 +22,7 @@ public class ChangeLessonStatusCommandHandler(ILessonsRepository repository, ISt
         
         
         
-        var student = await studentRepository.GetStudentAsync(lesson.StudentId);
+        var student = await studentRepository.GetStudentAsync(lesson.StudentId, ct);
 
         var studResult = Core.Domain.Entities.Student.DecreasePaidLessonsCount(student!, 1);
 
@@ -33,7 +33,7 @@ public class ChangeLessonStatusCommandHandler(ILessonsRepository repository, ISt
 
         student = studResult.Value;
         
-        await studentRepository.UpdateAsync(student!);
+        await studentRepository.UpdateAsync(student!, ct);
         await repository.UpdateAsync(lesson, ct);
         
         return Unit.Value;

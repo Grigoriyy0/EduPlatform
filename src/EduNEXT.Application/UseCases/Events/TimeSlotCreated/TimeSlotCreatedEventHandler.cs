@@ -36,11 +36,11 @@ public class TimeSlotCreatedEventHandler(
                     await lessonsRepository.AddAsync(lessonResult.Value, ct);
 
                     var scheduleDate = date;
+
+                    var message = $"У вас был урок с {notification.StudentName} {scheduleDate} в {start}?";
                     
                     BackgroundJob.Schedule(() =>
-                            publisher.SendToQueueAsync(
-                                $"У вас был урок с {notification.StudentName} {scheduleDate} в {start}?"
-                            ),
+                            publisher.SendToQueueAsync(message, ct),
                         new DateTimeOffset(date.Year, date.Month, date.Day,
                             end.Hours, end.Minutes, 0,
                             TimeSpan.FromHours(4)));

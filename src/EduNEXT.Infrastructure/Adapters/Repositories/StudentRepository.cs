@@ -8,37 +8,37 @@ namespace EduNEXT.Infrastructure.Adapters.Repositories;
 
 public sealed class StudentRepository(MainContext context) : IStudentRepository
 {
-    public async Task AddStudentAsync(Student student)
+    public async Task AddStudentAsync(Student student, CancellationToken ct)
     { 
-        await context.Students.AddAsync(student);
-        await context.SaveChangesAsync();
+        await context.Students.AddAsync(student, ct);
+        await context.SaveChangesAsync(ct);
     }
     
-    public Task<Student?> FindByIdAsync(Guid id)
+    public Task<Student?> FindByIdAsync(Guid id, CancellationToken ct)
     {
         return context.Students.AsNoTracking().
-            FirstOrDefaultAsync(x => x.Id == id);
+            FirstOrDefaultAsync(x => x.Id == id, ct);
     }
 
-    public Task DeleteAsync(Student student)
+    public Task DeleteAsync(Student student, CancellationToken ct)
     {
         context.Students.Remove(student);
-        return context.SaveChangesAsync();
+        return context.SaveChangesAsync(ct);
     }
 
-    public Task UpdateAsync(Student student)
+    public Task UpdateAsync(Student student, CancellationToken ct)
     {
         context.Students.Update(student);
         
-        return context.SaveChangesAsync();
+        return context.SaveChangesAsync(ct);
     }
 
-    public Task<Student?> GetStudentAsync(Guid id)
+    public Task<Student?> GetStudentAsync(Guid id, CancellationToken ct)
     {
-        return context.Students.FirstOrDefaultAsync(x => x.Id == id);
+        return context.Students.FirstOrDefaultAsync(x => x.Id == id, ct);
     }
 
-    public async Task<List<StudentDto>> GetAllStudentsAsync()
+    public async Task<List<StudentDto>> GetAllStudentsAsync(CancellationToken ct)
     {
         return await context.Students
             .AsNoTracking()
@@ -60,11 +60,11 @@ public sealed class StudentRepository(MainContext context) : IStudentRepository
                     })
                     .ToList()
             })
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public Task<int> GetStudentsCountAsync()
+    public Task<int> GetStudentsCountAsync(CancellationToken ct)
     {
-        return context.Students.CountAsync();
+        return context.Students.CountAsync(ct);
     }
 }

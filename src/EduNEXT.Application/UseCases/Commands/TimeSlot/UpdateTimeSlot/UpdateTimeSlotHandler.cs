@@ -10,9 +10,9 @@ namespace EduNEXT.Application.UseCases.Commands.TimeSlot.UpdateTimeSlot;
 public class UpdateTimeSlotHandler(ITimeSlotsRepository repository)
     : IRequestHandler<UpdateTimeSlotCommand, Result<StudentTimeSlot, Error>>
 {
-    public async Task<Result<StudentTimeSlot, Error>> Handle(UpdateTimeSlotCommand request, CancellationToken cancellationToken)
+    public async Task<Result<StudentTimeSlot, Error>> Handle(UpdateTimeSlotCommand request, CancellationToken ct)
     {
-        var timeSlot = await repository.GetTimeSlotAsync(request.TimeSlotId);
+        var timeSlot = await repository.GetTimeSlotAsync(request.TimeSlotId, ct);
 
         if (request.StartTime > request.EndTime)
         {
@@ -29,7 +29,7 @@ public class UpdateTimeSlotHandler(ITimeSlotsRepository repository)
             return ApplicationErrors.TimeSlot.TimeSlotNotFound;
         }
         
-        var available = await repository.CheckAvailabilityAsync(request.Day, request.StartTime, request.EndTime);
+        var available = await repository.CheckAvailabilityAsync(request.Day, request.StartTime, request.EndTime, ct);
 
         if (available)
         {
@@ -40,7 +40,7 @@ public class UpdateTimeSlotHandler(ITimeSlotsRepository repository)
         timeSlot.StartTime = request.StartTime;
         timeSlot.EndTime = request.EndTime;
         
-        await repository.UpdateTimeSlotAsync(timeSlot);
+        await repository.UpdateTimeSlotAsync(timeSlot, ct);
 
         return timeSlot;
     }

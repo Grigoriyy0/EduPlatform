@@ -14,17 +14,17 @@ public class Publisher : IPublisher
         _sendEndpointProvider = sendEndpointProvider;
     }
 
-    public async Task SendMessageAsync(string message)
+    public async Task SendMessageAsync(string message, CancellationToken ct)
     {
         var publishMessage = new Notification(message);
         
-        await _publishEndpoint.Publish(publishMessage);
+        await _publishEndpoint.Publish(publishMessage, ct);
     }
     
-    public async Task SendToQueueAsync(string message)
+    public async Task SendToQueueAsync(string message, CancellationToken ct)
     {
         var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:telegram-notification-queue"));
         
-        await endpoint.Send(new Notification(message));
+        await endpoint.Send(new Notification(message), ct);
     }
 }

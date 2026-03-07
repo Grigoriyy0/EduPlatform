@@ -11,9 +11,9 @@ namespace EduNEXT.Application.UseCases.Commands.Student.UpdateStudentCommand;
 public class UpdateStudentHandler(IStudentRepository studentRepository)
     : IRequestHandler<UpdateStudentCommand, UnitResult<Error>>
 {
-    public async Task<UnitResult<Error>> Handle(UpdateStudentCommand request, CancellationToken cancellationToken)
+    public async Task<UnitResult<Error>> Handle(UpdateStudentCommand request, CancellationToken ct)
     {
-        var student = await studentRepository.GetStudentAsync(request.dto.StudentId);
+        var student = await studentRepository.GetStudentAsync(request.dto.StudentId, ct);
 
         if (student == null)
         {
@@ -34,7 +34,7 @@ public class UpdateStudentHandler(IStudentRepository studentRepository)
         }
         student.LessonPrice = request.dto.LessonPrice;
         
-        await studentRepository.UpdateAsync(student);
+        await studentRepository.UpdateAsync(student, ct);
 
         return UnitResult.Success<Error>();
     }
