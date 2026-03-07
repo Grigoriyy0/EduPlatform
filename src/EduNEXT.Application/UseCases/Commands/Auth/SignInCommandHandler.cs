@@ -21,7 +21,7 @@ public class SignInCommandHandler(
             return ApplicationErrors.Auth.UserIsNotAdmin;
         }
 
-        var token = tokenProducer.ProduceToken(admin);
+        var token = tokenProducer.Produce(admin);
         
         return token;
     }

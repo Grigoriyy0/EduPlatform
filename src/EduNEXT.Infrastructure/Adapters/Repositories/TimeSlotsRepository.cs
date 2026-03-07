@@ -8,27 +8,28 @@ namespace EduNEXT.Infrastructure.Adapters.Repositories;
 
 public sealed class TimeSlotsRepository(MainContext context) : ITimeSlotsRepository
 {
-    public async Task AddTimeSlotAsync(StudentTimeSlot timeSlot, CancellationToken ct)
+    public Task AddAsync(StudentTimeSlot timeSlot, CancellationToken ct)
     {
-        await context.LessonsTimeSlots.AddAsync(timeSlot, ct);
-        await context.SaveChangesAsync(ct);
+        context.LessonsTimeSlots.AddAsync(timeSlot, ct)
+            .AsTask();
+        return context.SaveChangesAsync(ct);
     }
 
-    public Task UpdateTimeSlotAsync(StudentTimeSlot timeSlot, CancellationToken ct)
+    public Task UpdateAsync(StudentTimeSlot timeSlot, CancellationToken ct)
     {
         context.LessonsTimeSlots.Update(timeSlot);
         return context.SaveChangesAsync(ct);
     }
 
-    public Task DeleteTimeSlotAsync(StudentTimeSlot timeSlot, CancellationToken ct)
+    public Task DeleteAsync(StudentTimeSlot timeSlot, CancellationToken ct)
     {
         context.LessonsTimeSlots.Remove(timeSlot);
         return context.SaveChangesAsync(ct);
     }
 
-    public async Task<List<StudentTimeSlot>> GetAllByStudentIdAsync(Guid studentId, CancellationToken ct)
+    public Task<List<StudentTimeSlot>> GetByStudentIdAsync(Guid studentId, CancellationToken ct)
     {
-        return await context.LessonsTimeSlots.Where(x => x.StudentId == studentId)
+        return context.LessonsTimeSlots.Where(x => x.StudentId == studentId)
             .AsNoTracking()
             .ToListAsync(ct);
     }
@@ -49,9 +50,9 @@ public sealed class TimeSlotsRepository(MainContext context) : ITimeSlotsReposit
         return false;
     }
 
-    public async Task<List<TimeSlotDto>> GetAllTimeSlotsAsync(CancellationToken ct)
+    public Task<List<TimeSlotDto>> GetDtoAsync(CancellationToken ct)
     {
-        return await context.LessonsTimeSlots
+        return context.LessonsTimeSlots
             .Include(x => x.Student)
             .Select(ts => new TimeSlotDto
             {
@@ -63,7 +64,7 @@ public sealed class TimeSlotsRepository(MainContext context) : ITimeSlotsReposit
             }).ToListAsync(ct);
     }
 
-    public Task<StudentTimeSlot?> GetTimeSlotAsync(Guid timeSlotId, CancellationToken ct)
+    public Task<StudentTimeSlot?> GetAsync(Guid timeSlotId, CancellationToken ct)
     {
         return context.LessonsTimeSlots.FirstOrDefaultAsync(x => x.Id == timeSlotId, ct);
     }

@@ -27,7 +27,7 @@ public class AddStudentCommandHandler(IMediator mediator,
 
         if (studentResult.IsSuccess)
         {
-            await studentRepository.AddStudentAsync(studentResult.Value, ct);
+            await studentRepository.AddAsync(studentResult.Value, ct);
         }
         
         return studentResult;

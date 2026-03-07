@@ -9,6 +9,6 @@ public class GetTimeSlotsByStudentIdQueryHandler(ITimeSlotsRepository repository
 {
     public async Task<List<StudentTimeSlot>> Handle(GetTimeSlotsByStudentIdQuery request, CancellationToken ct)
     {
-        return await repository.GetAllByStudentIdAsync(request.StudentId, ct);
+        return await repository.GetByStudentIdAsync(request.StudentId, ct);
     }
 }

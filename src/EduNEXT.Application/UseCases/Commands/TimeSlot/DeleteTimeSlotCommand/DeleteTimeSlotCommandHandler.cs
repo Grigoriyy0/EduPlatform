@@ -12,7 +12,7 @@ public class DeleteTimeSlotCommandHandler(ITimeSlotsRepository repository, IMedi
 {
     public async Task<UnitResult<Error>> Handle(DeleteTimeSlotCommand request, CancellationToken ct)
     {
-        var timeSlot = await repository.GetTimeSlotAsync(request.TimeSlotId, ct);
+        var timeSlot = await repository.GetAsync(request.TimeSlotId, ct);
 
         if (timeSlot == null)
         {
@@ -27,7 +27,7 @@ public class DeleteTimeSlotCommandHandler(ITimeSlotsRepository repository, IMedi
             Day = timeSlot.Day,
         };
 
-        await repository.DeleteTimeSlotAsync(timeSlot, ct);
+        await repository.DeleteAsync(timeSlot, ct);
         
         await mediator.Publish(notification, ct);
         

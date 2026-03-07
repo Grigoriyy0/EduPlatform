@@ -18,7 +18,7 @@ public class TokenProducer : ITokenProducer
         _options = options.Value;
     }
 
-    public string ProduceToken(Admin admin)
+    public string Produce(Admin admin)
     {
         var claims = GetClaims(admin);
         

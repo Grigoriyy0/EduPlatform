@@ -33,7 +33,7 @@ public class AssignTimeSlotsCommandHandler(
 
         if (timeSlot.IsSuccess)
         {
-            await repository.AddTimeSlotAsync(timeSlot.Value, ct);
+            await repository.AddAsync(timeSlot.Value, ct);
 
             var student = await studentRepository.FindByIdAsync(request.StudentId, ct);
             

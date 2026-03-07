@@ -11,7 +11,7 @@ public class DeleteStudentCommandHandler(IStudentRepository studentRepository)
 {
     public async Task<UnitResult<Error>> Handle(DeleteStudentCommand request, CancellationToken ct)
     {
-        var student = await studentRepository.GetStudentAsync(request.Id, ct);
+        var student = await studentRepository.GetByIdAsync(request.Id, ct);
 
         if (student == null)
         {

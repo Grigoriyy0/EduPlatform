@@ -8,15 +8,17 @@ namespace EduNEXT.Infrastructure.Adapters.Repositories;
 
 public sealed class StudentRepository(MainContext context) : IStudentRepository
 {
-    public async Task AddStudentAsync(Student student, CancellationToken ct)
+    public Task AddAsync(Student student, CancellationToken ct)
     { 
-        await context.Students.AddAsync(student, ct);
-        await context.SaveChangesAsync(ct);
+        context.Students.AddAsync(student, ct)
+            .AsTask();
+        return context.SaveChangesAsync(ct);
     }
     
     public Task<Student?> FindByIdAsync(Guid id, CancellationToken ct)
     {
-        return context.Students.AsNoTracking().
+        return context.Students
+            .AsNoTracking().
             FirstOrDefaultAsync(x => x.Id == id, ct);
     }
 
@@ -33,14 +35,14 @@ public sealed class StudentRepository(MainContext context) : IStudentRepository
         return context.SaveChangesAsync(ct);
     }
 
-    public Task<Student?> GetStudentAsync(Guid id, CancellationToken ct)
+    public Task<Student?> GetByIdAsync(Guid id, CancellationToken ct)
     {
         return context.Students.FirstOrDefaultAsync(x => x.Id == id, ct);
     }
 
-    public async Task<List<StudentDto>> GetAllStudentsAsync(CancellationToken ct)
+    public Task<List<StudentDto>> GetAsync(CancellationToken ct)
     {
-        return await context.Students
+        return context.Students
             .AsNoTracking()
             .Select(x => new StudentDto
             {
@@ -63,7 +65,7 @@ public sealed class StudentRepository(MainContext context) : IStudentRepository
             .ToListAsync(ct);
     }
 
-    public Task<int> GetStudentsCountAsync(CancellationToken ct)
+    public Task<int> GetCountAsync(CancellationToken ct)
     {
         return context.Students.CountAsync(ct);
     }

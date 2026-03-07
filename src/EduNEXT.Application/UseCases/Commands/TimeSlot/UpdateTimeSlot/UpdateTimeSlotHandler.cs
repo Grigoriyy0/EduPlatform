@@ -12,7 +12,7 @@ public class UpdateTimeSlotHandler(ITimeSlotsRepository repository)
 {
     public async Task<Result<StudentTimeSlot, Error>> Handle(UpdateTimeSlotCommand request, CancellationToken ct)
     {
-        var timeSlot = await repository.GetTimeSlotAsync(request.TimeSlotId, ct);
+        var timeSlot = await repository.GetAsync(request.TimeSlotId, ct);
 
         if (request.StartTime > request.EndTime)
         {
@@ -40,7 +40,7 @@ public class UpdateTimeSlotHandler(ITimeSlotsRepository repository)
         timeSlot.StartTime = request.StartTime;
         timeSlot.EndTime = request.EndTime;
         
-        await repository.UpdateTimeSlotAsync(timeSlot, ct);
+        await repository.UpdateAsync(timeSlot, ct);
 
         return timeSlot;
     }

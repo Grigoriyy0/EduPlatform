@@ -9,7 +9,7 @@ public class GetStudentAnalyticsHandler(IStudentRepository repository)
 {
     public async Task<StudentAnalyticsDto> Handle(GetStudentAnalyticsQuery request, CancellationToken ct)
     {
-        var studentsCount = await repository.GetStudentsCountAsync(ct);
+        var studentsCount = await repository.GetCountAsync(ct);
 
         return new StudentAnalyticsDto
         {

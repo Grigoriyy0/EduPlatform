@@ -22,7 +22,7 @@ public class ChangeLessonStatusCommandHandler(ILessonsRepository repository, ISt
         
         
         
-        var student = await studentRepository.GetStudentAsync(lesson.StudentId, ct);
+        var student = await studentRepository.GetByIdAsync(lesson.StudentId, ct);
 
         var studResult = Core.Domain.Entities.Student.DecreasePaidLessonsCount(student!, 1);
 

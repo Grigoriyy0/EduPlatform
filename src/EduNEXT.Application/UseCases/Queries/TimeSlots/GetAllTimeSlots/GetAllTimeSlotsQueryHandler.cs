@@ -10,6 +10,6 @@ public class GetAllTimeSlotsQueryHandler(ITimeSlotsRepository repository)
 {
     public async Task<List<TimeSlotDto>> Handle(GetAllTimeSlotsQuery request, CancellationToken ct)
     {
-        return await repository.GetAllTimeSlotsAsync(ct);
+        return await repository.GetDtoAsync(ct);
     }   
 }

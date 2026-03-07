@@ -13,7 +13,7 @@ public class UpdateStudentHandler(IStudentRepository studentRepository)
 {
     public async Task<UnitResult<Error>> Handle(UpdateStudentCommand request, CancellationToken ct)
     {
-        var student = await studentRepository.GetStudentAsync(request.dto.StudentId, ct);
+        var student = await studentRepository.GetByIdAsync(request.dto.StudentId, ct);
 
         if (student == null)
         {

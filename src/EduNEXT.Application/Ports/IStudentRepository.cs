@@ -5,17 +5,17 @@ namespace EduNEXT.Application.Ports;
 
 public interface IStudentRepository
 {
-    Task AddStudentAsync(Student student, CancellationToken ct);
-    
-    Task<Student?> FindByIdAsync(Guid id, CancellationToken ct);
+    Task AddAsync(Student student, CancellationToken ct);
     
     Task DeleteAsync(Student student, CancellationToken ct);
     
     Task UpdateAsync(Student student, CancellationToken ct);
     
-    Task<Student?> GetStudentAsync(Guid id, CancellationToken ct);
+    Task<Student?> GetByIdAsync(Guid id, CancellationToken ct);
     
-    Task<List<StudentDto>> GetAllStudentsAsync(CancellationToken ct);
+    Task<Student?> FindByIdAsync(Guid id, CancellationToken ct);
+    
+    Task<List<StudentDto>> GetAsync(CancellationToken ct);
 
-    Task<int> GetStudentsCountAsync(CancellationToken ct);
+    Task<int> GetCountAsync(CancellationToken ct);
 }

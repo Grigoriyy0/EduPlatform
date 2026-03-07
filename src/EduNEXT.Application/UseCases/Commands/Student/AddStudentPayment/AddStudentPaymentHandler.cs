@@ -10,7 +10,7 @@ public class AddStudentPaymentHandler(IStudentRepository studentRepository) : IR
 {
     public async Task<UnitResult<Error>> Handle(AddStudentPaymentCommand request, CancellationToken ct)
     {
-        var student = await studentRepository.GetStudentAsync(request.dto.StudentId, ct);
+        var student = await studentRepository.GetByIdAsync(request.dto.StudentId, ct);
 
         if (student == null)
         {

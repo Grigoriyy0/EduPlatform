@@ -9,6 +9,6 @@ public class GetAllStudentsQueryHandler(IStudentRepository repository)
 {
     public async Task<List<StudentDto>> Handle(GetAllStudentsQuery request, CancellationToken ct)
     {
-        return await repository.GetAllStudentsAsync(ct);
+        return await repository.GetAsync(ct);
     }
 }

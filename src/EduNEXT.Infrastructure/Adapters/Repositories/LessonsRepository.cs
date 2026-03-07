@@ -8,17 +8,17 @@ namespace EduNEXT.Infrastructure.Adapters.Repositories;
 
 public sealed class LessonsRepository(MainContext context) : ILessonsRepository
 {
-    public async Task AddAsync(Lesson lesson, CancellationToken ct)
+    public Task AddAsync(Lesson lesson, CancellationToken ct)
     {
-        await context.Lessons.AddAsync(lesson, ct);
-        await context.SaveChangesAsync(ct);
+        context.Lessons.AddAsync(lesson, ct).AsTask();
+        return context.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteAsync(Lesson lesson, CancellationToken ct)
+    public Task DeleteAsync(Lesson lesson, CancellationToken ct)
     {
         context.Lessons.Remove(lesson);
 
-        await context.SaveChangesAsync(ct);
+        return context.SaveChangesAsync(ct);
     }
 
     public Task UpdateAsync(Lesson lesson, CancellationToken ct)
@@ -32,19 +32,7 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
     {
         return context.Lessons.FirstOrDefaultAsync(x => x.Id == id, ct);
     }
-
-    public async Task<bool> CheckAvailableLessonAsync(DateOnly date, TimeSpan start, TimeSpan end, CancellationToken ct)
-    {
-        var daysLessons = await context.Lessons.Where(x => x.Date == date)
-            .ToListAsync(ct);
-
-        foreach (var dayLesson in daysLessons)
-            if (start < dayLesson.EndTime && dayLesson.StartTime < end)
-                return true;
-
-        return false;
-    }
-
+    
     public async Task<List<Guid>> GetInterferedLessonsAsync(DateOnly date, TimeSpan start, TimeSpan end, CancellationToken  ct)
     {
         var lessonGuids = new List<Guid>();
@@ -107,11 +95,11 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
             .ToListAsync(ct);
     }
 
-    public async Task<List<LessonDto>> GetPendingAsync(CancellationToken ct)
+    public Task<List<LessonDto>> GetPendingAsync(CancellationToken ct)
     {
         var today =  DateOnly.FromDateTime(DateTime.Now);
         
-        return await context.Lessons
+        return context.Lessons
             .AsNoTracking()
             .Where(l => l.Date <= today && !l.IsCompleted)
             .OrderBy(l => l.Date)
@@ -128,16 +116,10 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
             .ToListAsync(ct);
     }
 
-    public async Task<List<Lesson>> GetStudentLessonRangeAsync(DateOnly from, DateOnly to, Guid studentId, CancellationToken ct)
+    public Task<List<Lesson>> GetStudentLessonRangeAsync(DateOnly from, DateOnly to, Guid studentId, CancellationToken ct)
     {
-        return await context.Lessons
+        return context.Lessons
             .Where(l => l.Date >= from && l.Date <= to &&  l.StudentId == studentId)
             .ToListAsync(ct);
-    }
-
-    public Task DeleteLessonsRangeAsync(List<Lesson> lessons, CancellationToken ct)
-    {
-        context.Lessons.RemoveRange(lessons);
-        return context.SaveChangesAsync(ct);
     }
 } 

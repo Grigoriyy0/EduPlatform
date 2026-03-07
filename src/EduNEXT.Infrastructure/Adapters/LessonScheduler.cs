@@ -27,7 +27,7 @@ public class LessonScheduler
     public async Task PlanLessonsForNextMonthAsync(CancellationToken ct = default)
     {
         _logger.LogInformation("Planing lessons for next month");
-        var students = await _studentRepository.GetAllStudentsAsync(ct);
+        var students = await _studentRepository.GetAsync(ct);
 
         var firstDay = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(1);
         var lastDay = new DateTime(firstDay.Year, firstDay.Month, DateTime.DaysInMonth(firstDay.Year, firstDay.Month));
