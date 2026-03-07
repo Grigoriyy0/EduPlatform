@@ -5,7 +5,7 @@ namespace EduNEXT.Infrastructure.Messaging;
 
 public class Publisher : IPublisher
 {
-    private IPublishEndpoint _publishEndpoint;
+    private readonly IPublishEndpoint _publishEndpoint;
     private readonly ISendEndpointProvider _sendEndpointProvider;
     
     public Publisher(IPublishEndpoint publishEndpoint, ISendEndpointProvider sendEndpointProvider)
@@ -23,7 +23,6 @@ public class Publisher : IPublisher
     
     public async Task SendToQueueAsync(string message)
     {
-        
         var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:telegram-notification-queue"));
         
         await endpoint.Send(new Notification(message));

@@ -7,8 +7,8 @@ namespace EduNEXT.Application.UseCases.Queries.Lessons.GetAllLessonsByFilter;
 public class GetAllLessonsByFilterQueryHandler(ILessonsRepository repository)
     : IRequestHandler<GetAllLessonsByFilterQuery, IList<LessonDto>>
 {
-    public async Task<IList<LessonDto>> Handle(GetAllLessonsByFilterQuery request, CancellationToken cancellationToken)
+    public async Task<IList<LessonDto>> Handle(GetAllLessonsByFilterQuery request, CancellationToken ct)
     {
-        return await repository.GetByPeriodAsync(request.CriteriaName);
+        return await repository.GetByPeriodAsync(request.CriteriaName, ct);
     }
 }

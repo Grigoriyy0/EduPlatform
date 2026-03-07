@@ -24,7 +24,7 @@ public class LessonScheduler
         _logger = logger;
     }
 
-    public async Task PlanLessonsForNextMonthAsync(CancellationToken cancellationToken = default)
+    public async Task PlanLessonsForNextMonthAsync(CancellationToken ct = default)
     {
         _logger.LogInformation("Planing lessons for next month");
         var students = await _studentRepository.GetAllStudentsAsync();
@@ -49,7 +49,7 @@ public class LessonScheduler
                     
                     if (lessonResult.IsSuccess)
                     {
-                        await _lessonsRepository.AddAsync(lessonResult.Value);
+                        await _lessonsRepository.AddAsync(lessonResult.Value, ct);
                         BackgroundJob.Schedule(() =>
                                 _publisher.SendToQueueAsync(
                                     $"У вас был урок с {student.Name} {lessonDate} в {slot.StartTime}?"

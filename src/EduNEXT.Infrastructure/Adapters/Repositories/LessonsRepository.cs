@@ -8,35 +8,35 @@ namespace EduNEXT.Infrastructure.Adapters.Repositories;
 
 public sealed class LessonsRepository(MainContext context) : ILessonsRepository
 {
-    public async Task AddAsync(Lesson lesson)
+    public async Task AddAsync(Lesson lesson, CancellationToken ct)
     {
-        await context.Lessons.AddAsync(lesson);
-        await context.SaveChangesAsync();
+        await context.Lessons.AddAsync(lesson, ct);
+        await context.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteAsync(Lesson lesson)
+    public async Task DeleteAsync(Lesson lesson, CancellationToken ct)
     {
         context.Lessons.Remove(lesson);
 
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(ct);
     }
 
-    public Task UpdateAsync(Lesson lesson)
+    public Task UpdateAsync(Lesson lesson, CancellationToken ct)
     {
         context.Lessons.Update(lesson);
 
-        return context.SaveChangesAsync();
+        return context.SaveChangesAsync(ct);
     }
 
-    public Task<Lesson?> GetByIdAsync(Guid id)
+    public Task<Lesson?> GetByIdAsync(Guid id, CancellationToken ct)
     {
-        return context.Lessons.FirstOrDefaultAsync(x => x.Id == id);
+        return context.Lessons.FirstOrDefaultAsync(x => x.Id == id, ct);
     }
 
-    public async Task<bool> CheckAvailableLessonAsync(DateOnly date, TimeSpan start, TimeSpan end)
+    public async Task<bool> CheckAvailableLessonAsync(DateOnly date, TimeSpan start, TimeSpan end, CancellationToken ct)
     {
         var daysLessons = await context.Lessons.Where(x => x.Date == date)
-            .ToListAsync();
+            .ToListAsync(ct);
 
         foreach (var dayLesson in daysLessons)
             if (start < dayLesson.EndTime && dayLesson.StartTime < end)
@@ -45,12 +45,12 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
         return false;
     }
 
-    public async Task<List<Guid>> GetInterferedLessonsAsync(DateOnly date, TimeSpan start, TimeSpan end)
+    public async Task<List<Guid>> GetInterferedLessonsAsync(DateOnly date, TimeSpan start, TimeSpan end, CancellationToken  ct)
     {
         var lessonGuids = new List<Guid>();
         
         var daysLessons = await context.Lessons.Where(x => x.Date == date)
-            .ToListAsync();
+            .ToListAsync(ct);
 
         foreach (var dayLesson in daysLessons)
         {
@@ -63,7 +63,7 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
         return lessonGuids;
     }
 
-    public Task<List<LessonDto>> GetByPeriodAsync(string timePeriod)
+    public Task<List<LessonDto>> GetByPeriodAsync(string timePeriod, CancellationToken ct)
     {
         var today = DateOnly.FromDateTime(DateTime.Now);
 
@@ -104,10 +104,10 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
                 StudentName = l.Student!.Name,
                 LessonPrice = l.Student!.LessonPrice
             })
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public async Task<List<LessonDto>> GetPendingAsync()
+    public async Task<List<LessonDto>> GetPendingAsync(CancellationToken ct)
     {
         var today =  DateOnly.FromDateTime(DateTime.Now);
         
@@ -125,19 +125,19 @@ public sealed class LessonsRepository(MainContext context) : ILessonsRepository
                 StudentName = l.Student!.Name,
                 LessonPrice = l.Student!.LessonPrice
             })
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public async Task<List<Lesson>> GetStudentLessonRangeAsync(DateOnly from, DateOnly to, Guid studentId)
+    public async Task<List<Lesson>> GetStudentLessonRangeAsync(DateOnly from, DateOnly to, Guid studentId, CancellationToken ct)
     {
         return await context.Lessons
             .Where(l => l.Date >= from && l.Date <= to &&  l.StudentId == studentId)
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public Task DeleteLessonsRangeAsync(List<Lesson> lessons)
+    public Task DeleteLessonsRangeAsync(List<Lesson> lessons, CancellationToken ct)
     {
         context.Lessons.RemoveRange(lessons);
-        return context.SaveChangesAsync();
+        return context.SaveChangesAsync(ct);
     }
 } 

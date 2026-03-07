@@ -10,9 +10,9 @@ public class UpdateLessonHandler(
     ILessonsRepository lessonsRepository
     ) : IRequestHandler<UpdateLessonCommand, UnitResult<Error>>
 {
-    public async Task<UnitResult<Error>> Handle(UpdateLessonCommand request, CancellationToken cancellationToken)
+    public async Task<UnitResult<Error>> Handle(UpdateLessonCommand request, CancellationToken ct)
     {
-        var lesson = await lessonsRepository.GetByIdAsync(request.LessonId);
+        var lesson = await lessonsRepository.GetByIdAsync(request.LessonId, ct);
 
         if (lesson is null)
         {
@@ -22,7 +22,7 @@ public class UpdateLessonHandler(
         var interferedLessonGuids = await lessonsRepository.GetInterferedLessonsAsync(
             request.Date,
             request.StartTime,
-            request.EndTime);
+            request.EndTime, ct);
 
         if (interferedLessonGuids.Count > 1 || interferedLessonGuids[0] != request.LessonId)
         { 
@@ -36,7 +36,7 @@ public class UpdateLessonHandler(
             return updateResult.Error;
         }
         
-        await lessonsRepository.UpdateAsync(lesson);
+        await lessonsRepository.UpdateAsync(lesson, ct);
 
         return UnitResult.Success<Error>();
     }
