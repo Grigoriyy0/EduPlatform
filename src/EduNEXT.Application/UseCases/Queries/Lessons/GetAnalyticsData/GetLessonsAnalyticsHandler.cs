@@ -10,13 +10,13 @@ public class GetLessonsAnalyticsHandler(ILessonsRepository repository)
 {
     public async Task<LessonsAnalyticsDto> Handle(GetLessonsAnalyticsQuery request, CancellationToken cancellationToken)
     {
-        var lessonsToday = await repository.GetLessonsAsync("day");
+        var lessonsToday = await repository.GetByPeriodAsync("day");
         
-        var lessonsMonth = await repository.GetLessonsAsync("month");
+        var lessonsMonth = await repository.GetByPeriodAsync("month");
 
-        var pendingLessons = await repository.GetPendingLessonsAsync();
+        var pendingLessons = await repository.GetPendingAsync();
         
-        var lessonsWeek = await repository.GetLessonsAsync("week");
+        var lessonsWeek = await repository.GetByPeriodAsync("week");
         
         var diff = (7 + (DateTime.Today.DayOfWeek - DayOfWeek.Monday)) % 7;
         

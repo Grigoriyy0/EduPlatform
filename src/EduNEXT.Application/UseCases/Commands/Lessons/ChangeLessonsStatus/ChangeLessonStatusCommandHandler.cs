@@ -11,7 +11,7 @@ public class ChangeLessonStatusCommandHandler(ILessonsRepository repository, ISt
 {
     public async Task<Result<Unit, Error>> Handle(ChangeLessonStatusCommand request, CancellationToken cancellationToken)
     {
-        var lesson = await repository.GetLessonAsync(request.LessonId);
+        var lesson = await repository.GetByIdAsync(request.LessonId);
 
         if (lesson == null)
         {
@@ -34,7 +34,7 @@ public class ChangeLessonStatusCommandHandler(ILessonsRepository repository, ISt
         student = studResult.Value;
         
         await studentRepository.UpdateAsync(student!);
-        await repository.UpdateLessonAsync(lesson);
+        await repository.UpdateAsync(lesson);
         
         return Unit.Value;
     }

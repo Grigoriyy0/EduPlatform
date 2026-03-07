@@ -15,7 +15,7 @@ namespace EduNEXT.API.Controllers;
 public class TimeSlotsController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    [Route("add/")]
+    [Route("")]
     public async Task<IActionResult> AddTimeSlotAsync([FromBody] AssignTimeSlotsCommand command)
     {
         var result =  await mediator.Send(command);
@@ -29,7 +29,6 @@ public class TimeSlotsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
-    [Route("all/")]
     public async Task<IActionResult> GetAllTimeSlots()
     {
         return Ok(await mediator.Send(new GetAllTimeSlotsQuery()));
@@ -46,7 +45,7 @@ public class TimeSlotsController(IMediator mediator) : ControllerBase
     }
 
     [HttpDelete]
-    [Route("delete/{id:guid}/")]
+    [Route("{id:guid}/")]
     public async Task<IActionResult> DeleteTimeSlotById(Guid id)
     {
         var result = await mediator.Send(new DeleteTimeSlotCommand
@@ -63,7 +62,6 @@ public class TimeSlotsController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut]
-    [Route("update/")]
     public async Task<IActionResult> UpdateTimeSlotById([FromBody] UpdateTimeSlotCommand command)
     {
         var result = await mediator.Send(command);

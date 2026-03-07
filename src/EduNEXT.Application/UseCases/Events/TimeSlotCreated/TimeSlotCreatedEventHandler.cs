@@ -33,7 +33,7 @@ public class TimeSlotCreatedEventHandler(
 
                 if (lessonResult.IsSuccess)
                 {
-                    await lessonsRepository.CreateLessonAsync(lessonResult.Value);
+                    await lessonsRepository.AddAsync(lessonResult.Value);
 
                     var scheduleDate = date;
                     
