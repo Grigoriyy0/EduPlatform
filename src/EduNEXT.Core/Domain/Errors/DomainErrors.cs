@@ -16,6 +16,8 @@ public static class DomainErrors
         public static readonly Error PaidLessonsCountIsIncorrect = GeneralErrors.ValueIsIncorrect(1, "user.paid.count");
         
         public static readonly Error SubscribedLessonsCountIsIncorrect = GeneralErrors.ValueIsIncorrect(1, "user.subscribed.count");
+        
+        public static readonly Error DecreaseZeroPaidLessons = GeneralErrors.ValueIsIncorrect(1, "user.decrease.count");
     }
 
     public static class TimeSlot
@@ -29,5 +31,7 @@ public static class DomainErrors
     public static class Lesson
     {
         public static readonly Error EndTimeIsEarlier = GeneralErrors.ValueIsIncorrect(1, "lesson.end");
+
+        public static readonly Error CompleteCompleted = GeneralErrors.ValueIsIncorrect(1, "lesson.complete");
     }
 }

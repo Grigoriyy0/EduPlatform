@@ -7,15 +7,19 @@ namespace EduNEXT.Core.Domain.Entities;
 public class Lesson : Entity<Guid>
 {
     public DateOnly Date { get; private set; }
+    
     public Guid StudentId { get; private set; }
+    
     public TimeSpan StartTime { get; private set; }
+    
     public TimeSpan EndTime { get; private set; }
+    
     public bool IsCompleted { get; private set; }
+    
     public Student? Student { get; private set; }
 
     private Lesson(DateOnly date, TimeSpan startTime, TimeSpan endTime, Guid studentId)
     {
-        Id = Guid.NewGuid();
         Date = date;
         StartTime = startTime;
         EndTime = endTime;
@@ -31,20 +35,18 @@ public class Lesson : Entity<Guid>
         return new Lesson(date, start, end, studentId);
     }
 
-    public void Complete()
+    public UnitResult<Error> Complete()
     {
-        IsCompleted = true;
-    }
-
-    public Lesson UpdateLessonsTime(Lesson lesson, DateOnly day, TimeSpan start, TimeSpan end)
-    {
-        lesson.Date = day;
-        lesson.StartTime = start;
-        lesson.EndTime = end;
+        if (IsCompleted)
+        {
+            return DomainErrors.Lesson.CompleteCompleted;
+        }
         
-        return lesson;
+        IsCompleted = true;
+        
+        return UnitResult.Success<Error>();
     }
-
+    
     public UnitResult<Error> Update(DateOnly date, TimeSpan startTime, TimeSpan endTime, bool isCompleted)
     {
         if (startTime < endTime)
@@ -59,7 +61,4 @@ public class Lesson : Entity<Guid>
 
         return UnitResult.Success<Error>();
     }
-    
-    public TimeOnly GetStartTime() => TimeOnly.FromTimeSpan(StartTime);
-    public TimeOnly GetEndTime() => TimeOnly.FromTimeSpan(EndTime);
 }

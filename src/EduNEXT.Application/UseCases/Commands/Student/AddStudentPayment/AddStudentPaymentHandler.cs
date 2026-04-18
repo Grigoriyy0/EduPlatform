@@ -17,7 +17,12 @@ public class AddStudentPaymentHandler(IStudentRepository studentRepository) : IR
             return ApplicationErrors.Student.StudentIsNotExists;
         }
         
-        student.PaidLessonsCount +=  request.dto.Amount;
+        var result = student.AddPaidLessons(request.dto.Amount);
+
+        if (result.IsFailure)
+        {
+            return result.Error;
+        }
         
         await studentRepository.UpdateAsync(student, ct);
 

@@ -69,18 +69,65 @@ public class Student : Entity<Guid>
         return new Student(name, telegram, password, paidLessonsCount, subscribedLessonsCount, lessonPrice, timezone);
     }
 
-    public static Result<Student, Error> DecreasePaidLessonsCount(Student student, int amount)
+    public UnitResult<Error> DecreasePaidLessonsCount()
     {
-        if (student.PaidLessonsCount < amount)
+        if (PaidLessonsCount == 0)
         {
-            student.PaidLessonsCount = 0;
-            
-            return student;
+            return DomainErrors.Student.DecreaseZeroPaidLessons;
+        }
+        
+        PaidLessonsCount--;
+        
+        return UnitResult.Success<Error>();
+    }
+
+    public UnitResult<Error> AddPaidLessons(int amount)
+    {
+        if (amount <= 0)
+        {
+            return DomainErrors.Student.PaidLessonsCountIsIncorrect;
+        }
+        
+        PaidLessonsCount +=  amount;
+        
+        return UnitResult.Success<Error>();
+    }
+
+    public UnitResult<Error> Update(
+        string name, 
+        int paidLessonsCount, 
+        int subscribedLessonsCount, 
+        string telegram, 
+        string timezone, 
+        decimal lessonPrice)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return DomainErrors.Student.NameIsIncorrect;
         }
 
-        student.PaidLessonsCount -= amount;
+        if (paidLessonsCount < 0)
+        {
+            return DomainErrors.Student.PaidLessonsCountIsIncorrect;
+        }
+
+        if (subscribedLessonsCount < 0)
+        {
+            return DomainErrors.Student.SubscribedLessonsCountIsIncorrect;
+        }
+
+        if (lessonPrice <= 0)
+        {
+            return DomainErrors.Student.LessonPriceIsIncorrect;
+        }
+
+        Name = name;
+        PaidLessonsCount = paidLessonsCount;
+        SubscribedLessonsCount = subscribedLessonsCount;
+        Telegram = telegram;
+        TimeZone = timezone;
+        LessonPrice = lessonPrice;
         
-        return student;
+        return UnitResult.Success<Error>();
     }
-    
 }

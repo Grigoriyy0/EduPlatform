@@ -7,9 +7,9 @@ using Primitives;
 namespace EduNEXT.Application.UseCases.Commands.Lessons.ChangeLessonsStatus;
 
 public class ChangeLessonStatusCommandHandler(ILessonsRepository repository, IStudentRepository studentRepository)
-    : IRequestHandler<ChangeLessonStatusCommand, Result<Unit, Error>>
+    : IRequestHandler<ChangeLessonStatusCommand, UnitResult<Error>>
 {
-    public async Task<Result<Unit, Error>> Handle(ChangeLessonStatusCommand request, CancellationToken ct)
+    public async Task<UnitResult<Error>> Handle(ChangeLessonStatusCommand request, CancellationToken ct)
     {
         var lesson = await repository.GetByIdAsync(request.LessonId, ct);
 
@@ -20,22 +20,23 @@ public class ChangeLessonStatusCommandHandler(ILessonsRepository repository, ISt
 
         lesson.Complete();
         
-        
-        
         var student = await studentRepository.GetByIdAsync(lesson.StudentId, ct);
 
-        var studResult = Core.Domain.Entities.Student.DecreasePaidLessonsCount(student!, 1);
-
-        if (studResult.IsFailure)
+        if (student == null)
         {
-            return studResult.Error;
+            return ApplicationErrors.Student.StudentIsNotExists;
         }
+        
+        var res = student.DecreasePaidLessonsCount();
 
-        student = studResult.Value;
+        if (res.IsFailure)
+        {
+            return res.Error;
+        }
         
         await studentRepository.UpdateAsync(student!, ct);
         await repository.UpdateAsync(lesson, ct);
         
-        return Unit.Value;
+        return UnitResult.Success<Error>();
     }
 }

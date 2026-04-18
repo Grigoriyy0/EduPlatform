@@ -45,16 +45,38 @@ public class StudentTimeSlot
     {
         if (startTime > endTime)
         {
-            return Result.Failure<StudentTimeSlot, Error>(DomainErrors.TimeSlot.EndIsEarlier);
+            return DomainErrors.TimeSlot.EndIsEarlier;
         }
 
         if (day < 1 || day > 7)
         {
-            return Result.Failure<StudentTimeSlot, Error>(DomainErrors.TimeSlot.DayIsIncorrect);
+            return DomainErrors.TimeSlot.DayIsIncorrect;
         }
         
         var duration = endTime - startTime;
         
         return new StudentTimeSlot(Guid.NewGuid(), day, startTime, endTime, duration, studentId);
-    } 
+    }
+
+    public UnitResult<Error> Update(int day, TimeSpan startTime, TimeSpan endTime)
+    {
+        if (day < 1 || day > 7)
+        {
+            return DomainErrors.TimeSlot.DayIsIncorrect;
+        }
+
+        if (startTime > endTime)
+        {
+            return DomainErrors.TimeSlot.EndIsEarlier;
+        }
+        
+        var duration = endTime - startTime;
+
+        Day = day;
+        StartTime = startTime;
+        EndTime = endTime;
+        Duration = duration;
+        
+        return UnitResult.Success<Error>();
+    }
 }
