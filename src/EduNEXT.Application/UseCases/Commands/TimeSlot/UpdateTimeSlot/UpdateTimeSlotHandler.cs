@@ -36,9 +36,12 @@ public class UpdateTimeSlotHandler(ITimeSlotsRepository repository)
             return ApplicationErrors.TimeSlot.TimeSlotIsBooked;
         }
 
-        timeSlot.Day = request.Day;
-        timeSlot.StartTime = request.StartTime;
-        timeSlot.EndTime = request.EndTime;
+        var updateResult = timeSlot.Update(request.Day, request.StartTime, request.EndTime);
+
+        if (updateResult.IsFailure)
+        {
+            return updateResult.Error;
+        }
         
         await repository.UpdateAsync(timeSlot, ct);
 

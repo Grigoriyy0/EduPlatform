@@ -21,7 +21,7 @@ public class LessonsController(IMediator mediator) : ControllerBase
 
         if (result.IsSuccess)
         {
-            return Ok(result.Value);
+            return Ok();
         }
             
         return BadRequest(result.Error);

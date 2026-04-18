@@ -20,19 +20,12 @@ public class UpdateStudentHandler(IStudentRepository studentRepository)
             return ApplicationErrors.Student.StudentIsNotExists;
         }
         
-        student.Name = request.dto.Name;
-        
-        student.PaidLessonsCount = request.dto.PaidLessonsCount;
-        student.SubscribedLessonsCount = request.dto.SubscribedLessonsCount;
+        var updateResult = student.Update(request.dto.Name, request.dto.PaidLessonsCount, request.dto.SubscribedLessonsCount, request.dto.Telegram ?? string.Empty, request.dto.TimeZone, request.dto.LessonPrice);
 
-        student.Telegram = request.dto.Telegram;
-        student.TimeZone = request.dto.TimeZone;
-        
-        if (request.dto.LessonPrice <= 0)
+        if (updateResult.IsFailure)
         {
-            return ApplicationErrors.Student.StudentLessonPriceIsIncorrect;
+            return updateResult.Error;
         }
-        student.LessonPrice = request.dto.LessonPrice;
         
         await studentRepository.UpdateAsync(student, ct);
 
