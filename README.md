@@ -6,7 +6,7 @@ A modern learning management platform: student and lesson tracking, scheduling, 
 - **Backend**: `src/EduNEXT.API` — ASP.NET Core API
 - **Core/Application/Infrastructure**: `src/EduNEXT.Core`, `src/EduNEXT.Application`, `src/EduNEXT.Infrastructure`
 - **Docker/Infra**: `deploy/` (compose, DB init)
-- **(Optional) Web client**: `eduplatfrom.client` — React SPA (https://github.com/Grigoriyy0/eduplatfrom.client)
+- **(Optional) Web client**: `eduplatfrom.client` — React web client (https://github.com/Grigoriyy0/eduplatfrom.client)
 - **(Optional) Notification Bot**: `eduplatform.notification` — Telegram bot (https://github.com/Grigoriyy0/eduplatform.notification)
 
 ---
@@ -23,17 +23,15 @@ A modern learning management platform: student and lesson tracking, scheduling, 
 
 ### Architectural highlights
 - **Clean Architecture** (layers: `Core`/`Application`/`Infrastructure`/`API`)
-- **Use Cases in CQRS style**: separate `Commands` and `Queries`
-- **Ports & Adapters**: interfaces in `Application`, implementations in `Infrastructure`
-- **Infrastructure adapters**: repositories, hash/password providers, message publisher
-- **Modular configuration** and DI via `DependencyInjection`
+- **Use Cases style**: separate `Handlers` for each request
+- **Hexagonal architecture elements**: interfaces in `Application`, implementations in `Infrastructure`
 
 ### Tech stack
 - **ASP.NET Core** (Web API)
 - **Entity Framework Core** + **PostgreSQL**
 - **RabbitMQ** for messaging
 - **Docker**/Docker Compose for environment
-- (Recommended) **Swagger/OpenAPI** for endpoint documentation
+- **Swagger/OpenAPI** for endpoint documentation
 
 ---
 
@@ -83,7 +81,7 @@ docker compose -f deploy/docker-compose.yml down
 
 After startup:
 - The API is available at the address defined in compose (see `deploy/docker-compose.yml`).
-- Endpoint documentation is available at `/swagger` of the API service.
+- Endpoint documentation is available at `/swagger` of the API service (only in development mode).
 - The client app and bot start as their own services (if the corresponding directories exist).
 
 ---
