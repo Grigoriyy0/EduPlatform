@@ -8,15 +8,15 @@ namespace EduNEXT.Application.UseCases.Queries.Lessons.GetAnalyticsData;
 public class GetLessonsAnalyticsHandler(ILessonsRepository repository)
     : IRequestHandler<GetLessonsAnalyticsQuery, LessonsAnalyticsDto>
 {
-    public async Task<LessonsAnalyticsDto> Handle(GetLessonsAnalyticsQuery request, CancellationToken cancellationToken)
+    public async Task<LessonsAnalyticsDto> Handle(GetLessonsAnalyticsQuery request, CancellationToken ct)
     {
-        var lessonsToday = await repository.GetByPeriodAsync("day");
+        var lessonsToday = await repository.GetByPeriodAsync("day", ct);
         
-        var lessonsMonth = await repository.GetByPeriodAsync("month");
+        var lessonsMonth = await repository.GetByPeriodAsync("month", ct);
 
-        var pendingLessons = await repository.GetPendingAsync();
+        var pendingLessons = await repository.GetPendingAsync(ct);
         
-        var lessonsWeek = await repository.GetByPeriodAsync("week");
+        var lessonsWeek = await repository.GetByPeriodAsync("week", ct);
         
         var diff = (7 + (DateTime.Today.DayOfWeek - DayOfWeek.Monday)) % 7;
         

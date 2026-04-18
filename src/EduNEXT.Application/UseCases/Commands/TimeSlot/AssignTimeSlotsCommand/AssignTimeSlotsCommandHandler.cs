@@ -14,12 +14,12 @@ public class AssignTimeSlotsCommandHandler(
     IStudentRepository studentRepository)
     : IRequestHandler<AssignTimeSlotsCommand, Result<StudentTimeSlot, Error>>
 {
-    public async Task<Result<StudentTimeSlot, Error>> Handle(AssignTimeSlotsCommand request, CancellationToken cancellationToken)
+    public async Task<Result<StudentTimeSlot, Error>> Handle(AssignTimeSlotsCommand request, CancellationToken ct)
     {
         var checkAvailabilityFlag = await repository.CheckAvailabilityAsync(
             request.Day, 
             request.StartTime, 
-            request.EndTime);
+            request.EndTime, ct);
 
         if (checkAvailabilityFlag)
         {
@@ -33,9 +33,9 @@ public class AssignTimeSlotsCommandHandler(
 
         if (timeSlot.IsSuccess)
         {
-            await repository.AddTimeSlotAsync(timeSlot.Value);
+            await repository.AddAsync(timeSlot.Value, ct);
 
-            var student = await studentRepository.FindByIdAsync(request.StudentId);
+            var student = await studentRepository.FindByIdAsync(request.StudentId, ct);
             
             await mediator.Publish(new TimeSlotCreatedEvent
                 {
@@ -45,7 +45,7 @@ public class AssignTimeSlotsCommandHandler(
                     StudentId = request.StudentId,
                     StudentName = student!.Name
                 },
-                cancellationToken);
+                ct);
         }
         
         return timeSlot;

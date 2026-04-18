@@ -2,7 +2,7 @@
 
 public interface IPublisher
 {
-    public Task SendMessageAsync(string message);
+    public Task SendMessageAsync(string message, CancellationToken ct);
 
-    public Task SendToQueueAsync(string message);
+    public Task SendToQueueAsync(string message, CancellationToken ct);
 }

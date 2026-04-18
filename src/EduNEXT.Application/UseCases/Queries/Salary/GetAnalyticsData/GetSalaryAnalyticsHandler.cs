@@ -7,13 +7,13 @@ namespace EduNEXT.Application.UseCases.Queries.Salary.GetAnalyticsData;
 
 public class GetSalaryAnalyticsHandler(ISalaryRepository salaryRepository, ILessonsRepository lessonsRepository) : IRequestHandler<GetSalaryAnalyticsQuery, SalaryAnalyticsDto>
 {
-    public async Task<SalaryAnalyticsDto> Handle(GetSalaryAnalyticsQuery request, CancellationToken cancellationToken)
+    public async Task<SalaryAnalyticsDto> Handle(GetSalaryAnalyticsQuery request, CancellationToken ct)
     {
-        var actualSalary = await salaryRepository.GetActualSalary();
+        var actualSalary = await salaryRepository.GetActualAsync(ct);
         
-        var expectedSalary = await salaryRepository.GetExpectedSalary();
+        var expectedSalary = await salaryRepository.GetExpectedAsync(ct);
 
-        var lessonsWeek = await lessonsRepository.GetByPeriodAsync("week");
+        var lessonsWeek = await lessonsRepository.GetByPeriodAsync("week", ct);
         
         var diff = (7 + (DateTime.Today.DayOfWeek - DayOfWeek.Monday)) % 7;
         

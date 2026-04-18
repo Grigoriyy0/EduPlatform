@@ -7,8 +7,8 @@ namespace EduNEXT.Application.UseCases.Queries.Students.GetAllStudents;
 public class GetAllStudentsQueryHandler(IStudentRepository repository)
     : IRequestHandler<GetAllStudentsQuery, List<StudentDto>>
 {
-    public async Task<List<StudentDto>> Handle(GetAllStudentsQuery request, CancellationToken cancellationToken)
+    public async Task<List<StudentDto>> Handle(GetAllStudentsQuery request, CancellationToken ct)
     {
-        return await repository.GetAllStudentsAsync();
+        return await repository.GetAsync(ct);
     }
 }

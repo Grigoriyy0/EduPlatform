@@ -8,9 +8,9 @@ namespace EduNEXT.Application.UseCases.Commands.Student.AddStudentPayment;
 
 public class AddStudentPaymentHandler(IStudentRepository studentRepository) : IRequestHandler<AddStudentPaymentCommand, UnitResult<Error>>
 {
-    public async Task<UnitResult<Error>> Handle(AddStudentPaymentCommand request, CancellationToken cancellationToken)
+    public async Task<UnitResult<Error>> Handle(AddStudentPaymentCommand request, CancellationToken ct)
     {
-        var student = await studentRepository.GetStudentAsync(request.dto.StudentId);
+        var student = await studentRepository.GetByIdAsync(request.dto.StudentId, ct);
 
         if (student == null)
         {
@@ -19,7 +19,7 @@ public class AddStudentPaymentHandler(IStudentRepository studentRepository) : IR
         
         student.PaidLessonsCount +=  request.dto.Amount;
         
-        await studentRepository.UpdateAsync(student);
+        await studentRepository.UpdateAsync(student, ct);
 
         return UnitResult.Success<Error>();
     }

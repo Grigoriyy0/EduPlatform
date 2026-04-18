@@ -24,10 +24,10 @@ public class LessonScheduler
         _logger = logger;
     }
 
-    public async Task PlanLessonsForNextMonthAsync(CancellationToken cancellationToken = default)
+    public async Task PlanLessonsForNextMonthAsync(CancellationToken ct = default)
     {
         _logger.LogInformation("Planing lessons for next month");
-        var students = await _studentRepository.GetAllStudentsAsync();
+        var students = await _studentRepository.GetAsync(ct);
 
         var firstDay = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(1);
         var lastDay = new DateTime(firstDay.Year, firstDay.Month, DateTime.DaysInMonth(firstDay.Year, firstDay.Month));
@@ -49,11 +49,11 @@ public class LessonScheduler
                     
                     if (lessonResult.IsSuccess)
                     {
-                        await _lessonsRepository.AddAsync(lessonResult.Value);
+                        await _lessonsRepository.AddAsync(lessonResult.Value, ct);
+
+                        var message = $"У вас был урок с {student.Name} {lessonDate} в {slot.StartTime}?";
                         BackgroundJob.Schedule(() =>
-                                _publisher.SendToQueueAsync(
-                                    $"У вас был урок с {student.Name} {lessonDate} в {slot.StartTime}?"
-                                ),
+                                _publisher.SendToQueueAsync(message, ct),
                             new DateTimeOffset(date.Year, date.Month, date.Day,
                                 slot.EndTime.Hours, slot.EndTime.Minutes, 0,
                                 TimeSpan.FromHours(4)));

@@ -9,16 +9,16 @@ namespace EduNEXT.Application.UseCases.Commands.Student.DeleteStudentCommand;
 public class DeleteStudentCommandHandler(IStudentRepository studentRepository)
     : IRequestHandler<DeleteStudentCommand, UnitResult<Error>>
 {
-    public async Task<UnitResult<Error>> Handle(DeleteStudentCommand request, CancellationToken cancellationToken)
+    public async Task<UnitResult<Error>> Handle(DeleteStudentCommand request, CancellationToken ct)
     {
-        var student = await studentRepository.GetStudentAsync(request.Id);
+        var student = await studentRepository.GetByIdAsync(request.Id, ct);
 
         if (student == null)
         {
             return ApplicationErrors.Student.StudentIsNotExists;
         }
         
-        await studentRepository.DeleteAsync(student);
+        await studentRepository.DeleteAsync(student, ct);
         
         return new UnitResult<Error>();
     }

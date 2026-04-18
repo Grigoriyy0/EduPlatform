@@ -10,7 +10,7 @@ public class AddStudentCommandHandler(IMediator mediator,
     IPasswordGenerator passwordGenerator, 
     IStudentRepository studentRepository) : IRequestHandler<AddStudentCommand, Result<Core.Domain.Entities.Student, Error>>
 {
-    public async Task<Result<Core.Domain.Entities.Student, Error>> Handle(AddStudentCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Core.Domain.Entities.Student, Error>> Handle(AddStudentCommand request, CancellationToken ct)
     {
         var password = passwordGenerator.GeneratePassword();
         
@@ -27,7 +27,7 @@ public class AddStudentCommandHandler(IMediator mediator,
 
         if (studentResult.IsSuccess)
         {
-            await studentRepository.AddStudentAsync(studentResult.Value);
+            await studentRepository.AddAsync(studentResult.Value, ct);
         }
         
         return studentResult;

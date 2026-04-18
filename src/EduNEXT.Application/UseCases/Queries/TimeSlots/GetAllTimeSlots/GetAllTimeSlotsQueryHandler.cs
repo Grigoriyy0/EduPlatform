@@ -8,8 +8,8 @@ namespace EduNEXT.Application.UseCases.Queries.TimeSlots.GetAllTimeSlots;
 public class GetAllTimeSlotsQueryHandler(ITimeSlotsRepository repository)
     : IRequestHandler<GetAllTimeSlotsQuery, List<TimeSlotDto>>
 {
-    public async Task<List<TimeSlotDto>> Handle(GetAllTimeSlotsQuery request, CancellationToken cancellationToken)
+    public async Task<List<TimeSlotDto>> Handle(GetAllTimeSlotsQuery request, CancellationToken ct)
     {
-        return await repository.GetAllTimeSlotsAsync();
+        return await repository.GetDtoAsync(ct);
     }   
 }

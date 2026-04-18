@@ -4,5 +4,5 @@ namespace EduNEXT.Application.Ports;
 
 public interface ITokenProducer
 {
-    public string ProduceToken(Admin admin);
+    public string Produce(Admin admin);
 }
